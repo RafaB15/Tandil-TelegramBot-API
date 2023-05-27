@@ -1,0 +1,11 @@
+# rubocop:disable all
+ENV['RACK_ENV'] = 'test'
+require 'rack/test'
+require 'rspec/expectations'
+require_relative '../../app.rb'
+
+include Rack::Test::Methods
+def app
+  Sinatra::Application
+end 
+
