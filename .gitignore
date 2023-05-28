@@ -18,3 +18,4 @@ VERSION.txt
 *.logs
 /bin/
 /.bundle/
+/coverage

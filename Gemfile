@@ -12,8 +12,6 @@ gem 'semantic_logger'
 gem 'sequel'
 gem 'sinatra-contrib'
 
-# gem 'webrick'
-
 group :development, :test do
   gem 'byebug'
   gem 'cucumber'

@@ -20,6 +20,7 @@ end
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |t|
+  Rake::Task['db:migrate'].invoke
   t.rspec_opts = '--color --format d'
 end
 
@@ -31,7 +32,6 @@ namespace :db do
     logger = Configuration.logger
     db = Configuration.db
     db.loggers << logger
-    logger.info('asdasd')
     Sequel::Migrator.run(db, 'db/migrations')
     puts '<= sq:migrate:up executed'
   end
