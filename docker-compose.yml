@@ -16,3 +16,18 @@ services:
     environment:
         APP_ENV: "development"
         PORT: 3000
+        TEST_DB_URL: "postgres://postgres:example@test_db:5432/postgres"
+        DEV_DB_URL: "postgres://postgres:example@dev_db:5432/postgres"
+    depends_on:
+      - test_db
+      - dev_db        
+
+  test_db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+
+  dev_db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example

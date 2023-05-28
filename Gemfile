@@ -8,7 +8,9 @@ gem 'thin'
 gem 'pg'
 gem 'rake'
 # gem 'rack-parser', :require => 'rack/parser'
+gem 'semantic_logger'
 gem 'sequel'
+gem 'sinatra-contrib'
 
 # gem 'webrick'
 
