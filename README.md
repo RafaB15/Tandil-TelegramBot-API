@@ -14,3 +14,18 @@ Por otro lado a nivel desarrollo tiene:
 * Verificación de estilos con Rubocop
 * Automatización de tareas de Rake
 
+Tareas habituales
+-----------------
+
+Inicialmente hay que instalar las dependencias:
+
+    bundle install
+
+Luego para ejecutar test (cucumber + rspec) y linter (rubocop):
+
+    bundle exec rake    
+
+Finalmente para ejecutar la aplicación (ejecución de migrations y web):    
+
+    ./start_app.sh
+
