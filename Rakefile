@@ -47,7 +47,6 @@ RSpec::Core::RakeTask.new(:spec_report) do |t|
 end
 
 Cucumber::Rake::Task.new(:feature_indev) do |task|
-  Rake::Task['db:migrate'].invoke
   task.cucumber_opts = ['features', '--tags \'@indev\'']
 end
 
