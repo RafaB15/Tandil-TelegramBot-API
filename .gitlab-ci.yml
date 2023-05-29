@@ -30,7 +30,7 @@ build_job:
   script:
     - gem install bundler --no-document
     - bundle install --without staging production
-    - APP_ENV=test bundle exec rake
+    - APP_ENV=test bundle exec rake ci
     - bundle exec rake version > VERSION.txt
   artifacts:
     when: always
