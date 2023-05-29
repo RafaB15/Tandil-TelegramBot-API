@@ -1,0 +1,57 @@
+image: ruby:3.1.2
+include:
+  - template: Code-Quality.gitlab-ci.yml
+services:
+  - postgres:9.5
+  - docker:dind  
+
+variables:
+  REGISTRY_URL: registry.gitlab.com/fiuba-memo2/ejemplos
+  POSTGRES_DB: db_test
+  POSTGRES_USER: webapi
+  POSTGRES_PASSWORD: Passw0rd!
+  TEST_DB_URL: postgres://webapi:Passw0rd!@postgres/db_test
+  DB_HOST: postgres
+
+stages:
+  - build
+  - package
+  - deploy_test
+  - acceptance_test
+  - deploy_prod
+
+code_quality:
+  stage: build
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
+build_job:
+  stage: build
+  script:
+    - gem install bundler --no-document
+    - bundle install --without staging production
+    - RACK_ENV=test bundle exec rake
+    - RACK_ENV=test bundle exec rspec --format progress --format RspecJunitFormatter --out reports/spec/rspec.xml
+    - bundle exec rake version > VERSION.txt
+  artifacts:
+    when: always
+    paths:
+      - VERSION.txt
+      - reports/
+    reports:
+      junit: reports/spec/rspec.xml
+
+package_job:
+  stage: package
+  image: docker:stable
+  before_script:
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+  script:
+    - VERSION=$(cat VERSION.txt)
+    - echo $VERSION
+    - docker build -f Dockerfile.prod --build-arg GIT_COMMIT=$CI_COMMIT_SHORT_SHA -t $REGISTRY_URL/$CI_PROJECT_NAME:$VERSION .
+    - docker tag $REGISTRY_URL/$CI_PROJECT_NAME:$VERSION $REGISTRY_URL/$CI_PROJECT_NAME:latest
+    - docker push $REGISTRY_URL/$CI_PROJECT_NAME:$VERSION
+    - docker push $REGISTRY_URL/$CI_PROJECT_NAME:latest
+  only:
+    - tags
