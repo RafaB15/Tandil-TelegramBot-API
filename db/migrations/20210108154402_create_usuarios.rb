@@ -2,7 +2,7 @@ Sequel.migration do
   up do
     create_table(:usuarios) do
       primary_key :id
-      String :nombre
+      String :email
       Date :created_on
       Date :updated_on
     end

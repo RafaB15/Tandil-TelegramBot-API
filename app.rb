@@ -18,7 +18,7 @@ end
 get '/usuarios' do
   usuarios = RepositorioUsuarios.new.all
   respuesta = []
-  usuarios.map { |u| respuesta << { nombre: u.nombre, id: u.id } }
+  usuarios.map { |u| respuesta << { email: u.email, id: u.id } }
   status 200
   respuesta.to_json
 end
@@ -27,8 +27,8 @@ post '/usuarios' do
   @body ||= request.body.read
   parametros_usuario = JSON.parse(@body)
 
-  usuario = Usuario.new(parametros_usuario['nombre'])
+  usuario = Usuario.new(parametros_usuario['email'])
   RepositorioUsuarios.new.save(usuario)
   status 201
-  { id: usuario.id, nombre: usuario.nombre }.to_json
+  { id: usuario.id, email: usuario.email }.to_json
 end
