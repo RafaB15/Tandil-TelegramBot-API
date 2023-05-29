@@ -31,7 +31,6 @@ build_job:
     - gem install bundler --no-document
     - bundle install --without staging production
     - APP_ENV=test bundle exec rake
-    - APP_ENV=test bundle exec rspec --format progress --format RspecJunitFormatter --out reports/spec/rspec.xml
     - bundle exec rake version > VERSION.txt
   artifacts:
     when: always
