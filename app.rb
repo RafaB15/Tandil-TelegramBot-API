@@ -15,6 +15,11 @@ get '/version' do
   { version: Version.current }.to_json
 end
 
+post '/reset' do
+  RepositorioUsuarios.new.delete_all
+  status 200
+end
+
 get '/usuarios' do
   usuarios = RepositorioUsuarios.new.all
   respuesta = []

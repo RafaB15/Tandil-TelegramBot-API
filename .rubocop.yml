@@ -1,10 +1,9 @@
-require: rubocop-rspec
-
 AllCops:
   NewCops: disable
   SuggestExtensions: false
   Exclude:
     - 'bin/**/*'
+    - 'features/**/*'
 MethodLength:
   Max: 30
 Metrics/BlockLength:
@@ -18,19 +17,6 @@ Style/FrozenStringLiteralComment:
   EnforcedStyle: never
 Style/Documentation:
   Exclude: ['**/*']
-RSpec/AnyInstance:
-  Enabled: false
-RSpec/ExampleWording:
-  Enabled: false
-RSpec/DescribeClass:
-  Enabled: false
-RSpec/HookArgument:
-  EnforcedStyle: each
-RSpec/MessageSpies:
-  EnforcedStyle: receive
-RSpec/MultipleExpectations:
-  Max: 3
 Style/GuardClause:
   Enabled: false
 
-   
