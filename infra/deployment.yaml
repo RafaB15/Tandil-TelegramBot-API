@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restapi
+  labels:
+    app: restapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restapi
+  template:
+    metadata:
+      labels:
+        app: restapi
+    spec:
+      containers:
+      - name: restapi
+        image: registry.gitlab.com/fiuba-memo2/ejemplos/restapi:0.0.2
+        envFrom:
+          - secretRef:
+              name: restapisecret
+          - configMapRef:
+              name: restapiconfig
