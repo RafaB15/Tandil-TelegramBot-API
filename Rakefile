@@ -1,6 +1,6 @@
 require 'bundler/setup'
 
-ENV['RACK_ENV'] ||= 'test'
+ENV['APP_ENV'] ||= 'test'
 
 task :version do
   require './lib/version'
@@ -15,6 +15,7 @@ end
 
 require 'cucumber/rake/task'
 Cucumber::Rake::Task.new(:cucumber) do |task|
+  Rake::Task['db:migrate'].invoke
   task.cucumber_opts = ['features', '--publish-quiet', '--tags \'not @wip\'']
 end
 

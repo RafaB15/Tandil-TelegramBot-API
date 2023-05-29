@@ -1,5 +1,5 @@
 # rubocop:disable all
-ENV['RACK_ENV'] = 'test'
+ENV['APP_ENV'] = 'test'
 require 'rack/test'
 require 'rspec/expectations'
 require_relative '../../app.rb'
