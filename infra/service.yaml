@@ -4,8 +4,6 @@ metadata:
   name: restapi
   labels:
     app: restapi
-  annotations:
-    dev.okteto.com/auto-ingress: "true"
 spec:
   selector:
     app: restapi

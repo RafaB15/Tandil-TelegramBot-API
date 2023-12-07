@@ -16,6 +16,7 @@ reports
 VERSION.txt
 .env
 *.logs
+infra/*secret.yaml
 /bin/
 /.bundle/
 /coverage

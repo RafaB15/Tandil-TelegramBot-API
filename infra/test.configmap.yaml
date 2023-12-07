@@ -4,5 +4,5 @@ metadata:
   name: restapiconfig
 data:
   PORT: "3000"
-  LOG_LEVEL: "info"
-  RACK_ENV: "production"
+  LOG_LEVEL: "debug"
+  APP_ENV: "production"
