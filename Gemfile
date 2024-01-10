@@ -2,14 +2,12 @@ ruby '3.1.2'
 
 source 'https://rubygems.org'
 
-gem 'sinatra'
-gem 'thin'
-
 gem 'pg'
+gem 'thin'
 gem 'rake'
-# gem 'rack-parser', :require => 'rack/parser'
 gem 'semantic_logger'
 gem 'sequel'
+gem 'sinatra'
 gem 'sinatra-contrib'
 
 group :development, :test do
