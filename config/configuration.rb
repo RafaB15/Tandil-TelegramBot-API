@@ -19,9 +19,9 @@ class Configuration
     database_url = ENV['DATABASE_URL']
     case ENV['APP_ENV']
     when 'test'
-      database_url = ENV['TEST_DB_URL'] || 'postgres://postgres:postgres@localhost/webapi_template_test'
+      database_url = ENV['TEST_DB_URL'] || 'postgres://postgres:example@localhost:5433/postgres'
     when 'development'
-      database_url = ENV['DEV_DB_URL'] || 'postgres://postgres:postgres@localhost/webapi_template_development'
+      database_url = ENV['DEV_DB_URL'] || 'postgres://postgres:example@localhost:5434/postgres'
     end
     Sequel::Model.raise_on_save_failure = true
     Sequel.connect(database_url)
