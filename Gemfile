@@ -3,12 +3,12 @@ ruby '3.1.2'
 source 'https://rubygems.org'
 
 gem 'pg'
-gem 'thin'
 gem 'rake'
 gem 'semantic_logger'
 gem 'sequel'
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'thin'
 
 group :development, :test do
   gem 'byebug'
