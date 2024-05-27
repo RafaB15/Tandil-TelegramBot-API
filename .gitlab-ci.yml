@@ -1,4 +1,4 @@
-image: ruby:3.1.2
+image: ruby:3.3.1
 include:
   - template: Code-Quality.gitlab-ci.yml
 services:
@@ -12,7 +12,7 @@ variables:
   POSTGRES_PASSWORD: Passw0rd!
   TEST_DB_URL: postgres://webapi:Passw0rd!@postgres/db_test
   DB_HOST: postgres
-  K8SNAMESPACE: docentes-nicopaez
+  TEAM: docentes
 
 stages:
   - build
@@ -31,7 +31,7 @@ build_job:
   script:
     - gem install bundler --no-document
     - bundle install --without staging production
-    - APP_ENV=test bundle exec rake ci
+    - APP_MODE=test bundle exec rake ci
     - bundle exec rake version > VERSION.txt
   artifacts:
     when: always
@@ -58,14 +58,13 @@ package_job:
 
 deploy_test_job:
   stage: deploy_test
-  image: nicopaez/kubectl:1.22.0
+  image: nicopaez/kubectl:1.28.0
   environment: test
   script:
     - VERSION=$(cat VERSION.txt)
     - cp ${KUBECONFIG} $HOME/.kube/config
-    - kubectl config set-context –current –namespace=$K8SNAMESPACE
-    - kubectl apply -f infra/test.configmap.yaml
+    - kubectl config set-context –current –namespace=${TEAM}-${CI_ENVIRONMENT_NAME}
+    - kubectl apply -f infra/${CI_ENVIRONMENT_NAME}.configmap.yaml
     - kubectl set image deployment/restapi restapi=$REGISTRY_URL/$APP_NAME:$VERSION
   only:
     - tags
-

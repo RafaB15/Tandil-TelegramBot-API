@@ -1,5 +1,3 @@
-ruby '3.1.2'
-
 source 'https://rubygems.org'
 
 gem 'pg'
@@ -11,10 +9,10 @@ gem 'sinatra-contrib'
 gem 'thin'
 
 group :development, :test do
-  gem 'byebug'
   gem 'cucumber'
   gem 'debug', '>= 1.0.0'
   gem 'faraday'
+  gem 'racc'
   gem 'rack-test', require: 'rack/test'
   gem 'rspec'
   gem 'rspec-core'

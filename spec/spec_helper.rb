@@ -12,14 +12,14 @@
 # the additional setup, and require it from the spec files that actually need
 # it.
 #
-
-require 'simplecov'
-SimpleCov.minimum_coverage 75
-SimpleCov.start do
-  add_filter '/spec/'
-  add_filter '/features/'
+unless ARGV.include?('--dry-run')
+  require 'simplecov'
+  SimpleCov.minimum_coverage 75
+  SimpleCov.start do
+    add_filter '/spec/'
+    add_filter '/features/'
+  end
 end
-
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

@@ -5,4 +5,4 @@ metadata:
 data:
   PORT: "3000"
   LOG_LEVEL: "debug"
-  APP_ENV: "production"
+  APP_MODE: "production"

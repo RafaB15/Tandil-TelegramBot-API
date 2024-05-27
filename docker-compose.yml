@@ -14,7 +14,7 @@ services:
     volumes:
         - .:/app
     environment:
-        APP_ENV: "development"
+        APP_MODE: "development"
         PORT: 3000
         TEST_DB_URL: "postgres://postgres:example@test_db:5432/postgres"
         DEV_DB_URL: "postgres://postgres:example@dev_db:5432/postgres"
@@ -31,3 +31,7 @@ services:
     image: postgres
     environment:
       POSTGRES_PASSWORD: example
+
+networks:
+  default:
+    name: localdev
