@@ -1,9 +1,8 @@
 # rubocop:disable all
-ENV['APP_ENV'] = 'test'
+ENV['APP_MODE'] = 'test'
 require 'rack/test'
 require 'rspec/expectations'
 require_relative '../../app.rb'
-require 'byebug'
 require 'faraday'
 
 DB = Configuration.db

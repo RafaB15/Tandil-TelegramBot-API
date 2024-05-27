@@ -1,6 +1,6 @@
 require 'bundler/setup'
 
-ENV['APP_ENV'] ||= 'test'
+ENV['APP_MODE'] ||= 'test'
 
 task :version do
   require './lib/version'

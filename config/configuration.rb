@@ -17,7 +17,7 @@ class Configuration
 
   def self.db
     database_url = ENV['DATABASE_URL']
-    case ENV['APP_ENV']
+    case ENV['APP_MODE']
     when 'test'
       database_url = ENV['TEST_DB_URL'] || 'postgres://postgres:example@localhost:5433/postgres'
     when 'development'
