@@ -12,7 +12,7 @@ variables:
   POSTGRES_PASSWORD: Passw0rd!
   TEST_DB_URL: postgres://webapi:Passw0rd!@postgres/db_test
   DB_HOST: postgres
-  TEAM: docentes
+  TEAM: tandil
 
 stages:
   - build
