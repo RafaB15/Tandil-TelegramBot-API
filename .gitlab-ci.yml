@@ -6,7 +6,7 @@ services:
   - docker:dind  
 
 variables:
-  REGISTRY_URL: registry.gitlab.com/fiuba-memo2/ejemplos
+  REGISTRY_URL: registry.gitlab.com/fiuba-memo2/tp2/tandil-api
   POSTGRES_DB: db_test
   POSTGRES_USER: webapi
   POSTGRES_PASSWORD: Passw0rd!
