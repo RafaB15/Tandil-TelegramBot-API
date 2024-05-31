@@ -3,10 +3,10 @@ Característica: Registrar usuario
     
     @wip
     Escenario: US01 - 01 Un usuario sin registrar se puede registrar correctamente
+        Dado que no estoy registrado
         Cuando creo un usuario de nombre "Emilio" con el email "emilio@gmail.com" y telegram ID "5030671568"
-        Y no hay otro usuario registrado con este email
-        Y no hay otro usuario registrado con este ID
         Entonces debería ver un mensaje de bienvenida
+        Y quedo registrado
 
     @wip
     Escenario: US01 - 02 Registrarse con un email inválido da error
