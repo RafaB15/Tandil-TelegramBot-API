@@ -17,7 +17,7 @@ describe RepositorioUsuarios do
     expect(repositorio.all.size).to be(cantidad_de_usuarios_iniciales + 1)
   end
 
-  it 'guardar un usuario con el mismo telegram ID dos veces me da un error' do
+  it 'guardar un usuario con el mismo telegram ID dos veces da un error' do
     repositorio = described_class.new
     juan = Usuario.new('jaun@test.com', 123_345_789)
     repositorio.save(juan)

@@ -10,7 +10,7 @@ Característica: Registrar usuario
     Escenario: US01 - 02 Registrarse con un email inválido da error
         Cuando creo un usuario con el email "gmail.com" y telegram ID 5030671568
         Entonces debería ver un mensaje de email inválido
-    @wip
+
     Escenario: US01 - 03 Registrarse con un telegram ID ya registrado da error
         Dado que creo un usuario con email "emilio@gmail.com" y telegram ID 5030671568
         Cuando creo un usuario con el email "pablo@gmail.com" y mismo telegram ID que el usuario anterior

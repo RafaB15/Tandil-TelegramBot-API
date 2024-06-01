@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../lib/version'
+require_relative '../../lib/version'
 
 describe 'version' do
   it 'deberia tener 3 numeros' do

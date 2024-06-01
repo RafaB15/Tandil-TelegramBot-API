@@ -1,5 +1,5 @@
 class ErrorAlInstanciarUsuarioEmailInvalido < ArgumentError
-  MSG_DE_ERROR = 'Error email invalido'.freeze
+  MSG_DE_ERROR = 'Error: email invalido'.freeze
 
   def initiliza(msg_de_error = MSG_DE_ERROR)
     super(msg_de_error)
@@ -7,7 +7,7 @@ class ErrorAlInstanciarUsuarioEmailInvalido < ArgumentError
 end
 
 class ErrorAlInstanciarUsuarioTelegramIDInvalido < ArgumentError
-  MSG_DE_ERROR = 'Error telegram ID invalido'.freeze
+  MSG_DE_ERROR = 'Error: telegram ID invalido'.freeze
 
   def initiliza(msg_de_error = MSG_DE_ERROR)
     super(msg_de_error)

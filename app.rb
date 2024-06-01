@@ -2,7 +2,7 @@ require 'sinatra'
 require 'sequel'
 require 'sinatra/custom_logger'
 require_relative './config/configuration'
-require_relative './lib/version'
+Dir[File.join(__dir__, 'lib', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'dominio', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'persistencia', '*.rb')].each { |file| require file }
 
@@ -11,42 +11,45 @@ set :logger, customer_logger
 DB = Configuration.db
 DB.loggers << customer_logger
 
+def enviar_respuesta(generador_de_respuestas_http)
+  status(generador_de_respuestas_http.estado)
+  generador_de_respuestas_http.respuesta
+end
+
 get '/version' do
-  { version: Version.current }.to_json
+  version = Version.current
+  generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
+  generador_de_respuestas_http.enviar_version(version)
+
+  enviar_respuesta(generador_de_respuestas_http)
 end
 
 post '/reset' do
   RepositorioUsuarios.new.delete_all
-  status 200
+  generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
+  generador_de_respuestas_http.reiniciar_usuarios
+
+  enviar_respuesta(generador_de_respuestas_http)
 end
 
 get '/usuarios' do
   usuarios = RepositorioUsuarios.new.all
-  respuesta = []
-  usuarios.map { |u| respuesta << { email: u.email, id: u.id } }
-  status 200
-  respuesta.to_json
+  generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
+  generador_de_respuestas_http.enviar_usuarios(usuarios)
+
+  enviar_respuesta(generador_de_respuestas_http)
 end
 
 post '/usuarios' do
   @body ||= request.body.read
   parametros_usuario = JSON.parse(@body)
+  email = parametros_usuario['email']
+  telegram_id = parametros_usuario['telegram_id'].to_i
 
-  usuario = Usuario.new(parametros_usuario['email'], parametros_usuario['telegram_id'].to_i)
-  RepositorioUsuarios.new.save(usuario)
+  creador_usuario = CreadorDeUsuario.new(email, telegram_id)
 
-  status 201
-  { id: usuario.id, email: usuario.email, telegram_id: usuario.telegram_id }.to_json
-rescue ErrorAlInstanciarUsuarioEmailInvalido => _e
-  status 422
-  {
-    error: 'Entidad no procesable',
-    message: 'La request se hizo bien, pero no se pudo completar por un error en la semantica del email.',
-    details: [
-      {
-        field: :email,
-        message: 'Email invalido.'
-      }
-    ]
-  }.to_json
+  generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
+  generador_de_respuestas_http.crear_usuario(creador_usuario)
+
+  enviar_respuesta(generador_de_respuestas_http)
 end
