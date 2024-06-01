@@ -14,11 +14,11 @@ describe Usuario do
 
   describe 'new' do
     it 'should raise error when telegram_id is not valid' do
-      expect { described_class.new('juan@gmail.com', nil) }.to raise_error(ErrorAlInstanciarUsuarioParametrosInvalidos)
+      expect { described_class.new('juan@gmail.com', nil) }.to raise_error(ErrorAlInstanciarUsuarioTelegramIDInvalido)
     end
 
     it 'should raise error when email is not valid' do
-      expect { described_class.new('gmail.com', 123_456_789) }.to raise_error(ErrorAlInstanciarUsuarioParametrosInvalidos)
+      expect { described_class.new('gmail.com', 123_456_789) }.to raise_error(ErrorAlInstanciarUsuarioEmailInvalido)
     end
   end
 end

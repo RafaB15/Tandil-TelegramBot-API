@@ -32,11 +32,21 @@ post '/usuarios' do
   @body ||= request.body.read
   parametros_usuario = JSON.parse(@body)
 
-  usuario = Usuario.new(parametros_usuario['email'], parametros_usuario['telegram_id'])
-  puts parametros_usuario
+  usuario = Usuario.new(parametros_usuario['email'], parametros_usuario['telegram_id'].to_i)
   RepositorioUsuarios.new.save(usuario)
-  puts parametros_usuario, 'asofsabioufbasiof'
 
   status 201
   { id: usuario.id, email: usuario.email, telegram_id: usuario.telegram_id }.to_json
+rescue ErrorAlInstanciarUsuarioEmailInvalido => _e
+  status 422
+  {
+    error: 'Entidad no procesable',
+    message: 'La request se hizo bien, pero no se pudo completar por un error en la semantica del email.',
+    details: [
+      {
+        field: :email,
+        message: 'Email invalido.'
+      }
+    ]
+  }.to_json
 end

@@ -4,7 +4,6 @@ require_relative '../../persistencia/repositorio_usuarios'
 
 describe RepositorioUsuarios do
   it 'deberia guardar y asignar id si el usuario es nuevo' do
-    described_class.new.delete_all
     juan = Usuario.new('juan@test.com', 123_456_789)
     described_class.new.save(juan)
     expect(juan.id).not_to be_nil

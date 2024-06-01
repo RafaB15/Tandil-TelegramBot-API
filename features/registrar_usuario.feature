@@ -6,8 +6,7 @@ Característica: Registrar usuario
         Cuando creo un usuario de nombre "Emilio" con el email "emilio@gmail.com" y telegram ID 5030671568
         Entonces debería ver un mensaje de bienvenida
         Y quedo registrado
-
-    @wip
+        
     Escenario: US01 - 02 Registrarse con un email inválido da error
         Cuando creo un usuario de nombre "Emilio" con el email "gmail.com" y telegram ID 5030671568
         Entonces debería ver un mensaje de email inválido
