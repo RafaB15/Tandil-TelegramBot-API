@@ -1,7 +1,6 @@
 # language: es
 Característica: Cargar peliculas via API
-    
-    @wip
+
     Escenario: US19 - 01 Como administrador quiero poder cargar una pelicula via API
         Cuando cargo "Suerte" 2022 "comedia"
         Entonces deberia devolver un resultado exitoso

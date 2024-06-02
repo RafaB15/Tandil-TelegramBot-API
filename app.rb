@@ -54,14 +54,15 @@ post '/usuarios' do
   enviar_respuesta(generador_de_respuestas_http)
 end
 
-post '/peliculas' do
+post '/contenido' do
   @body ||= request.body.read
   parametros_contenido = JSON.parse(@body)
-  nombre = parametros_contenido['nombre']
+  titulo = parametros_contenido['titulo']
   anio = parametros_contenido['anio'].to_i
   genero = parametros_contenido['genero']
 
-  creador_peliculas = CreadorDePeliculas.new(nombre, anio, genero)
+  creador_peliculas = CreadorDePelicula.new(titulo, anio, genero)
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
-  generador_de_respuestas_http.crear_contenido(creador_peliculas)
+  generador_de_respuestas_http.crear_pelicula(creador_peliculas)
+  enviar_respuesta(generador_de_respuestas_http)
 end
