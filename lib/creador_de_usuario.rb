@@ -1,11 +1,3 @@
-class ErrorAlPersistirUsuarioYaExistente < StandardError
-  MSG_DE_ERROR = 'Error: usuario ya existente'.freeze
-
-  def initiliza(msg_de_error = MSG_DE_ERROR)
-    super(msg_de_error)
-  end
-end
-
 class CreadorDeUsuario
   def initialize(email, telegram_id)
     @email = email
@@ -14,7 +6,7 @@ class CreadorDeUsuario
 
   def crear
     usuario = Usuario.new(@email, @telegram_id)
-    raise ErrorAlPersistirUsuarioYaExistente if RepositorioUsuarios.new.save(usuario).nil?
+    RepositorioUsuarios.new.save(usuario)
 
     usuario
   rescue StandardError => _e

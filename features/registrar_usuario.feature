@@ -16,7 +16,6 @@ Característica: Registrar usuario
         Cuando creo un usuario con el email "pablo@gmail.com" y mismo telegram ID que el usuario anterior
         Entonces debería ver un mensaje de usuario de telegram ya registrado
 
-    @wip
     Escenario: US01 - 04 Un registro a un mail ya registrado da error
         Dado que creo un usuario con email "emilio@gmail.com" y telegram ID 1234567899
         Cuando creo un usuario con el mismo email que el usuario anterior y telegram ID 5030671568

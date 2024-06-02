@@ -37,6 +37,13 @@ class GeneradorDeRespuestasHTTP
       message: 'El telegram ID ya está asociado con una cuenta existente.',
       field: :telegram_id
     }.to_json
+  rescue ErrorAlPersistirEmailYaExistente => _e
+    @estado = 409
+    @respuesta = {
+      error: 'Conflicto',
+      message: 'El email ya está asociado con una cuenta existente.',
+      field: :email
+    }.to_json
   rescue ErrorAlInstanciarUsuarioEmailInvalido => _e
     @estado = 422
     @respuesta = {

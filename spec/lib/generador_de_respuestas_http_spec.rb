@@ -45,7 +45,17 @@ describe GeneradorDeRespuestasHTTP do
       generador_de_respuestas_http.crear_usuario(creador_usuario)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json['error']).to eq 'Conflicto'
+      expect(respuesta_json).to include('error' => 'Conflicto', 'field' => 'telegram_id')
+      expect(generador_de_respuestas_http.estado).to eq 409
+    end
+
+    it 'dado que ya existe un usuario con este email no se crea el usuario y se devuelve un estado 409' do
+      allow(creador_usuario).to receive(:crear) { raise(ErrorAlPersistirEmailYaExistente) }
+
+      generador_de_respuestas_http.crear_usuario(creador_usuario)
+      respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
+
+      expect(respuesta_json).to include('error' => 'Conflicto', 'field' => 'email')
       expect(generador_de_respuestas_http.estado).to eq 409
     end
   end
