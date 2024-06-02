@@ -1,14 +1,15 @@
 # language: es
 Característica: Marcar contenido como visto
-Background:
-    Dado un usuario existente "juan@gmail.com"
-
     
+Antecedentes:
+    Dado un usuario "juan@gmail.com" 123456789
+
     @wip
     Escenario: US06 - 01 Como administrador quiero marcar el contenido visto de un usuario
-        Cuando visualiza un contenido "AironMan"
-        Entonces debería poder marcar el contenido como visto para este usuario
-        Entonces deberia devolver un mensaje exitoso "Contenido marcado como visto exitosamente"
+        Dado que existe el contenido "Iron Man" 2008 "accion"
+        Cuando el usuario lo visualiza
+        Entonces el administrador debería poder marcar el contenido como visto para ese usuario
+        Y deberia ver un mensaje de la visualizacion cargada exitosamente
 
     @wip
     Escenario: US06 - 02 Como administrador quiero marcar un contenido inexistente visto de un usuario
