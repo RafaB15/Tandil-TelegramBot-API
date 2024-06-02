@@ -57,4 +57,11 @@ class GeneradorDeRespuestasHTTP
       ]
     }.to_json
   end
+
+  def crear_pelicula(creador_pelicula)
+    pelicula = creador_pelicula.crear
+
+    @estado = 201
+    @respuesta = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }.to_json
+  end
 end
