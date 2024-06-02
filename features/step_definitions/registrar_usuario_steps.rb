@@ -6,6 +6,7 @@ Dado('que no estoy registrado') do
 end
 
 Dado('que creo un usuario con email {string} y telegram ID {int}') do |email, telegram_id|
+  @email = email
   @telegram_id = telegram_id
 
   request_body = { email:, telegram_id: }.to_json
@@ -25,6 +26,11 @@ end
 
 Cuando('creo un usuario con el email {string} y mismo telegram ID que el usuario anterior') do |email|
   request_body = { email:, telegram_id: @telegram_id }.to_json
+  @response = Faraday.post('/usuarios', request_body, { 'Content-Type' => 'application/json' })
+end
+
+Cuando('creo un usuario con el mismo email que el usuario anterior y telegram ID {int}') do |telegram_id|
+  request_body = { email: @email, telegram_id: }.to_json
   @response = Faraday.post('/usuarios', request_body, { 'Content-Type' => 'application/json' })
 end
 
@@ -56,4 +62,12 @@ Entonces('debería ver un mensaje de usuario de telegram ya registrado') do
 
   expect(json_response['error']).to eq 'Conflicto'
   expect(json_response['field']).to eq 'telegram_id'
+end
+
+Entonces('debería ver un mensaje de email ya registrado') do
+  expect(@response.status).to eq 409
+  json_response = JSON.parse(@response.body)
+
+  expect(json_response['error']).to eq 'Conflicto'
+  expect(json_response['field']).to eq 'email'
 end
