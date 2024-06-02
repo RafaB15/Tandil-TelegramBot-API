@@ -1,19 +1,15 @@
 # language: es
 Característica: Cargar contenido via API
     
-    Background:
-        Dado que ya esta cargada la pelicula "Atlas" "2024" "accion"
-    
     @wip
     Escenario: US19 - 01 Como administrador quiero poder cargar contenido via API
-        Dado que tengo el contenido "Suerte" para cargar
         Cuando cargo "Suerte" "2022" "comedia"
         Entonces deberia devolver un mensaje exitoso "Contenido cargado exitosamente"
 
     @wip
     Escenario: US19 - 02 Como administrador cargo un contenido repetido via API
-        Dado que tengo el contenido "Atlas" para cargar
-        Cuando cargo "Atlas" "2024" "accion" pero es un contenido ya existente
+        Dado que ya esta cargada la pelicula "Atlas" "2024" "accion"
+        Cuando cargo "Atlas" "2024" "accion"
         Entonces deberia devolver un mensaje "Error al cargar : Contenido ya existente"
 
     @wip
