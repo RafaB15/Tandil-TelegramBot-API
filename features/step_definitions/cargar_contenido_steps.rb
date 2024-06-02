@@ -4,21 +4,25 @@
 # Cuando
 # =========================================================
 
-Cuando('cargo {string} {string} {string}') do |nombre, anio, genero|
-  @nombre = nombre
+Cuando('cargo {string} {int} {string}') do |titulo, anio, genero|
+  @titulo = titulo
   @anio = anio
   @genero = genero
 
-  request_body = { nombre:, anio:, genero: }.to_json
-  @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
-  @response = JSON.parse(@response.body)
+  request_body = { titulo:, anio:, genero: }.to_json
+  @response = Faraday.post('/peliculas', request_body, { 'Content-Type' => 'application/json' })
 end
 
 # Entonces
 # =========================================================
 
-Entonces('deberia devolver un mensaje exitoso {string}') do |mensaje|
-  expect(@response['mensaje']).to eq(mensaje)
+Entonces('deberia devolver un resultado exitoso') do
+  json_response = JSON.parse(@response.body)
+  pelicula = RepositorioPeliculas.new.find(json_response['id'])
+
   expect(@response.status).to eq(201)
-  expect(@response['content_added']).to eq({ nombre: @nombre, anio: @anio, genero: @genero })
+
+  expect(pelicula.titulo).to eq(@titulo)
+  expect(pelicula.anio).to eq(@anio)
+  expect(pelicula.genero).to eq(@genero)
 end
