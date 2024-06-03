@@ -46,10 +46,10 @@ post '/usuarios' do
   email = parametros_usuario['email']
   telegram_id = parametros_usuario['telegram_id'].to_i
 
-  creador_usuario = CreadorDeUsuario.new(email, telegram_id)
+  creador_de_usuario = CreadorDeUsuario.new(email, telegram_id)
 
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
-  generador_de_respuestas_http.crear_usuario(creador_usuario)
+  generador_de_respuestas_http.crear_usuario(creador_de_usuario)
 
   enviar_respuesta(generador_de_respuestas_http)
 end
@@ -61,8 +61,23 @@ post '/contenido' do
   anio = parametros_contenido['anio'].to_i
   genero = parametros_contenido['genero']
 
-  creador_peliculas = CreadorDePelicula.new(titulo, anio, genero)
+  creador_de_pelicula = CreadorDePelicula.new(titulo, anio, genero)
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
-  generador_de_respuestas_http.crear_pelicula(creador_peliculas)
+  generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
+
+  enviar_respuesta(generador_de_respuestas_http)
+end
+
+post '/visualizacion' do
+  @body ||= request.body.read
+  parametros_visualizacion = JSON.parse(@body)
+  id_usuario = parametros_visualizacion['id_usuario'].to_i
+  id_pelicula = parametros_visualizacion['id_pelicula'].to_i
+  fecha = Time.iso8601(parametros_visualizacion['fecha'])
+
+  creador_de_visualizacion = CreadorDeVisualizacion.new(id_usuario, id_pelicula, fecha)
+  generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
+  generador_de_respuestas_http.crear_visualizacion(creador_de_visualizacion)
+
   enviar_respuesta(generador_de_respuestas_http)
 end

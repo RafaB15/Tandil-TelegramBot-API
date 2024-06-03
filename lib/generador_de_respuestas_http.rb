@@ -25,8 +25,8 @@ class GeneradorDeRespuestasHTTP
     @respuesta = respuesta.to_json
   end
 
-  def crear_usuario(creador_usuario)
-    usuario = creador_usuario.crear
+  def crear_usuario(creador_de_usuario)
+    usuario = creador_de_usuario.crear
 
     @estado = 201
     @respuesta = { id: usuario.id, email: usuario.email, telegram_id: usuario.telegram_id }.to_json
@@ -58,10 +58,17 @@ class GeneradorDeRespuestasHTTP
     }.to_json
   end
 
-  def crear_pelicula(creador_pelicula)
-    pelicula = creador_pelicula.crear
+  def crear_pelicula(creador_de_pelicula)
+    pelicula = creador_de_pelicula.crear
 
     @estado = 201
     @respuesta = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }.to_json
+  end
+
+  def crear_visualizacion(creador_de_visualizacion)
+    visualizacion = creador_de_visualizacion.crear
+
+    @estado = 201
+    @respuesta = { id: visualizacion.id, id_usuario: visualizacion.id_usuario, id_pelicula: visualizacion.id_pelicula, fecha: visualizacion.fecha }.to_json
   end
 end

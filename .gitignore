@@ -20,3 +20,4 @@ infra/*secret.yaml
 /bin/
 /.bundle/
 /coverage
+*.py

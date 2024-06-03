@@ -16,12 +16,12 @@ describe GeneradorDeRespuestasHTTP do
   end
 
   describe 'crear_usuario' do
-    let(:creador_usuario) { instance_double('CreadorUsuario') }
+    let(:creador_de_usuario) { instance_double('CreadorDesuario') }
 
     it 'dado que el email y el telegram_id son validos se crea un usuario exitosamente con estado 201' do
-      creador_usuario = CreadorDeUsuario.new('juan@gmail.com', 123_456_789)
+      creador_de_usuario = CreadorDeUsuario.new('juan@gmail.com', 123_456_789)
 
-      generador_de_respuestas_http.crear_usuario(creador_usuario)
+      generador_de_respuestas_http.crear_usuario(creador_de_usuario)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
       expect(respuesta_json['id'].to_i).to be > 0
@@ -29,9 +29,9 @@ describe GeneradorDeRespuestasHTTP do
     end
 
     it 'dado que el email es invalido no se crea el usuario y se devuelve un estado 422' do
-      allow(creador_usuario).to receive(:crear) { raise(ErrorAlInstanciarUsuarioEmailInvalido) }
+      allow(creador_de_usuario).to receive(:crear) { raise(ErrorAlInstanciarUsuarioEmailInvalido) }
 
-      generador_de_respuestas_http.crear_usuario(creador_usuario)
+      generador_de_respuestas_http.crear_usuario(creador_de_usuario)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
       expect(respuesta_json['error']).to eq 'Entidad no procesable'
@@ -39,9 +39,9 @@ describe GeneradorDeRespuestasHTTP do
     end
 
     it 'dado que ya existe un usuario con este telegram_id no se crea el usuario y se devuelve un estado 409' do
-      allow(creador_usuario).to receive(:crear) { raise(ErrorAlPersistirUsuarioYaExistente) }
+      allow(creador_de_usuario).to receive(:crear) { raise(ErrorAlPersistirUsuarioYaExistente) }
 
-      generador_de_respuestas_http.crear_usuario(creador_usuario)
+      generador_de_respuestas_http.crear_usuario(creador_de_usuario)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
       expect(respuesta_json).to include('error' => 'Conflicto', 'field' => 'telegram_id')
@@ -49,9 +49,9 @@ describe GeneradorDeRespuestasHTTP do
     end
 
     it 'dado que ya existe un usuario con este email no se crea el usuario y se devuelve un estado 409' do
-      allow(creador_usuario).to receive(:crear) { raise(ErrorAlPersistirEmailYaExistente) }
+      allow(creador_de_usuario).to receive(:crear) { raise(ErrorAlPersistirEmailYaExistente) }
 
-      generador_de_respuestas_http.crear_usuario(creador_usuario)
+      generador_de_respuestas_http.crear_usuario(creador_de_usuario)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
       expect(respuesta_json).to include('error' => 'Conflicto', 'field' => 'email')
@@ -61,9 +61,23 @@ describe GeneradorDeRespuestasHTTP do
 
   describe 'crear_pelicula' do
     it 'dado que el titulo, anio y genero son válidos se crea una película exitosamente con estado 201' do
-      creador_pelicula = CreadorDePelicula.new('Iron Man', 2008, 'accion')
+      creador_de_pelicula = CreadorDePelicula.new('Iron Man', 2008, 'accion')
 
-      generador_de_respuestas_http.crear_pelicula(creador_pelicula)
+      generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
+      respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
+
+      expect(respuesta_json['id'].to_i).to be > 0
+      expect(generador_de_respuestas_http.estado).to eq 201
+    end
+  end
+
+  describe 'crear_visualizacion' do
+    let(:creador_de_visualizacion) { instance_double('CreadorDeVisualizacion') }
+
+    it 'dado que el id_pelicula, id_usuario y fecha son válidos se crea una visualización exitosamente con estado 201' do
+      allow(creador_de_visualizacion).to receive(:crear) { Visualizacion.new(408, 987_654_321, Time.iso8601('2024-06-02T23:34:40+0000'), 10) }
+
+      generador_de_respuestas_http.crear_visualizacion(creador_de_visualizacion)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
       expect(respuesta_json['id'].to_i).to be > 0
