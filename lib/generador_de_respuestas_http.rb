@@ -69,6 +69,6 @@ class GeneradorDeRespuestasHTTP
     visualizacion = creador_de_visualizacion.crear
 
     @estado = 201
-    @respuesta = { id: visualizacion.id, id_usuario: visualizacion.id_usuario, id_pelicula: visualizacion.id_pelicula, fecha: visualizacion.fecha }.to_json
+    @respuesta = { id: visualizacion.id, id_usuario: visualizacion.usuario.id, id_pelicula: visualizacion.pelicula.id, fecha: visualizacion.fecha }.to_json
   end
 end

@@ -3,7 +3,7 @@ require_relative '../dominio/pelicula'
 class CreadorDePelicula
   def initialize(titulo, anio, genero)
     @titulo = titulo
-    @anio = anio
+    @anio = anio.to_i
     @genero = genero
   end
 

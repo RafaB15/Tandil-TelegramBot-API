@@ -21,3 +21,4 @@ infra/*secret.yaml
 /.bundle/
 /coverage
 *.py
+*.html

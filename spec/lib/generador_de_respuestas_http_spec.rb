@@ -73,9 +73,11 @@ describe GeneradorDeRespuestasHTTP do
 
   describe 'crear_visualizacion' do
     let(:creador_de_visualizacion) { instance_double('CreadorDeVisualizacion') }
+    let(:usuario) { instance_double('Usuario', id: 1) }
+    let(:pelicula) { instance_double('Pelicula', id: 2) }
 
     it 'dado que el id_pelicula, id_usuario y fecha son válidos se crea una visualización exitosamente con estado 201' do
-      allow(creador_de_visualizacion).to receive(:crear) { Visualizacion.new(408, 987_654_321, Time.iso8601('2024-06-02T23:34:40+0000'), 10) }
+      allow(creador_de_visualizacion).to receive(:crear) { Visualizacion.new(usuario, pelicula, Time.iso8601('2024-06-02T23:34:40+0000'), 10) }
 
       generador_de_respuestas_http.crear_visualizacion(creador_de_visualizacion)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)

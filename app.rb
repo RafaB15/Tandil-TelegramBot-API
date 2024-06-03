@@ -44,7 +44,7 @@ post '/usuarios' do
   @body ||= request.body.read
   parametros_usuario = JSON.parse(@body)
   email = parametros_usuario['email']
-  telegram_id = parametros_usuario['telegram_id'].to_i
+  telegram_id = parametros_usuario['telegram_id']
 
   creador_de_usuario = CreadorDeUsuario.new(email, telegram_id)
 
@@ -58,7 +58,7 @@ post '/contenido' do
   @body ||= request.body.read
   parametros_contenido = JSON.parse(@body)
   titulo = parametros_contenido['titulo']
-  anio = parametros_contenido['anio'].to_i
+  anio = parametros_contenido['anio']
   genero = parametros_contenido['genero']
 
   creador_de_pelicula = CreadorDePelicula.new(titulo, anio, genero)
@@ -71,9 +71,9 @@ end
 post '/visualizacion' do
   @body ||= request.body.read
   parametros_visualizacion = JSON.parse(@body)
-  id_usuario = parametros_visualizacion['id_usuario'].to_i
-  id_pelicula = parametros_visualizacion['id_pelicula'].to_i
-  fecha = Time.iso8601(parametros_visualizacion['fecha'])
+  id_usuario = parametros_visualizacion['id_usuario']
+  id_pelicula = parametros_visualizacion['id_pelicula']
+  fecha = parametros_visualizacion['fecha']
 
   creador_de_visualizacion = CreadorDeVisualizacion.new(id_usuario, id_pelicula, fecha)
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
