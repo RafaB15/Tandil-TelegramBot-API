@@ -60,12 +60,14 @@ deploy_test_job:
   stage: deploy_test
   image: nicopaez/kubectl:1.28.0
   environment: test
+  before_script:
+    - apk add --no-cache bash curl  # Instalar Bash y curl sin guardar archivos de caché
   script:
     - VERSION=$(cat VERSION.txt)
     - cp ${KUBECONFIG} $HOME/.kube/config
     - kubectl -n ${TEAM}-${CI_ENVIRONMENT_NAME} apply -f infra/${CI_ENVIRONMENT_NAME}.configmap.yaml
     - kubectl -n ${TEAM}-${CI_ENVIRONMENT_NAME} set image deployment/restapi restapi=$REGISTRY_URL/$CI_PROJECT_NAME:$VERSION
-    - sudo ./scripts/smoke_test.sh ${CI_ENVIRONMENT_NAME} $VERSION
+    - bash ./scripts/smoke_test.sh ${CI_ENVIRONMENT_NAME} $VERSION
   only:
     - tags
 
@@ -73,12 +75,15 @@ deploy_prod_job:
   stage: deploy_prod
   image: nicopaez/kubectl:1.28.0
   environment: prod
+  before_script:
+    - apk add --no-cache bash curl  # Instalar Bash y curl sin guardar archivos de caché
   script:
     - VERSION=$(cat VERSION.txt)
     - cp ${KUBECONFIG} $HOME/.kube/config
     - kubectl -n ${TEAM}-${CI_ENVIRONMENT_NAME} apply -f infra/${CI_ENVIRONMENT_NAME}.configmap.yaml
     - kubectl -n ${TEAM}-${CI_ENVIRONMENT_NAME} set image deployment/restapi restapi=$REGISTRY_URL/$CI_PROJECT_NAME:$VERSION
-    - sudo ./scripts/smoke_test.sh ${CI_ENVIRONMENT_NAME} $VERSION
+  after_script:
+    - bash ./scripts/smoke_test.sh ${CI_ENVIRONMENT_NAME} $VERSION
   only:
     - tags
   when: manual
