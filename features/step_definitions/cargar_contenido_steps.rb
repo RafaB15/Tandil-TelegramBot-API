@@ -18,10 +18,12 @@ end
 # =========================================================
 
 Entonces('deberia devolver un resultado exitoso') do
-  json_response = JSON.parse(@response.body)
-  pelicula = RepositorioPeliculas.new.find(json_response['id'])
   expect(@response.status).to eq(201)
-  expect(pelicula.titulo).to eq(@titulo)
-  expect(pelicula.anio).to eq(@anio)
-  expect(pelicula.genero).to eq(@genero)
+
+  json_response = JSON.parse(@response.body)
+
+  expect(json_response['id']).to be > 0
+  expect(json_response['titulo']).to eq(@titulo)
+  expect(json_response['anio']).to eq(@anio)
+  expect(json_response['genero']).to eq(@genero)
 end

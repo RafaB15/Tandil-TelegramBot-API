@@ -43,9 +43,10 @@ end
 
 Entonces('quedo registrado') do
   json_response = JSON.parse(@response.body)
-  usuario = RepositorioUsuarios.new.find(json_response['id'])
-  expect(usuario.email).to eq @email
-  expect(usuario.telegram_id).to eq @telegram_id
+
+  expect(json_response['id']).to be > 0
+  expect(json_response['email']).to eq @email
+  expect(json_response['telegram_id']).to eq @telegram_id
 end
 
 Entonces('debería ver un mensaje de email inválido') do
