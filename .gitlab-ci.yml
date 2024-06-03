@@ -65,7 +65,7 @@ deploy_test_job:
     - cp ${KUBECONFIG} $HOME/.kube/config
     - kubectl -n ${TEAM}-${CI_ENVIRONMENT_NAME} apply -f infra/${CI_ENVIRONMENT_NAME}.configmap.yaml
     - kubectl -n ${TEAM}-${CI_ENVIRONMENT_NAME} set image deployment/restapi restapi=$REGISTRY_URL/$CI_PROJECT_NAME:$VERSION
-    - ./scripts/smoke_test.sh ${CI_ENVIRONMENT_NAME} $VERSION
+    - bash ./scripts/smoke_test.sh ${CI_ENVIRONMENT_NAME} $VERSION
   only:
     - tags
 
@@ -78,7 +78,7 @@ deploy_prod_job:
     - cp ${KUBECONFIG} $HOME/.kube/config
     - kubectl -n ${TEAM}-${CI_ENVIRONMENT_NAME} apply -f infra/${CI_ENVIRONMENT_NAME}.configmap.yaml
     - kubectl -n ${TEAM}-${CI_ENVIRONMENT_NAME} set image deployment/restapi restapi=$REGISTRY_URL/$CI_PROJECT_NAME:$VERSION
-    - ./scripts/smoke_test.sh ${CI_ENVIRONMENT_NAME} $VERSION
+    - bash ./scripts/smoke_test.sh ${CI_ENVIRONMENT_NAME} $VERSION
   only:
     - tags
   when: manual
