@@ -29,15 +29,15 @@ end
 # =========================================================
 
 Entonces('el administrador debería poder marcar el contenido como visto para ese usuario') do
-  json_response_pelicula = JSON.parse(@response_pelicula.body)
-  id_pelicula = json_response_pelicula['id']
-
   json_response_usuario = JSON.parse(@response_usuario.body)
-  id_usuario = json_response_usuario['id']
+  @id_usuario = json_response_usuario['id']
 
-  @fecha = Time.now.iso8601
+  json_response_pelicula = JSON.parse(@response_pelicula.body)
+  @id_pelicula = json_response_pelicula['id']
 
-  request_body = { id_pelicula:, id_usuario:, fecha: @fecha }.to_json
+  @fecha = Time.now.floor
+
+  request_body = { id_usuario: @id_usuario, id_pelicula: @id_pelicula, fecha: @fecha.iso8601 }.to_json
 
   @response = Faraday.post('/visualizacion', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -46,9 +46,9 @@ Entonces('deberia ver un mensaje de la visualizacion cargada exitosamente') do
   expect(@response.status).to eq 201
 
   json_response = JSON.parse(@response.body)
-  visualizacion = CreadorDeVisualizacion.new.crear_visualizacion(json_response['id'])
+  visualizacion = RepositorioVisualizaciones.new.find(json_response['id'])
 
-  expect(visualizacion.id_usuario).to eq @id_usuario
-  expect(visualizacion.id_pelicula).to eq @id_pelicula
+  expect(visualizacion.usuario.id).to eq @id_usuario
+  expect(visualizacion.pelicula.id).to eq @id_pelicula
   expect(visualizacion.fecha).to eq @fecha
 end

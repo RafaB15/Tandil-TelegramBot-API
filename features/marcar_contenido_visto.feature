@@ -4,7 +4,6 @@ Característica: Marcar contenido como visto
 Antecedentes:
     Dado un usuario "juan@gmail.com" 123456789
 
-    @wip
     Escenario: US06 - 01 Como administrador quiero marcar el contenido visto de un usuario
         Dado que existe el contenido "Iron Man" 2008 "accion"
         Cuando el usuario lo visualiza
