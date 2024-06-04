@@ -7,8 +7,9 @@ class RepositorioPeliculas < AbstractRepository
   protected
 
   def load_object(a_hash)
+    genero_de_pelicula = Genero.new(a_hash[:genero])
     anio_de_estreno = AnioDeEstreno.new(a_hash[:anio])
-    Pelicula.new(a_hash[:titulo], anio_de_estreno, a_hash[:genero], a_hash[:id])
+    Pelicula.new(a_hash[:titulo], anio_de_estreno, genero_de_pelicula, a_hash[:id])
   end
 
   def changeset(pelicula)

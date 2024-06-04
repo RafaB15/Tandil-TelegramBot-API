@@ -91,6 +91,16 @@ describe GeneradorDeRespuestasHTTP do
       expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parámetro requerido titulo debe ser un nombre.')
       expect(generador_de_respuestas_http.estado).to eq 400
     end
+
+    it 'dado que el genero es inválido no se crea una película y se devuelve un estado 400' do
+      allow(creador_de_pelicula).to receive(:crear) { raise(ErrorAlInstanciarPeliculaGeneroInvalido) }
+
+      generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
+      respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
+
+      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parámetro requerido \'genero\' debe ser un valor permitido.')
+      expect(generador_de_respuestas_http.estado).to eq 400
+    end
   end
 
   describe 'crear_visualizacion' do
