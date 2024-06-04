@@ -1,7 +1,7 @@
 # Dado
 # =========================================================
 
-Dado('que existe un usuario con email "fer@gmail.com" y telegram_id 123456789') do |email, telegram_id|
+Dado('que existe un usuario con email "{}" y telegram_id {}}') do |email, telegram_id|
   @email = email
   @telegram_id = telegram_id
 
@@ -57,7 +57,7 @@ end
 # =========================================================
 
 Cuando('se consulta por la lista de contenidos mas vistos') do
-  @response = Faraday.get('/visualizacion/top3', { 'Content-Type' => 'application/json' })
+  @response = Faraday.get('/visualizacion/top', { 'Content-Type' => 'application/json' })
 end
 
 # Entonces
