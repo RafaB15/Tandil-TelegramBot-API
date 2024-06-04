@@ -2,7 +2,10 @@ require 'integration_helper'
 require_relative '../../dominio/pelicula'
 
 describe Pelicula do
-  subject(:pelicula) { described_class.new('Iron Man', 2008, 'accion') }
+  subject(:pelicula) do
+    anio_de_estreno = instance_double('AnioDeEstreno', anio: 2008)
+    described_class.new('Iron Man', anio_de_estreno, 'accion')
+  end
 
   describe 'modelo' do
     it { is_expected.to respond_to(:id) }

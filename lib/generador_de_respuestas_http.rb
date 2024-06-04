@@ -31,19 +31,9 @@ class GeneradorDeRespuestasHTTP
     @estado = 201
     @respuesta = { id: usuario.id, email: usuario.email, telegram_id: usuario.telegram_id }.to_json
   rescue ErrorAlPersistirUsuarioYaExistente => _e
-    @estado = 409
-    @respuesta = {
-      error: 'Conflicto',
-      message: 'El telegram ID ya está asociado con una cuenta existente.',
-      field: :telegram_id
-    }.to_json
+    error_crear_usuario_con_parametro_existente(:telegram_id)
   rescue ErrorAlPersistirEmailYaExistente => _e
-    @estado = 409
-    @respuesta = {
-      error: 'Conflicto',
-      message: 'El email ya está asociado con una cuenta existente.',
-      field: :email
-    }.to_json
+    error_crear_usuario_con_parametro_existente(:email)
   rescue ErrorAlInstanciarUsuarioEmailInvalido => _e
     @estado = 422
     @respuesta = {
@@ -56,16 +46,21 @@ class GeneradorDeRespuestasHTTP
         }
       ]
     }.to_json
+  rescue StandardError => _e
+    error_inesperado
   end
 
   def crear_pelicula(creador_de_pelicula)
     pelicula = creador_de_pelicula.crear
+    puts 'tuvieja'
 
     @estado = 201
     @respuesta = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }.to_json
-  rescue StandardError => _e
+  rescue ErrorAlInstanciarPeliculaAnioInvalido => _e
     @estado = 400
-    @respuesta =  { error: 'Solicitud Incorrecta', message: 'Falta el parámetro requerido: anio' }.to_json
+    @respuesta = { error: 'Solicitud Incorrecta', message: 'Falta el parámetro requerido: anio' }.to_json
+  rescue StandardError => _e
+    error_inesperado
   end
 
   def crear_visualizacion(creador_de_visualizacion)
@@ -73,5 +68,31 @@ class GeneradorDeRespuestasHTTP
 
     @estado = 201
     @respuesta = { id: visualizacion.id, id_usuario: visualizacion.usuario.id, id_pelicula: visualizacion.pelicula.id, fecha: visualizacion.fecha.iso8601 }.to_json
+  rescue StandardError => _e
+    error_inesperado
+  end
+
+  private
+
+  def error_crear_usuario_con_parametro_existente(campo)
+    parametros = {
+      telegram_id: 'telegram ID',
+      email: 'email'
+    }
+
+    @estado = 409
+    @respuesta = {
+      error: 'Conflicto',
+      message: "El #{parametros[campo]} ya está asociado con una cuenta existente.",
+      field: campo
+    }.to_json
+  end
+
+  def error_inesperado
+    @estado = 500
+    @respuesta = {
+      error: 'Error Interno del Servidor',
+      message: 'Ocurrió un error inesperado en el servidor. Por favor, inténtelo de nuevo más tarde.'
+    }.to_json
   end
 end

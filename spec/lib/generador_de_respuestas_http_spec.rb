@@ -60,6 +60,8 @@ describe GeneradorDeRespuestasHTTP do
   end
 
   describe 'crear_pelicula' do
+    let(:creador_de_pelicula) { instance_double('CreadorDesuario') }
+
     it 'dado que el titulo, anio y genero son válidos se crea una película exitosamente con estado 201' do
       creador_de_pelicula = CreadorDePelicula.new('Iron Man', 2008, 'accion')
 
@@ -68,6 +70,16 @@ describe GeneradorDeRespuestasHTTP do
 
       expect(respuesta_json['id'].to_i).to be > 0
       expect(generador_de_respuestas_http.estado).to eq 201
+    end
+
+    it 'dado que el anio es inválido no se crea una película y se devuelve un estado 409' do
+      allow(creador_de_pelicula).to receive(:crear) { raise(ErrorAlInstanciarPeliculaAnioInvalido) }
+
+      generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
+      respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
+
+      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'Falta el parámetro requerido: anio')
+      expect(generador_de_respuestas_http.estado).to eq 400
     end
   end
 
