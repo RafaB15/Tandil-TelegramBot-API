@@ -8,15 +8,20 @@ Característica: Cargar peliculas via API
     @wip
     Escenario: US19 - 02 Como administrador cargo una pelicula repetido via API
         Dado que ya esta cargada la pelicula "Atlas" 2024 "accion"
-        Cuando cargo "Atlas" 2024 "accion"
-        Entonces deberia devolver un mensaje "Error al cargar : Pelicula ya existente"
+        Cuando cargo "Atlas" 2024 "accion" ya es un contenido existente
+        Entonces deberia devolver un mensaje "Error al cargar: Contenido ya existente"
 
     @wip
-    Escenario: US19 - 03 Como administrador cargo una pelicula incompleta
-        Cuando cargo "Nahir" 2024 ""
-        Entonces deberia devolver un mensaje "Error al cargar : informacion incompleta"
+    Escenario: US19 - 03 Como administrador cargo una pelicula sin año
+        Cuando cargo "Nahir" "comedia"
+        Entonces deberia devolver solicitud incorrecta y un mensaje de error "Falta el parámetro requerido: anio"
     
     @wip
-    Escenario: US19 - 04 Como administrador cargo un dato invalido
+    Escenario: US19 - 04 Como administrador cargo una pelicula sin titulo
+        Cuando cargo 2024 "drama"
+        Entonces deberia devolver un mensaje "Error al cargar: informacion incompleta"
+
+    @wip
+    Escenario: US19 - 05 Como administrador cargo un dato invalido
         Cuando cargo "Oppenheimer" 2024 "suspenso"
-        Entonces deberia devolver un mensaje "Error al cargar : dato invalido"
+        Entonces deberia devolver un mensaje "Error al cargar: dato invalido"
