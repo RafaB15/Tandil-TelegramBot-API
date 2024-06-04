@@ -108,4 +108,22 @@ describe GeneradorDeRespuestasHTTP do
       expect(generador_de_respuestas_http.estado).to eq 201
     end
   end
+
+  describe 'obtener_mas_vistos' do
+    before(:each) do
+      usuario = CreadorDeUsuario.new('test@mail.com', 123_456_789).crear
+      pelicula1 = CreadorDePelicula.new('Nahir', 2024, 'drama').crear
+      pelicula2 = CreadorDePelicula.new('Amor', 2001, 'comedia').crear
+      pelicula3 = CreadorDePelicula.new('Batman', 1998, 'accion').crear
+      CreadorDeVisualizacion.new(usuario.id, pelicula1.id, Time.now.iso8601).crear
+      CreadorDeVisualizacion.new(usuario.id, pelicula2.id, Time.now.iso8601).crear
+      CreadorDeVisualizacion.new(usuario.id, pelicula3.id, Time.now.iso8601).crear
+    end
+
+    it 'dado que hay 3 contenidos vistos en la plataforma se ve una lista de los 3 contenidos mas vistos' do
+      generador_de_respuestas_http.obtener_mas_vistos(RepositorioVisualizaciones.new.all)
+      mas_vistos = JSON.parse(generador_de_respuestas_http.respuesta)
+      expect(mas_vistos.size).to eq 3
+    end
+  end
 end

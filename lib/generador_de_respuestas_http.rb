@@ -39,12 +39,7 @@ class GeneradorDeRespuestasHTTP
     @respuesta = {
       error: 'Entidad no procesable',
       message: 'La request se hizo bien, pero no se pudo completar por un error en la semantica del email.',
-      details: [
-        {
-          field: :email,
-          message: 'Email invalido.'
-        }
-      ]
+      details: [{ field: :email, message: 'Email invalido.' }]
     }.to_json
   rescue StandardError => _e
     error_inesperado
@@ -74,7 +69,32 @@ class GeneradorDeRespuestasHTTP
     error_inesperado
   end
 
+  def obtener_mas_vistos(visualizaciones)
+    mas_vistos = contar_vistas_por_id(visualizaciones)
+    nombres = nombres_por_id(visualizaciones)
+    mas_vistos_trim = mas_vistos.sort_by { |_pelicula_id, count| -count }.first(3)
+    mas_vistos_trim.map! { |pelicula_id, count| { id: pelicula_id, titulo: nombres[pelicula_id], vistas: count } }
+    @estado = 200
+    @respuesta = mas_vistos_trim.to_json
+  end
+
   private
+
+  def contar_vistas_por_id(visualizaciones)
+    mas_vistos = Hash.new(0)
+    visualizaciones.each do |v|
+      mas_vistos[v.pelicula.id] += 1
+    end
+    mas_vistos
+  end
+
+  def nombres_por_id(visualizaciones)
+    nombres = Hash.new(0)
+    visualizaciones.each do |v|
+      nombres[v.pelicula.id] = v.pelicula.titulo
+    end
+    nombres
+  end
 
   def error_crear_usuario_con_parametro_existente(campo)
     parametros = {

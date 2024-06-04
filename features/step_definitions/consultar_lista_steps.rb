@@ -1,7 +1,7 @@
 # Dado
 # =========================================================
 
-Dado('que existe un usuario con email "{}" y telegram_id {}}') do |email, telegram_id|
+Dado('que existe un usuario con email {string} y telegram_id {int}') do |email, telegram_id|
   @email = email
   @telegram_id = telegram_id
 
@@ -66,7 +66,9 @@ end
 Entonces('se ve una lista de los 3 contenidos mas vistos') do
   json_response = JSON.parse(@response.body)
 
-  expect(json_response[0]['nombre_pelicula']).to eq @nombre_pelicula1
-  expect(json_response[1]['nombre_pelicula']).to eq @nombre_pelicula2
-  expect(json_response[2]['nombre_pelicula']).to eq @nombre_pelicula3
+  expect(json_response.length).to eq 3
+  expect(@response.status).to eq 200
+  expect(json_response[0]['titulo']).to eq @nombre_pelicula1
+  expect(json_response[1]['titulo']).to eq @nombre_pelicula2
+  expect(json_response[2]['titulo']).to eq @nombre_pelicula3
 end

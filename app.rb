@@ -81,3 +81,11 @@ post '/visualizacion' do
 
   enviar_respuesta(generador_de_respuestas_http)
 end
+
+get '/visualizacion/top' do
+  visualizaciones = RepositorioVisualizaciones.new.all
+  generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
+  generador_de_respuestas_http.obtener_mas_vistos(visualizaciones)
+
+  enviar_respuesta(generador_de_respuestas_http)
+end
