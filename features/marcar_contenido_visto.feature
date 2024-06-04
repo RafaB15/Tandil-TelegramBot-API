@@ -5,7 +5,6 @@ Antecedentes:
     Dado un usuario "juan@gmail.com" 123456789
     Y que existe el contenido "Iron Man" 2008 "accion"
 
-    @wip
     Escenario: US06 - 01 Como administrador quiero marcar el contenido visto de un usuario
         Cuando el usuario lo visualiza
         Entonces el administrador debería poder marcar el contenido como visto para ese usuario

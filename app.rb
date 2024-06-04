@@ -30,6 +30,9 @@ post '/reset' do
   settings.logger.info '[POST] /reset - Reinicia la base de datos'
 
   RepositorioUsuarios.new.delete_all
+  RepositorioPeliculas.new.delete_all
+  RepositorioVisualizaciones.new.delete_all
+
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.reiniciar_usuarios
 

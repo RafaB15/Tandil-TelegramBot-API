@@ -21,6 +21,7 @@ class CreadorDePelicula
     genero_de_pelicula = Genero.new(@genero)
     anio_de_estreno = AnioDeEstreno.new(@anio)
     pelicula = Pelicula.new(@titulo, anio_de_estreno, genero_de_pelicula)
+
     RepositorioPeliculas.new.save(pelicula)
 
     pelicula
