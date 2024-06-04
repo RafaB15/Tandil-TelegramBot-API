@@ -5,7 +5,7 @@ describe CreadorDeVisualizacion do
   let(:creador_de_visualizacion) do
     usuario = Usuario.new('nico_paez@gmail.com', 123_456_789)
     id_usuario = RepositorioUsuarios.new.save(usuario).id
-    pelicula = Pelicula.new('Nair', 2024, 'Drama')
+    pelicula = CreadorDePelicula.new('Nair', 2024, 'Drama').crear
     id_pelicula = RepositorioPeliculas.new.save(pelicula).id
     described_class.new(id_usuario, id_pelicula, '2024-06-02T21:34:40+0000')
   end

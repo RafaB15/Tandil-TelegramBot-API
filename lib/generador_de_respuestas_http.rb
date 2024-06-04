@@ -63,6 +63,9 @@ class GeneradorDeRespuestasHTTP
 
     @estado = 201
     @respuesta = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }.to_json
+  rescue StandardError => _e
+    @estado = 400
+    @respuesta =  { error: 'Solicitud Incorrecta', message: 'Falta el parámetro requerido: anio' }.to_json
   end
 
   def crear_visualizacion(creador_de_visualizacion)

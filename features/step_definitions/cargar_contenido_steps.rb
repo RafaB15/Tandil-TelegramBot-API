@@ -37,11 +37,11 @@ Entonces('deberia devolver un resultado exitoso') do
   expect(json_response['genero']).to eq(@genero)
 end
 
-Entonces('deberia devolver solicitud incorrecta y un mensaje de error {string}') do |error|
+Entonces('deberia devolver solicitud incorrecta y un mensaje de error {string}') do |error_message|
   expect(@response.status).to eq(400)
 
   json_response = JSON.parse(@response.body)
 
   expect(json_response['error']).to eq 'Solicitud Incorrecta'
-  expect(json_response['message']).to error
+  expect(json_response['message']).to eq error_message
 end

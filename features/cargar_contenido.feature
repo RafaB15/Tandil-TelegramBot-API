@@ -11,7 +11,6 @@ Característica: Cargar peliculas via API
         Cuando cargo "Atlas" 2024 "accion" ya es un contenido existente
         Entonces deberia devolver un mensaje "Error al cargar: Contenido ya existente"
 
-    @wip
     Escenario: US19 - 03 Como administrador cargo una pelicula sin año
         Cuando cargo "Nahir" "comedia"
         Entonces deberia devolver solicitud incorrecta y un mensaje de error "Falta el parámetro requerido: anio"
