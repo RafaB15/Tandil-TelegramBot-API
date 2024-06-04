@@ -64,6 +64,9 @@ class GeneradorDeRespuestasHTTP
       details: { field: :genero, value: 'suspenso', allowed_values: %w[drama accion comedia],
                  message: "El valor proporcionado para 'genero' debe ser uno de los siguientes: drama, accion, comedia." }
     }.to_json
+  rescue ErrorAlPersistirPeliculaYaExistente => _e
+    @estado = 409
+    @respuesta = { error: 'Conflicto', message: 'Ya existe una película con el mismo título y año.', field: %w[titulo anio] }.to_json
   rescue StandardError => _e
     error_inesperado
   end
@@ -105,7 +108,6 @@ class GeneradorDeRespuestasHTTP
 
   def error_crear_usuario_con_parametro_existente(campo)
     parametros = { telegram_id: 'telegram ID', email: 'email' }
-
     @estado = 409
     @respuesta = { error: 'Conflicto', message: "El #{parametros[campo]} ya está asociado con una cuenta existente.", field: campo }.to_json
   end

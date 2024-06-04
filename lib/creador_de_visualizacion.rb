@@ -9,7 +9,9 @@ class CreadorDeVisualizacion
     fecha = Time.iso8601(@fecha)
     usuario = RepositorioUsuarios.new.find(@id_usuario)
     pelicula = RepositorioPeliculas.new.find(@id_pelicula)
+
     visualizacion = Visualizacion.new(usuario, pelicula, fecha)
+
     RepositorioVisualizaciones.new.save(visualizacion)
 
     visualizacion

@@ -101,6 +101,16 @@ describe GeneradorDeRespuestasHTTP do
       expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parámetro requerido \'genero\' debe ser un valor permitido.')
       expect(generador_de_respuestas_http.estado).to eq 400
     end
+
+    it 'dado que la película ya está registrada no se crea una película y se devuelve un estado 409' do
+      allow(creador_de_pelicula).to receive(:crear) { raise(ErrorAlPersistirPeliculaYaExistente) }
+
+      generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
+      respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
+
+      expect(respuesta_json).to include('error' => 'Conflicto', 'message' => 'Ya existe una película con el mismo título y año.', 'field' => %w[titulo anio])
+      expect(generador_de_respuestas_http.estado).to eq 409
+    end
   end
 
   describe 'crear_visualizacion' do
