@@ -72,13 +72,23 @@ describe GeneradorDeRespuestasHTTP do
       expect(generador_de_respuestas_http.estado).to eq 201
     end
 
-    it 'dado que el anio es inválido no se crea una película y se devuelve un estado 409' do
+    it 'dado que el anio es inválido no se crea una película y se devuelve un estado 400' do
       allow(creador_de_pelicula).to receive(:crear) { raise(ErrorAlInstanciarPeliculaAnioInvalido) }
 
       generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'Falta el parámetro requerido: anio')
+      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parámetro requerido anio debe ser un año positivo.')
+      expect(generador_de_respuestas_http.estado).to eq 400
+    end
+
+    it 'dado que el titulo es inválido no se crea una película y se devuelve un estado 400' do
+      allow(creador_de_pelicula).to receive(:crear) { raise(ErrorAlInstanciarPeliculaTituloInvalido) }
+
+      generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
+      respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
+
+      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'Falta el parámetro requerido: titulo.')
       expect(generador_de_respuestas_http.estado).to eq 400
     end
   end

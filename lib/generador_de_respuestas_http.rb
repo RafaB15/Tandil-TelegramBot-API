@@ -52,13 +52,15 @@ class GeneradorDeRespuestasHTTP
 
   def crear_pelicula(creador_de_pelicula)
     pelicula = creador_de_pelicula.crear
-    puts 'tuvieja'
 
     @estado = 201
     @respuesta = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }.to_json
   rescue ErrorAlInstanciarPeliculaAnioInvalido => _e
     @estado = 400
-    @respuesta = { error: 'Solicitud Incorrecta', message: 'Falta el parámetro requerido: anio' }.to_json
+    @respuesta = { error: 'Solicitud Incorrecta', message: 'El parámetro requerido anio debe ser un año positivo.' }.to_json
+  rescue ErrorAlInstanciarPeliculaTituloInvalido => _e
+    @estado = 400
+    @respuesta = { error: 'Solicitud Incorrecta', message: 'Falta el parámetro requerido: titulo.' }.to_json
   rescue StandardError => _e
     error_inesperado
   end

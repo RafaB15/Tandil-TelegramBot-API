@@ -23,6 +23,15 @@ Cuando('cargo {string} {string}') do |titulo, genero|
   @response = Faraday.post('/contenido', request_body, { 'Content-Type' => 'application/json' })
 end
 
+Cuando('cargo {int} {string}') do |anio, genero|
+  @anio = anio
+  @genero = genero
+
+  request_body = { anio:, genero: }.to_json
+
+  @response = Faraday.post('/contenido', request_body, { 'Content-Type' => 'application/json' })
+end
+
 # Entonces
 # =========================================================
 

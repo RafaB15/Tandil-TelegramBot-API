@@ -10,5 +10,10 @@ describe CreadorDePelicula do
     it 'debe levantar un error cuando anio es menor a 0' do
       expect { described_class.new('John Wick 1', -1, 'accion').crear }.to raise_error(ErrorAlInstanciarPeliculaAnioInvalido)
     end
+
+    it 'debe levantar un error cuando titulo es nil' do
+      anio_de_estreno = instance_double('AnioDeEstreno', anio: 2000)
+      expect { described_class.new(nil, anio_de_estreno, 'accion').crear }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+    end
   end
 end
