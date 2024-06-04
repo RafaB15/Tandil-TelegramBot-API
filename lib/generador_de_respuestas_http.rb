@@ -82,8 +82,8 @@ class GeneradorDeRespuestasHTTP
   def obtener_mas_vistos(visualizaciones)
     mas_vistos = contar_vistas_por_id(visualizaciones)
     nombres = nombres_por_id(visualizaciones)
-    mas_vistos_trim = mas_vistos.sort_by { |_pelicula_id, count| -count }.first(3)
-    mas_vistos_trim.map! { |pelicula_id, count| { id: pelicula_id, titulo: nombres[pelicula_id], vistas: count } }
+    mas_vistos_nombre = mas_vistos.map { |pelicula_id, count| { id: pelicula_id, titulo: nombres[pelicula_id], vistas: count } }
+    mas_vistos_trim = mas_vistos_nombre.sort_by { |c| [-c[:vistas], c[:titulo]] }.first(3)
     @estado = 200
     @respuesta = mas_vistos_trim.to_json
   end
