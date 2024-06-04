@@ -12,9 +12,10 @@ Característica: Consultar listas de contenidos
     
     @wip
     Escenario: US14 - 02 Mas de 3 contenidos tuvieron la misma cantidad de visualizaciones maxima
-        Dado que hay 4 contenidos con el maximo numero de vistas: "Atlas", "Beta", "Gamma", "Delta"
+        Dado que hay 4 contenidos: "Alfa", "Beta", "Gamma", "Delta"
+        Y que los 4 contenidos son los mas vistos en la plataforma con la misma cantidad de vistas
         Cuando se consulta por la lista de contenidos mas vistos
-        Entonces se ve una lista de los 3 contenidos más vistos, seleccionados alfabéticamente: "Atlas", "Beta", "Gamma"
+        Entonces se ve una lista de los 3 contenidos más vistos, seleccionados alfabéticamente: "Alfa", "Beta", "Delta"
     
     @wip
     Escenario: US14 - 03 Hay menos de 3 contenidos visualizados
