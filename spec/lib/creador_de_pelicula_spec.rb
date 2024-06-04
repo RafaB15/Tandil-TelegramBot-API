@@ -12,13 +12,15 @@ describe CreadorDePelicula do
     end
 
     it 'debe levantar un error cuando titulo es nil' do
-      anio_de_estreno = instance_double('AnioDeEstreno', anio: 2000)
-      expect { described_class.new(nil, anio_de_estreno, 'accion').crear }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+      expect { described_class.new(nil, 2000, 'accion').crear }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
     end
 
     it 'debe levantar un error cuando titulo es un string vacio' do
-      anio_de_estreno = instance_double('AnioDeEstreno', anio: 2000)
-      expect { described_class.new('', anio_de_estreno, 'accion').crear }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+      expect { described_class.new('', 2000, 'accion').crear }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+    end
+
+    it 'debe levantar un error cuando genero es un valor inválido' do
+      expect { described_class.new('John Wick 1', 2000, nil).crear }.to raise_error(ErrorAlInstanciarPeliculaGeneroInvalido)
     end
   end
 end

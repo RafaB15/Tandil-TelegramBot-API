@@ -9,8 +9,9 @@ describe RepositorioVisualizaciones do
   end
 
   let(:pelicula) do
+    genero_de_pelicula = Genero.new('drama')
     anio_de_estreno = AnioDeEstreno.new(2024)
-    pelicula = Pelicula.new('Nair', anio_de_estreno, 'Drama', 2)
+    pelicula = Pelicula.new('Nair', anio_de_estreno, genero_de_pelicula)
     RepositorioPeliculas.new.save(pelicula)
   end
 
