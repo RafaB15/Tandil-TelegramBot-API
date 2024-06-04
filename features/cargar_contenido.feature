@@ -23,8 +23,7 @@ Característica: Cargar peliculas via API
         Cuando cargo "" 2024 "drama"
         Entonces deberia devolver solicitud incorrecta y un mensaje de error "El parámetro requerido titulo debe ser un nombre."
 
-    @wip
     Escenario: US19 - 06 Como administrador cargo un dato invalido
         Cuando cargo "Oppenheimer" 2024 "suspenso"
-        Entonces deberia devolver solicitud incorrecta y un mensaje de error "El parámetro 'genero' tiene un valor no permitido."
+        Entonces deberia devolver solicitud incorrecta y un mensaje de error "El parámetro requerido 'genero' debe ser un valor permitido."
         Y en los detalles se debe especificar los generos permitidos
