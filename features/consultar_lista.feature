@@ -4,8 +4,7 @@ Característica: Consultar listas de contenidos
     Antecedentes: 
         Dado que existe un usuario con email "fer@gmail.com" y telegram_id 123456789
         Dado que existen 3 contenidos en la plataforma
-
-    @wip
+    
     Escenario: US14 - 01 Como cinefilo quiero consultar lista de contenidos mas vistos
         Dado que hay 3 contenidos vistos en la plataforma
         Cuando se consulta por la lista de contenidos mas vistos
