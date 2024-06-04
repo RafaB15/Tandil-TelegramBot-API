@@ -61,6 +61,12 @@ class GeneradorDeRespuestasHTTP
   rescue ErrorAlInstanciarPeliculaTituloInvalido => _e
     @estado = 400
     @respuesta = { error: 'Solicitud Incorrecta', message: 'El parámetro requerido titulo debe ser un nombre.' }.to_json
+  rescue ErrorAlInstanciarPeliculaGeneroInvalido => _e
+    @estado = 400
+    @respuesta = {
+      error: 'Solicitud Incorrecta',
+      message: 'El parámetro requerido \'genero\' debe ser un valor permitido.'
+    }.to_json
   rescue StandardError => _e
     error_inesperado
   end
