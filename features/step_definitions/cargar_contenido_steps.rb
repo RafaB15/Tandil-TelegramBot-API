@@ -54,3 +54,14 @@ Entonces('deberia devolver solicitud incorrecta y un mensaje de error {string}')
   expect(json_response['error']).to eq 'Solicitud Incorrecta'
   expect(json_response['message']).to eq error_message
 end
+
+Entonces('en los detalles se debe especificar los generos permitidos') do
+  generos_permitidos = %w[drama accion comedia]
+
+  json_response = JSON.parse(@response.body)
+
+  expect(json_response['details']['field']).to eq 'genero'
+  expect(json_response['details']['value']).to eq @genero
+  expect(json_response['details']['allowed_values']).to eq generos_permitidos
+  expect(json_response['details']['message']).to eq 'El valor proporcionado para \'genero\' debe ser uno de los siguientes: drama, accion, comedia.'
+end

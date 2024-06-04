@@ -26,4 +26,5 @@ Característica: Cargar peliculas via API
     @wip
     Escenario: US19 - 06 Como administrador cargo un dato invalido
         Cuando cargo "Oppenheimer" 2024 "suspenso"
-        Entonces deberia devolver un mensaje "Error al cargar: dato invalido"
+        Entonces deberia devolver solicitud incorrecta y un mensaje de error "El parámetro 'genero' tiene un valor no permitido."
+        Y en los detalles se debe especificar los generos permitidos
