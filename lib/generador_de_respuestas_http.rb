@@ -60,7 +60,7 @@ class GeneradorDeRespuestasHTTP
     @respuesta = { error: 'Solicitud Incorrecta', message: 'El parámetro requerido anio debe ser un año positivo.' }.to_json
   rescue ErrorAlInstanciarPeliculaTituloInvalido => _e
     @estado = 400
-    @respuesta = { error: 'Solicitud Incorrecta', message: 'Falta el parámetro requerido: titulo.' }.to_json
+    @respuesta = { error: 'Solicitud Incorrecta', message: 'El parámetro requerido titulo debe ser un nombre.' }.to_json
   rescue StandardError => _e
     error_inesperado
   end

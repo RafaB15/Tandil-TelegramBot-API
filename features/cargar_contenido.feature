@@ -17,12 +17,11 @@ Característica: Cargar peliculas via API
     
     Escenario: US19 - 04 Como administrador cargo una pelicula sin titulo
         Cuando cargo 2024 "drama"
-        Entonces deberia devolver solicitud incorrecta y un mensaje de error "Falta el parámetro requerido: titulo."
+        Entonces deberia devolver solicitud incorrecta y un mensaje de error "El parámetro requerido titulo debe ser un nombre."
 
-    @wip
     Escenario: US19 - 05 Como administrador cargo una pelicula con titulo vacio
         Cuando cargo "" 2024 "drama"
-        Entonces deberia devolver un mensaje "Error al cargar: informacion incompleta"
+        Entonces deberia devolver solicitud incorrecta y un mensaje de error "El parámetro requerido titulo debe ser un nombre."
 
     @wip
     Escenario: US19 - 06 Como administrador cargo un dato invalido

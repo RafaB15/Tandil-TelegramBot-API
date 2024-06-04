@@ -88,7 +88,7 @@ describe GeneradorDeRespuestasHTTP do
       generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'Falta el parámetro requerido: titulo.')
+      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parámetro requerido titulo debe ser un nombre.')
       expect(generador_de_respuestas_http.estado).to eq 400
     end
   end
