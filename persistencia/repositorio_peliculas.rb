@@ -1,8 +1,27 @@
 require_relative './abstract_repository'
 
+class ErrorAlPersistirPeliculaYaExistente < StandardError
+  MSG_DE_ERROR = 'Error: pelicula ya existente'.freeze
+
+  def initiliza(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end
+
 class RepositorioPeliculas < AbstractRepository
   self.table_name = :peliculas
   self.model_class = 'Pelicula'
+
+  def save(a_record)
+    raise ErrorAlPersistirPeliculaYaExistente if find_by_titulo_y_anio(a_record.titulo, a_record.anio)
+
+    super(a_record)
+  end
+
+  def find_by_titulo_y_anio(titulo, anio)
+    row = dataset.first(titulo:, anio:)
+    load_object(row) unless row.nil?
+  end
 
   protected
 

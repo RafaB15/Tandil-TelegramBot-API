@@ -13,6 +13,8 @@ RSpec.configure do |config|
   end
 
   config.after :each do
-    RepositorioUsuarios.new.delete_all
+    AbstractRepository.subclasses.each do |repositorio|
+      repositorio.new.delete_all
+    end
   end
 end
