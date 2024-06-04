@@ -10,14 +10,14 @@ class AnioDeEstreno
   attr_reader :anio
 
   def initialize(anio)
-    raise ErrorAlInstanciarPeliculaAnioInvalido unless es_el_telegram_id_valido?(anio)
+    raise ErrorAlInstanciarPeliculaAnioInvalido unless es_el_anio_valido?(anio)
 
     @anio = anio
   end
 
   private
 
-  def es_el_telegram_id_valido?(anio)
+  def es_el_anio_valido?(anio)
     !anio.nil? && anio >= 0
   end
 end

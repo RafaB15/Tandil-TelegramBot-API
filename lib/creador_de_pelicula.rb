@@ -16,7 +16,7 @@ class CreadorDePelicula
   end
 
   def crear
-    raise ErrorAlInstanciarPeliculaTituloInvalido unless es_titulo_valido?
+    raise ErrorAlInstanciarPeliculaTituloInvalido unless es_el_titulo_valido?
 
     anio_de_estreno = AnioDeEstreno.new(@anio)
     pelicula = Pelicula.new(@titulo, anio_de_estreno, @genero)
@@ -29,7 +29,7 @@ class CreadorDePelicula
 
   private
 
-  def es_titulo_valido?
-    !@titulo.nil?
+  def es_el_titulo_valido?
+    !@titulo.nil? && !@titulo.empty?
   end
 end

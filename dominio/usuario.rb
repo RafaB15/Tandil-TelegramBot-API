@@ -11,7 +11,7 @@ class Usuario
   attr_accessor :id
 
   def initialize(email, telegram_id, id = nil)
-    @email = es_email_valido?(email) ? email : raise(ErrorAlInstanciarUsuarioEmailInvalido)
+    @email = es_el_email_valido?(email) ? email : raise(ErrorAlInstanciarUsuarioEmailInvalido)
     @telegram_id = telegram_id
 
     @id = id
@@ -19,7 +19,7 @@ class Usuario
 
   private
 
-  def es_email_valido?(email)
+  def es_el_email_valido?(email)
     email.match?(/\A[\w+-.]+@[a-z\d-]+(.[a-z]+)*.[a-z]+\z/i)
   end
 end
