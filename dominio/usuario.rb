@@ -7,12 +7,12 @@ class ErrorAlInstanciarUsuarioEmailInvalido < ArgumentError
 end
 
 class Usuario
-  attr_reader :email, :updated_on, :created_on, :telegram_id
+  attr_reader :email, :updated_on, :created_on, :id_telegram
   attr_accessor :id
 
-  def initialize(email, telegram_id, id = nil)
+  def initialize(email, id_telegram, id = nil)
     @email = es_el_email_valido?(email) ? email : raise(ErrorAlInstanciarUsuarioEmailInvalido)
-    @telegram_id = telegram_id
+    @id_telegram = id_telegram
 
     @id = id
   end

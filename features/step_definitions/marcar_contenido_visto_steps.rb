@@ -1,8 +1,8 @@
 # Dado
 # =========================================================
 
-Dado('un usuario {string} {int}') do |email, telegram_id|
-  request_body = { email:, telegram_id: }.to_json
+Dado('un usuario {string} {int}') do |email, id_telegram|
+  request_body = { email:, id_telegram: }.to_json
   @response_usuario = Faraday.post('/usuarios', request_body, { 'Content-Type' => 'application/json' })
 end
 

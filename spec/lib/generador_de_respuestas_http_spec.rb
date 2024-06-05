@@ -18,7 +18,7 @@ describe GeneradorDeRespuestasHTTP do
   describe 'crear_usuario' do
     let(:creador_de_usuario) { instance_double('CreadorDesuario') }
 
-    it 'dado que el email y el telegram_id son validos se crea un usuario exitosamente con estado 201' do
+    it 'dado que el email y el id_telegram son validos se crea un usuario exitosamente con estado 201' do
       creador_de_usuario = CreadorDeUsuario.new('juan@gmail.com', 123_456_789)
 
       generador_de_respuestas_http.crear_usuario(creador_de_usuario)
@@ -38,13 +38,13 @@ describe GeneradorDeRespuestasHTTP do
       expect(generador_de_respuestas_http.estado).to eq 422
     end
 
-    it 'dado que ya existe un usuario con este telegram_id no se crea el usuario y se devuelve un estado 409' do
+    it 'dado que ya existe un usuario con este id_telegram no se crea el usuario y se devuelve un estado 409' do
       allow(creador_de_usuario).to receive(:crear) { raise(ErrorAlPersistirUsuarioYaExistente) }
 
       generador_de_respuestas_http.crear_usuario(creador_de_usuario)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json).to include('error' => 'Conflicto', 'details' => { 'field' => 'telegram_id' })
+      expect(respuesta_json).to include('error' => 'Conflicto', 'details' => { 'field' => 'id_telegram' })
       expect(generador_de_respuestas_http.estado).to eq 409
     end
 

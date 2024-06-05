@@ -20,14 +20,14 @@ class GeneradorDeRespuestasHTTP
 
   def enviar_usuarios(usuarios)
     respuesta = []
-    usuarios.map { |u| respuesta << { email: u.email, telegram_id: u.telegram_id, id: u.id } }
+    usuarios.map { |u| respuesta << { email: u.email, id_telegram: u.id_telegram, id: u.id } }
     @estado = 200
     @respuesta = respuesta.to_json
   end
 
   def crear_usuario(creador_de_usuario)
     usuario = creador_de_usuario.crear
-    generar_respuesta(201, { id: usuario.id, email: usuario.email, telegram_id: usuario.telegram_id })
+    generar_respuesta(201, { id: usuario.id, email: usuario.email, id_telegram: usuario.id_telegram })
   rescue StandardError => e
     manejar_error_usuario(e)
   end
@@ -63,7 +63,7 @@ class GeneradorDeRespuestasHTTP
   private
 
   ERROR_MAP_USUARIO = {
-    'ErrorAlPersistirUsuarioYaExistente' => { estado: 409, campo: 'telegram_id', mensaje: 'Usuario ya existente' },
+    'ErrorAlPersistirUsuarioYaExistente' => { estado: 409, campo: 'id_telegram', mensaje: 'Usuario ya existente' },
     'ErrorAlPersistirEmailYaExistente' => { estado: 409, campo: 'email', mensaje: 'Usuario ya existente' },
     'ErrorAlInstanciarUsuarioEmailInvalido' => { estado: 422, campo: 'email', mensaje: '' },
     'StandardError' => { estado: 500, campo: '', mensaje: '' }

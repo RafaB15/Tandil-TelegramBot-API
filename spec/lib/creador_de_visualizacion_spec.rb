@@ -5,7 +5,8 @@ describe CreadorDeVisualizacion do
   let(:creador_de_visualizacion) do
     email = CreadorDeUsuario.new('nico_paez@gmail.com', 123_456_789).crear.email
     id_pelicula = CreadorDePelicula.new('Nair', 2024, 'drama').crear.id
-    described_class.new(email, id_pelicula, '2024-06-02T21:34:40+0000')
+    fecha = Time.iso8601('2024-06-02T21:34:40+0000')
+    described_class.new(email, id_pelicula, fecha)
   end
 
   describe 'crear' do

@@ -7,15 +7,15 @@ class ErrorAlInstanciarUsuarioTelegramIDInvalido < ArgumentError
 end
 
 class CreadorDeUsuario
-  def initialize(email, telegram_id)
+  def initialize(email, id_telegram)
     @email = email
-    @telegram_id = telegram_id
+    @id_telegram = id_telegram
   end
 
   def crear
-    raise ErrorAlInstanciarUsuarioTelegramIDInvalido unless es_el_telegram_id_valido?
+    raise ErrorAlInstanciarUsuarioTelegramIDInvalido unless es_el_id_telegram_valido?
 
-    usuario = Usuario.new(@email, @telegram_id)
+    usuario = Usuario.new(@email, @id_telegram)
     RepositorioUsuarios.new.save(usuario)
 
     usuario
@@ -25,7 +25,7 @@ class CreadorDeUsuario
 
   private
 
-  def es_el_telegram_id_valido?
-    !@telegram_id.nil? && @telegram_id >= 0
+  def es_el_id_telegram_valido?
+    !@id_telegram.nil? && @id_telegram >= 0
   end
 end

@@ -59,11 +59,11 @@ post '/usuarios' do
   @body ||= request.body.read
   parametros_usuario = JSON.parse(@body)
   email = parametros_usuario['email']
-  telegram_id = parametros_usuario['telegram_id']
+  id_telegram = parametros_usuario['id_telegram']
 
   settings.logger.info "[POST] /usuarios - Iniciando creación de un nuevo usuario - Body: #{parametros_usuario}"
 
-  creador_de_usuario = CreadorDeUsuario.new(email, telegram_id)
+  creador_de_usuario = CreadorDeUsuario.new(email, id_telegram)
 
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.crear_usuario(creador_de_usuario)

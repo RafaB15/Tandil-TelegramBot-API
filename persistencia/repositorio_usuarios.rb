@@ -21,14 +21,14 @@ class RepositorioUsuarios < AbstractRepository
   self.model_class = 'Usuario'
 
   def save(a_record)
-    raise ErrorAlPersistirUsuarioYaExistente if find_by_telegram_id(a_record.telegram_id)
+    raise ErrorAlPersistirUsuarioYaExistente if find_by_id_telegram(a_record.id_telegram)
     raise ErrorAlPersistirEmailYaExistente if find_by_email(a_record.email)
 
     super(a_record)
   end
 
-  def find_by_telegram_id(telegram_id)
-    row = dataset.first(telegram_id:)
+  def find_by_id_telegram(id_telegram)
+    row = dataset.first(id_telegram:)
     load_object(row) unless row.nil?
   end
 
@@ -40,13 +40,13 @@ class RepositorioUsuarios < AbstractRepository
   protected
 
   def load_object(a_hash)
-    Usuario.new(a_hash[:email], a_hash[:telegram_id], a_hash[:id])
+    Usuario.new(a_hash[:email], a_hash[:id_telegram], a_hash[:id])
   end
 
   def changeset(usuario)
     {
       email: usuario.email,
-      telegram_id: usuario.telegram_id
+      id_telegram: usuario.id_telegram
     }
   end
 end

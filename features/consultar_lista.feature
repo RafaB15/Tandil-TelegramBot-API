@@ -2,7 +2,7 @@
 Característica: Consultar listas de contenidos
 
     Antecedentes: 
-        Dado que existe un usuario con email "fer@gmail.com" y telegram_id 123456789
+        Dado que existe un usuario con email "fer@gmail.com" y id_telegram 123456789
         Dado que existen 3 contenidos en la plataforma
     
     Escenario: US14 - 01 Como cinefilo quiero consultar lista de contenidos mas vistos
