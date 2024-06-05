@@ -76,34 +76,26 @@ class GeneradorDeRespuestasHTTP
 
   def manejar_error_usuario(error)
     error_key = error.class.name.split('::').last
-
     error_info = ERROR_MAP_USUARIO[error_key] || ERROR_MAP_USUARIO['StandardError']
-
     generar_respuesta_error(error_info[:estado], error_info[:campo], error_info[:mensaje])
   end
 
   def manejar_error_pelicula(error)
     error_key = error.class.name.split('::').last
-
     error_info = ERROR_MAP_PELICULA[error_key] || ERROR_MAP_PELICULA['StandardError']
-
     generar_respuesta_error(error_info[:estado], error_info[:campo], error_info[:mensaje])
   end
 
   def contar_vistas_por_id(visualizaciones)
-    mas_vistos = Hash.new(0)
-    visualizaciones.each do |v|
+    visualizaciones.each_with_object(Hash.new(0)) do |v, mas_vistos|
       mas_vistos[v.pelicula.id] += 1
     end
-    mas_vistos
   end
 
   def nombres_por_id(visualizaciones)
-    nombres = Hash.new(0)
-    visualizaciones.each do |v|
+    visualizaciones.each_with_object({}) do |v, nombres|
       nombres[v.pelicula.id] = v.pelicula.titulo
     end
-    nombres
   end
 
   def generar_respuesta(estado, data)
