@@ -48,10 +48,19 @@ class GeneradorDeRespuestasHTTP
     @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado)
   end
 
+  def crear_calificacion(creador_de_calificacion)
+    calificacion = creador_de_calificacion.crear
+    @estado = 201
+    @respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_pelicula: calificacion.pelicula.id, calificacion: calificacion.calificacion }.to_json
+  rescue StandardError => _e
+    @estado = 500
+    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado)
+  end
+
   def obtener_mas_vistos(visualizaciones)
     mas_vistos = contar_vistas_por_id(visualizaciones)
     nombres = nombres_por_id(visualizaciones)
-    mas_vistos_nombre = mas_vistos.map { |pelicula_id, count| { id: pelicula_id, titulo: nombres[pelicula_id], vistas: count } }
+    mas_vistos_nombre = mas_vistos.map { |id_pelicula, count| { id: id_pelicula, titulo: nombres[id_pelicula], vistas: count } }
     mas_vistos_trim = mas_vistos_nombre.sort_by { |c| [-c[:vistas], c[:titulo]] }.first(3)
 
     @estado = 200

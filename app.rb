@@ -120,3 +120,24 @@ get '/visualizacion/top' do
 
   enviar_respuesta(generador_de_respuestas_http)
 end
+
+post '/calificacion' do
+  @body ||= request.body.read
+  parametros_calificacion = JSON.parse(@body)
+  id_telegram = parametros_calificacion['id_telegram']
+  id_pelicula = parametros_calificacion['id_pelicula']
+  calificacion = parametros_calificacion['calificacion']
+
+  puts 'ID TELEGRAM !!!!'
+  puts id_telegram
+
+  settings.logger.info "[POST] /calificacion - Iniciando creación de una nueva calificion - Body: #{parametros_calificacion}"
+  creador_de_calificacion = CreadorDeCalificacion.new(id_telegram, id_pelicula, calificacion)
+
+  generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
+  generador_de_respuestas_http.crear_calificacion(creador_de_calificacion)
+
+  settings.logger.info "[Status] : #{generador_de_respuestas_http.estado} - [Response] : #{generador_de_respuestas_http.respuesta}"
+
+  enviar_respuesta(generador_de_respuestas_http)
+end

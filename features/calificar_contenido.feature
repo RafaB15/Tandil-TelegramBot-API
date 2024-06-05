@@ -5,7 +5,6 @@ Antecedentes:
     Dado un usuario "juan@gmail.com" 123456789
     Y que el usuario ya vio la pelicula "Nahir" 2024 "drama"
 
-    @wip
     Escenario: US15 - 01 Como cinefilo quiero poder calificar contenido ya visto
         Cuando califica la pelicula con un 4
         Entonces ve un mensaje de exito

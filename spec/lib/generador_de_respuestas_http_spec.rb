@@ -124,7 +124,7 @@ describe GeneradorDeRespuestasHTTP do
       generador_de_respuestas_http.crear_visualizacion(creador_de_visualizacion)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json['id'].to_i).to be > 0
+      expect(respuesta_json['id'].to_i).to eq 10
       expect(generador_de_respuestas_http.estado).to eq 201
     end
   end
@@ -145,6 +145,22 @@ describe GeneradorDeRespuestasHTTP do
       mas_vistos = JSON.parse(generador_de_respuestas_http.respuesta)
 
       expect(mas_vistos.size).to eq 3
+    end
+  end
+
+  describe 'crear_calificacion' do
+    let(:creador_de_calificacion) { instance_double('CreadorDeCalificacion') }
+    let(:usuario) { instance_double('Usuario', id_telegram: 987_654_321, id: 1) }
+    let(:pelicula) { instance_double('Pelicula', id: 2) }
+
+    it 'dado que el id_telegram, id_pelicula y calificacion son válidos se crea una calificacion exitosamente con estado 201' do
+      allow(creador_de_calificacion).to receive(:crear) { Calificacion.new(usuario, pelicula, 1, 6) }
+
+      generador_de_respuestas_http.crear_calificacion(creador_de_calificacion)
+      respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
+
+      expect(respuesta_json['id'].to_i).to eq 6
+      expect(generador_de_respuestas_http.estado).to eq 201
     end
   end
 end
