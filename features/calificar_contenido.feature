@@ -1,27 +1,24 @@
 # language: es
 Característica: Calificar contenido
     
-Background:
-    Dado un usuario existente "pepito@gmail.com"
+Antecedentes:
+    Dado un usuario "juan@gmail.com" 123456789
+    Y que el usuario ya vio la pelicula "Nahir" 2024 "drama"
 
-    @wip
     Escenario: US15 - 01 Como cinefilo quiero poder calificar contenido ya visto
-        Dado que el usuario ya vio la pelicula "Nahir"
-        Cuando califica la pelicula con un "4"
-        Entonces ve un mensaje "Calificacion registrada exitosamente"
+        Cuando califica la pelicula con un 4
+        Entonces ve un mensaje de exito
 
     @wip
     Escenario: US15 - 02 Como cinefilo quiero poder re-calificar contenido ya visto
-        Dado que el usuario ya vio la pelicula "Nahir" y la habia calificado con un "5"
-        Cuando califica la pelicula con un "3" se actualiza
+        Dado que el usuario la habia calificado con un 5
+        Cuando califica la pelicula con un 3 se actualiza
         Y ve un mensaje "Calificacion registrada exitosamente"
 
     @wip
     Escenario: US15 - 03 No ingreso el valor de la calificacion
-        Dado que el usuario ya vio la pelicula "Nahir"
-        Cuando califica la pelicula con un ""
+        Cuando califica la pelicula con un -
         Entonces ve un mensaje "Error al calificar: Calificacion faltante"
-
 
     @wip
     Escenario: US15 - 04 El contenido a calificar no existe
@@ -31,12 +28,10 @@ Background:
 
     @wip
     Escenario: US15 - 05 La calificacion esta fuera de rango
-        Dado que el usuario ya vio la pelicula "Nahir"
-        Cuando califica la pelicula con un "6"
+        Cuando califica la pelicula con un 6
         Entonces ve un mensaje "Error al calificar: Calificacion fuera de rango"
 
     @wip
     Escenario: US15 - 06 La pelicula no fue vista aun
-        Dado que el usuario no vio la pelicula "Nahir"
-        Cuando califica la pelicula con un "1"
+        Cuando califica la pelicula con un 1
         Entonces ve un mensaje "Error al calificar: Solo puedes calificar peliculas ya vistas"
