@@ -21,8 +21,7 @@ Característica: Consultar listas de contenidos
         Cuando se consulta por la lista de contenidos mas vistos
         Entonces se ve una lista de 2 contenidos
 
-    @wip
     Escenario: US14 - 04 No hubo ninguna visualizacion
         Cuando se consulta por la lista de contenidos mas vistos
-        Entonces se ve un mensaje : "Ningun contenido fue visto aun"
+        Entonces tengo un listado de vistos vacio
         
