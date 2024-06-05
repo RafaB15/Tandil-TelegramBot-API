@@ -67,9 +67,10 @@ class GeneradorDeRespuestasHTTP
     @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado)
   end
 
-  def aniadir_favorito(_creador_de_favorito)
+  def aniadir_favorito(creador_de_favorito)
     @estado = 201
-    @respuesta = { id: 1, email: 'test@gmail.com', id_contenido: 2 }.to_json
+    favorito = creador_de_favorito.crear
+    @respuesta = { id: favorito.id, email: favorito.usuario.email, id_contenido: favorito.contenido.id }.to_json
   end
 
   private
@@ -78,6 +79,7 @@ class GeneradorDeRespuestasHTTP
     'ErrorAlPersistirUsuarioYaExistente' => { estado: 409, campo: 'id_telegram', mensaje: 'Usuario ya existente' },
     'ErrorAlPersistirEmailYaExistente' => { estado: 409, campo: 'email', mensaje: 'Usuario ya existente' },
     'ErrorAlInstanciarUsuarioEmailInvalido' => { estado: 422, campo: 'email', mensaje: '' },
+    'ErrorAlInstanciarUsuarioTelegramIDInvalido' => { estado: 422, campo: 'id_telegram', mensaje: '' },
     'StandardError' => { estado: 500, campo: '', mensaje: '' }
   }.freeze
 

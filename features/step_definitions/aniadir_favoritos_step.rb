@@ -1,7 +1,7 @@
 # Dado
 # =========================================================
 
-Dado('que el contenido {string} {string} {string} existe en la base de datos') do |titulo, anio, genero|
+Dado('que el contenido {string} {int} {string} existe en la base de datos') do |titulo, anio, genero|
   @titulo = titulo
   @anio = anio
   @genero = genero
@@ -36,5 +36,5 @@ Entonces('ve un mensaje de exito al aniadir la pelicula a favoritos') do
 
   expect(json_response['id']).to be > 0
   expect(json_response['email']).to eq @email
-  expect(json_response['id_contenido']).to eq id_pelicula
+  expect(json_response['id_contenido']).to eq @id_pelicula
 end

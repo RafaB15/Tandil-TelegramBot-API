@@ -170,13 +170,13 @@ describe GeneradorDeRespuestasHTTP do
     let(:pelicula) { instance_double('Pelicula', id: 2) }
 
     it 'dado un mail y un contenido, aniado ese contenido como favorito para el usuario con ese email' do
-      allow(creador_de_favoritos).to receive(:crear) { Favorito.new(usuario, pelicula) }
+      allow(creador_de_favoritos).to receive(:crear) { Favorito.new(usuario, pelicula, 42) }
 
       generador_de_respuestas_http.aniadir_favorito(creador_de_favoritos)
       json_response = JSON.parse(generador_de_respuestas_http.respuesta)
 
       expect(generador_de_respuestas_http.estado).to eq 201
-      expect(json_response['id']).to be > 0
+      expect(json_response['id']).to eq 42
     end
   end
 end
