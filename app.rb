@@ -84,13 +84,13 @@ end
 post '/visualizacion' do
   @body ||= request.body.read
   parametros_visualizacion = JSON.parse(@body)
-  id_usuario = parametros_visualizacion['id_usuario']
+  email = parametros_visualizacion['email']
   id_pelicula = parametros_visualizacion['id_pelicula']
   fecha = parametros_visualizacion['fecha']
 
   settings.logger.info "[POST] /visualizacion - Iniciando creación de una nueva visualizacion - Body: #{parametros_visualizacion}"
 
-  creador_de_visualizacion = CreadorDeVisualizacion.new(id_usuario, id_pelicula, fecha)
+  creador_de_visualizacion = CreadorDeVisualizacion.new(email, id_pelicula, fecha)
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.crear_visualizacion(creador_de_visualizacion)
 

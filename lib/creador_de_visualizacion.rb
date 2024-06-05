@@ -1,13 +1,13 @@
 class CreadorDeVisualizacion
-  def initialize(id_usuario, id_pelicula, fecha)
-    @id_usuario = id_usuario
+  def initialize(email, id_pelicula, fecha)
+    @email = email
     @id_pelicula = id_pelicula
     @fecha = fecha
   end
 
   def crear
     fecha = Time.iso8601(@fecha)
-    usuario = RepositorioUsuarios.new.find(@id_usuario)
+    usuario = RepositorioUsuarios.new.find_by_email(@email)
     pelicula = RepositorioPeliculas.new.find(@id_pelicula)
 
     visualizacion = Visualizacion.new(usuario, pelicula, fecha)

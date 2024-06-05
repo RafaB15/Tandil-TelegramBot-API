@@ -10,7 +10,7 @@ Característica: Consultar listas de contenidos
         Cuando se consulta por la lista de contenidos mas vistos
         Entonces se ve una lista de los 3 contenidos mas vistos 
     
-    Escenario: US14 - 02 Mas de 3 contenidos tuvieron la misma cantidad de visualizaciones maxima
+    Escenario: US14 - 02 Mas de 3 contenidos tuvieron la misma cantidad de visualizaciones maximas se resuelve alfabeticamente
         Dado que hay 4 contenidos: "Alfa", "Beta", "Gamma", "Delta"
         Y que los 4 contenidos son los mas vistos en la plataforma con la misma cantidad de vistas
         Cuando se consulta por la lista de contenidos mas vistos

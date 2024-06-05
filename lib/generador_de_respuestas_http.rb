@@ -37,9 +37,7 @@ class GeneradorDeRespuestasHTTP
   rescue ErrorAlInstanciarUsuarioEmailInvalido => _e
     @estado = 422
     @respuesta = {
-      error: 'Entidad no procesable',
-      message: 'La request se hizo bien, pero no se pudo completar por un error en la semantica del email.',
-      details: [{ field: :email, message: 'Email invalido.' }]
+      error: 'Entidad no procesable', message: 'La request se hizo bien, pero no se pudo completar por un error en la semantica del email.', details: [{ field: :email, message: 'Email invalido.' }]
     }.to_json
   rescue StandardError => _e
     error_inesperado
@@ -74,7 +72,7 @@ class GeneradorDeRespuestasHTTP
   def crear_visualizacion(creador_de_visualizacion)
     visualizacion = creador_de_visualizacion.crear
     @estado = 201
-    @respuesta = { id: visualizacion.id, id_usuario: visualizacion.usuario.id, id_pelicula: visualizacion.pelicula.id, fecha: visualizacion.fecha.iso8601 }.to_json
+    @respuesta = { id: visualizacion.id, email: visualizacion.usuario.email, id_pelicula: visualizacion.pelicula.id, fecha: visualizacion.fecha.iso8601 }.to_json
   rescue StandardError => _e
     error_inesperado
   end
@@ -84,8 +82,11 @@ class GeneradorDeRespuestasHTTP
     nombres = nombres_por_id(visualizaciones)
     mas_vistos_nombre = mas_vistos.map { |pelicula_id, count| { id: pelicula_id, titulo: nombres[pelicula_id], vistas: count } }
     mas_vistos_trim = mas_vistos_nombre.sort_by { |c| [-c[:vistas], c[:titulo]] }.first(3)
+
     @estado = 200
     @respuesta = mas_vistos_trim.to_json
+  rescue StandardError => _e
+    error_inesperado
   end
 
   private

@@ -2,9 +2,6 @@
 # =========================================================
 
 Dado('que existe un usuario con email {string} y telegram_id {int}') do |email, telegram_id|
-  @email = email
-  @telegram_id = telegram_id
-
   request_body = { email:, telegram_id: }.to_json
   @response_usuario = Faraday.post('/usuarios', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -25,7 +22,7 @@ end
 
 Dado('que hay 3 contenidos vistos en la plataforma') do
   json_response_usuario = JSON.parse(@response_usuario.body)
-  @id_usuario = json_response_usuario['id']
+  @email = json_response_usuario['email']
 
   json_response_pelicula1 = JSON.parse(@response_pelicula1.body)
   @id_pelicula1 = json_response_pelicula1['id']
@@ -36,27 +33,27 @@ Dado('que hay 3 contenidos vistos en la plataforma') do
   json_response_pelicula3 = JSON.parse(@response_pelicula3.body)
   @id_pelicula3 = json_response_pelicula3['id']
 
+  # Este contenido es visto 3 veces
   3.times do |_i|
     @fecha1 = Time.now.floor.iso8601
-    request_body1 = { id_usuario: @id_usuario, id_pelicula: @id_pelicula1, fecha: @fecha1 }.to_json
+    request_body1 = { email: @email, id_pelicula: @id_pelicula1, fecha: @fecha1 }.to_json
     @response = Faraday.post('/visualizacion', request_body1, { 'Content-Type' => 'application/json' })
   end
 
+  # Este contenido es visto 2 veces
   2.times do |_i|
     @fecha2 = Time.now.floor.iso8601
-    request_body2 = { id_usuario: @id_usuario, id_pelicula: @id_pelicula2, fecha: @fecha2 }.to_json
+    request_body2 = { email: @email, id_pelicula: @id_pelicula2, fecha: @fecha2 }.to_json
     @response = Faraday.post('/visualizacion', request_body2, { 'Content-Type' => 'application/json' })
   end
 
+  # Este contenido es visto 1 vez
   @fecha3 = Time.now.floor.iso8601
-  request_body3 = { id_usuario: @id_usuario, id_pelicula: @id_pelicula3, fecha: @fecha3 }.to_json
+  request_body3 = { email: @email, id_pelicula: @id_pelicula3, fecha: @fecha3 }.to_json
   @response = Faraday.post('/visualizacion', request_body3, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que hay {int} contenidos: {string}, {string}, {string}, {string}') do |_cant_contenidos, c1, c2, c3, c4|
-  json_response_usuario = JSON.parse(@response_usuario.body)
-  @id_usuario = json_response_usuario['id']
-
   @nombre_contenido1 = c1
   request_body1 = { titulo: @nombre_contenido1, anio: 2024, genero: 'drama' }.to_json
   @response_contenido1 = Faraday.post('/contenido', request_body1, { 'Content-Type' => 'application/json' })
@@ -75,6 +72,9 @@ Dado('que hay {int} contenidos: {string}, {string}, {string}, {string}') do |_ca
 end
 
 Dado('que los {int} contenidos son los mas vistos en la plataforma con la misma cantidad de vistas') do |_int|
+  json_response_usuario = JSON.parse(@response_usuario.body)
+  @email = json_response_usuario['email']
+
   json_response_pelicula1 = JSON.parse(@response_contenido1.body)
   @id_pelicula1 = json_response_pelicula1['id']
 
@@ -90,16 +90,16 @@ Dado('que los {int} contenidos son los mas vistos en la plataforma con la misma 
   5.times do |_i|
     fecha = Time.now.floor.iso8601
 
-    request_body1 = { id_usuario: @id_usuario, id_pelicula: @id_pelicula1, fecha: }.to_json
+    request_body1 = { email: @email, id_pelicula: @id_pelicula1, fecha: }.to_json
     @response = Faraday.post('/visualizacion', request_body1, { 'Content-Type' => 'application/json' })
 
-    request_body2 = { id_usuario: @id_usuario, id_pelicula: @id_pelicula2, fecha: }.to_json
+    request_body2 = { email: @email, id_pelicula: @id_pelicula2, fecha: }.to_json
     @response = Faraday.post('/visualizacion', request_body2, { 'Content-Type' => 'application/json' })
 
-    request_body3 = { id_usuario: @id_usuario, id_pelicula: @id_pelicula3, fecha: }.to_json
+    request_body3 = { email: @email, id_pelicula: @id_pelicula3, fecha: }.to_json
     @response = Faraday.post('/visualizacion', request_body3, { 'Content-Type' => 'application/json' })
 
-    request_body4 = { id_usuario: @id_usuario, id_pelicula: @id_pelicula4, fecha: }.to_json
+    request_body4 = { email: @email, id_pelicula: @id_pelicula4, fecha: }.to_json
     @response = Faraday.post('/visualizacion', request_body4, { 'Content-Type' => 'application/json' })
   end
 end
@@ -126,7 +126,7 @@ end
 
 Entonces('se ve una lista de los {int} contenidos más vistos, seleccionados alfabéticamente: {string}, {string}, {string}') do |cant_top, c1, c2, c3|
   json_response = JSON.parse(@response.body)
-  puts json_response
+
   expect(json_response.length).to eq cant_top
   expect(@response.status).to eq 200
   expect(json_response[0]['titulo']).to eq c1

@@ -2,18 +2,11 @@
 # =========================================================
 
 Dado('un usuario {string} {int}') do |email, telegram_id|
-  @email = email
-  @telegram_id = telegram_id
-
   request_body = { email:, telegram_id: }.to_json
   @response_usuario = Faraday.post('/usuarios', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que existe el contenido {string} {int} {string}') do |titulo, anio, genero|
-  @titulo = titulo
-  @anio = anio
-  @genero = genero
-
   request_body = { titulo:, anio:, genero: }.to_json
   @response_pelicula = Faraday.post('/contenido', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -30,14 +23,14 @@ end
 
 Entonces('el administrador debería poder marcar el contenido como visto para ese usuario') do
   json_response_usuario = JSON.parse(@response_usuario.body)
-  @id_usuario = json_response_usuario['id']
+  @email = json_response_usuario['email']
 
   json_response_pelicula = JSON.parse(@response_pelicula.body)
   @id_pelicula = json_response_pelicula['id']
 
   @fecha = Time.now.floor.iso8601
 
-  request_body = { id_usuario: @id_usuario, id_pelicula: @id_pelicula, fecha: @fecha }.to_json
+  request_body = { email: @email, id_pelicula: @id_pelicula, fecha: @fecha }.to_json
 
   @response = Faraday.post('/visualizacion', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -48,7 +41,7 @@ Entonces('deberia ver un mensaje de la visualizacion cargada exitosamente') do
   json_response = JSON.parse(@response.body)
 
   expect(json_response['id']).to be > 0
-  expect(json_response['id_usuario']).to eq @id_usuario
+  expect(json_response['email']).to eq @email
   expect(json_response['id_pelicula']).to eq @id_pelicula
   expect(json_response['fecha']).to eq @fecha
 end
