@@ -10,6 +10,6 @@ Sequel.migration do
   end
 
   down do
-    drop_table(:favorito)
+    drop_table(:favoritos)
   end
 end

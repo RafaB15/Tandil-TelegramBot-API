@@ -43,18 +43,18 @@ class GeneradorDeRespuestasHTTP
     visualizacion = creador_de_visualizacion.crear
     @estado = 201
     @respuesta = { id: visualizacion.id, email: visualizacion.usuario.email, id_pelicula: visualizacion.pelicula.id, fecha: visualizacion.fecha.iso8601 }.to_json
-  rescue StandardError => _e
+  rescue StandardError => e
     @estado = 500
-    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado)
+    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado, '', e.message).respuesta
   end
 
   def crear_calificacion(creador_de_calificacion)
     calificacion = creador_de_calificacion.crear
     @estado = 201
     @respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_pelicula: calificacion.pelicula.id, calificacion: calificacion.calificacion }.to_json
-  rescue StandardError => _e
+  rescue StandardError => e
     @estado = 500
-    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado)
+    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado, '', e.message).respuesta
   end
 
   def obtener_mas_vistos(visualizaciones)
@@ -62,15 +62,19 @@ class GeneradorDeRespuestasHTTP
 
     @estado = 200
     @respuesta = mas_vistos.to_json
-  rescue StandardError => _e
+    puts @respuesta
+  rescue StandardError => e
     @estado = 500
-    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado)
+    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado, '', e.message).respuesta
   end
 
   def aniadir_favorito(creador_de_favorito)
-    @estado = 201
     favorito = creador_de_favorito.crear
+    @estado = 201
     @respuesta = { id: favorito.id, email: favorito.usuario.email, id_contenido: favorito.contenido.id }.to_json
+  rescue StandardError => e
+    @estado = 500
+    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado, '', e.message).respuesta
   end
 
   private

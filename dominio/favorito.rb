@@ -1,6 +1,6 @@
 class Favorito
-  attr_accessor :id, :usuario, :contenido
-  attr_reader :created_on, :updated_on
+  attr_reader :created_on, :updated_on, :usuario, :contenido
+  attr_accessor :id
 
   def initialize(usuario, contenido, id = nil)
     @usuario = usuario

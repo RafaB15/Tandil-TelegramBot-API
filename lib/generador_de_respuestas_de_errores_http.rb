@@ -59,6 +59,7 @@ class GeneradorDeRespuestasDeErroresHTTP
   def generar_respuesta_default
     error = 'Error Interno del Servidor'
     mensaje = 'Ocurrió un error inesperado en el servidor. Por favor, inténtelo de nuevo más tarde.'
-    generar_respuesta_final(error, mensaje)
+    detalles = { field: @mensaje }
+    generar_respuesta_final(error, mensaje, detalles)
   end
 end

@@ -23,7 +23,7 @@ Cuando('el usuario aniade un contenido {string} a favoritos') do |_contenido|
 
   request_body = { email: @email, id_contenido: @id_pelicula }.to_json
 
-  @response = Faraday.post('/favoritos', request_body, { 'Content-Type' => 'application/json' })
+  @response = Faraday.post('/favorito', request_body, { 'Content-Type' => 'application/json' })
 end
 
 # Entonces
