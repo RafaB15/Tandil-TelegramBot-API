@@ -165,3 +165,10 @@ Entonces('se ve una lista de {int} contenidos') do |cant_top|
   expect(json_response.length).to eq cant_top
   expect(@response.status).to eq 200
 end
+
+Entonces('tengo un listado de vistos vacio') do
+  json_response = JSON.parse(@response.body)
+
+  expect(json_response.length).to eq 0
+  expect(@response.status).to eq 200
+end
