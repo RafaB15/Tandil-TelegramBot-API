@@ -27,7 +27,7 @@ class GeneradorDeRespuestasHTTP
 
   def crear_usuario(creador_de_usuario)
     usuario = creador_de_usuario.crear
-    respuesta(201, { id: usuario.id, email: usuario.email, telegram_id: usuario.telegram_id })
+    generar_respuesta(201, { id: usuario.id, email: usuario.email, telegram_id: usuario.telegram_id })
   rescue StandardError => e
     manejar_error_usuario(e)
   end
