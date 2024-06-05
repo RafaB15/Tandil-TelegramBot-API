@@ -1,13 +1,14 @@
 # language: es
 Característica: Aniadir contenido a favoritos
     
-Background:
-    Dado un usuario existente "pepito@gmail.com"
-
+Antecedentes:
+    Dado un usuario "pepito@gmail.com" 123456789
+    
     @wip
     Escenario: US08 - 01 Como cinefilo quiero aniadir un contenido a favoritos
+        Dado que el contenido "Siempre" "2010" "comedia" existe en la base de datos
         Cuando el usuario aniade un contenido "Siempre" a favoritos
-        Entonces ve un mensaje "Contenido aniadido a favoritos"
+        Entonces ve un mensaje de exito al aniadir la pelicula a favoritos
 
     @wip
     Escenario: US08 - 02 Contenido inexistente
