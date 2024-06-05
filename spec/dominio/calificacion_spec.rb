@@ -1,20 +1,19 @@
 require 'integration_helper'
-require_relative '../../dominio/visualizacion'
+require_relative '../../dominio/calificacion'
 
-describe Visualizacion do
-  subject(:visualizacion) do
+describe Calificacion do
+  subject(:calificacion) do
     usuario = instance_double('Usuario')
     pelicula = instance_double('Pelicula')
-    fecha = instance_double('Time')
 
-    described_class.new(usuario, pelicula, fecha)
+    described_class.new(usuario, pelicula, 5)
   end
 
   describe 'modelo' do
     it { is_expected.to respond_to(:id) }
     it { is_expected.to respond_to(:usuario) }
     it { is_expected.to respond_to(:pelicula) }
-    it { is_expected.to respond_to(:fecha) }
+    it { is_expected.to respond_to(:calificacion) }
     it { is_expected.to respond_to(:created_on) }
     it { is_expected.to respond_to(:updated_on) }
   end
