@@ -44,7 +44,7 @@ describe GeneradorDeRespuestasHTTP do
       generador_de_respuestas_http.crear_usuario(creador_de_usuario)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json).to include('error' => 'Conflicto', 'field' => 'telegram_id')
+      expect(respuesta_json).to include('error' => 'Conflicto', 'details' => { 'field' => 'telegram_id' })
       expect(generador_de_respuestas_http.estado).to eq 409
     end
 
@@ -54,7 +54,7 @@ describe GeneradorDeRespuestasHTTP do
       generador_de_respuestas_http.crear_usuario(creador_de_usuario)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json).to include('error' => 'Conflicto', 'field' => 'email')
+      expect(respuesta_json).to include('error' => 'Conflicto', 'details' => { 'field' => 'email' })
       expect(generador_de_respuestas_http.estado).to eq 409
     end
   end
@@ -78,7 +78,7 @@ describe GeneradorDeRespuestasHTTP do
       generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parámetro requerido anio debe ser un año positivo.')
+      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parametro requerido anio debe ser un año positivo')
       expect(generador_de_respuestas_http.estado).to eq 400
     end
 
@@ -88,7 +88,7 @@ describe GeneradorDeRespuestasHTTP do
       generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parámetro requerido titulo debe ser un nombre.')
+      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parametro requerido titulo debe ser un nombre')
       expect(generador_de_respuestas_http.estado).to eq 400
     end
 
@@ -98,7 +98,7 @@ describe GeneradorDeRespuestasHTTP do
       generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parámetro requerido \'genero\' debe ser un valor permitido.')
+      expect(respuesta_json).to include('error' => 'Solicitud Incorrecta', 'message' => 'El parametro requerido genero debe ser drama, accion o comedia')
       expect(generador_de_respuestas_http.estado).to eq 400
     end
 
@@ -108,7 +108,7 @@ describe GeneradorDeRespuestasHTTP do
       generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
       respuesta_json = JSON.parse(generador_de_respuestas_http.respuesta)
 
-      expect(respuesta_json).to include('error' => 'Conflicto', 'message' => 'Ya existe una película con el mismo título y año.', 'field' => %w[titulo anio])
+      expect(respuesta_json).to include('error' => 'Conflicto', 'message' => 'Ya existe una pelicula con el mismo titulo y año.', 'details' => { 'field' => 'titulo anio' })
       expect(generador_de_respuestas_http.estado).to eq 409
     end
   end

@@ -54,7 +54,7 @@ Entonces('debería ver un mensaje de email inválido') do
   json_response = JSON.parse(@response.body)
 
   expect(json_response['error']).to eq 'Entidad no procesable'
-  expect(json_response['details'][0]['field']).to eq 'email'
+  expect(json_response['details']['field']).to eq 'email'
 end
 
 Entonces('debería ver un mensaje de usuario de telegram ya registrado') do
@@ -62,13 +62,14 @@ Entonces('debería ver un mensaje de usuario de telegram ya registrado') do
   json_response = JSON.parse(@response.body)
 
   expect(json_response['error']).to eq 'Conflicto'
-  expect(json_response['field']).to eq 'telegram_id'
+  expect(json_response['details']['field']).to eq 'telegram_id'
 end
 
 Entonces('debería ver un mensaje de email ya registrado') do
   expect(@response.status).to eq 409
+
   json_response = JSON.parse(@response.body)
 
   expect(json_response['error']).to eq 'Conflicto'
-  expect(json_response['field']).to eq 'email'
+  expect(json_response['details']['field']).to eq 'email'
 end

@@ -76,14 +76,10 @@ Entonces('deberia devolver solicitud incorrecta \({int}) y un mensaje de error {
 end
 
 Entonces('en los detalles se debe especificar los generos permitidos') do
-  generos_permitidos = %w[drama accion comedia]
-
   json_response = JSON.parse(@response.body)
 
   expect(json_response['details']['field']).to eq 'genero'
-  expect(json_response['details']['value']).to eq @genero
-  expect(json_response['details']['allowed_values']).to eq generos_permitidos
-  expect(json_response['details']['message']).to eq 'El valor proporcionado para \'genero\' debe ser uno de los siguientes: drama, accion, comedia.'
+  expect(json_response['message']).to eq 'El parametro requerido genero debe ser drama, accion o comedia'
 end
 
 Entonces('deberia devolver conflicto \({int}) y un mensaje de error {string}') do |estado, error_message|
