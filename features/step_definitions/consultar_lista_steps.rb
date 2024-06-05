@@ -104,6 +104,31 @@ Dado('que los {int} contenidos son los mas vistos en la plataforma con la misma 
   end
 end
 
+Dado('que solo hay 2 contenidos que obtuvieron visualizaciones') do
+  json_response_usuario = JSON.parse(@response_usuario.body)
+  @email = json_response_usuario['email']
+
+  json_response_pelicula1 = JSON.parse(@response_pelicula1.body)
+  @id_pelicula1 = json_response_pelicula1['id']
+
+  json_response_pelicula2 = JSON.parse(@response_pelicula2.body)
+  @id_pelicula2 = json_response_pelicula2['id']
+
+  # Este contenido es visto 3 veces
+  3.times do |_i|
+    @fecha1 = Time.now.floor.iso8601
+    request_body1 = { email: @email, id_pelicula: @id_pelicula1, fecha: @fecha1 }.to_json
+    @response = Faraday.post('/visualizacion', request_body1, { 'Content-Type' => 'application/json' })
+  end
+
+  # Este contenido es visto 2 veces
+  2.times do |_i|
+    @fecha2 = Time.now.floor.iso8601
+    request_body2 = { email: @email, id_pelicula: @id_pelicula2, fecha: @fecha2 }.to_json
+    @response = Faraday.post('/visualizacion', request_body2, { 'Content-Type' => 'application/json' })
+  end
+end
+
 # Cuando
 # =========================================================
 
@@ -132,4 +157,11 @@ Entonces('se ve una lista de los {int} contenidos más vistos, seleccionados alf
   expect(json_response[0]['titulo']).to eq c1
   expect(json_response[1]['titulo']).to eq c2
   expect(json_response[2]['titulo']).to eq c3
+end
+
+Entonces('se ve una lista de {int} contenidos') do |cant_top|
+  json_response = JSON.parse(@response.body)
+
+  expect(json_response.length).to eq cant_top
+  expect(@response.status).to eq 200
 end

@@ -16,11 +16,10 @@ Característica: Consultar listas de contenidos
         Cuando se consulta por la lista de contenidos mas vistos
         Entonces se ve una lista de los 3 contenidos más vistos, seleccionados alfabéticamente: "Alfa", "Beta", "Delta"
     
-    @wip
     Escenario: US14 - 03 Hay menos de 3 contenidos visualizados
-        Dado que solo hay 2 contenidos que obtuvieron visualizaciones: "America", "China"
+        Dado que solo hay 2 contenidos que obtuvieron visualizaciones
         Cuando se consulta por la lista de contenidos mas vistos
-        Entonces se ve una lista de 2 contenidos: "America", "China"
+        Entonces se ve una lista de 2 contenidos
 
     @wip
     Escenario: US14 - 04 No hubo ninguna visualizacion
