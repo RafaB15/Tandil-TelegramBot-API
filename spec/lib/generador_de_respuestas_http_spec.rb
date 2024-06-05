@@ -163,4 +163,20 @@ describe GeneradorDeRespuestasHTTP do
       expect(generador_de_respuestas_http.estado).to eq 201
     end
   end
+
+  describe 'aniadir_favorito' do
+    let(:creador_de_favoritos) { instance_double('CreadorDeCalificacion') }
+    let(:usuario) { instance_double('Usuario', id_telegram: 987_654_321, id: 1, email: 'test@gmail.com') }
+    let(:pelicula) { instance_double('Pelicula', id: 2) }
+
+    it 'dado un mail y un contenido, aniado ese contenido como favorito para el usuario con ese email' do
+      allow(creador_de_favoritos).to receive(:crear) { Favorito.new(usuario, pelicula) }
+
+      generador_de_respuestas_http.aniadir_favorito(creador_de_favoritos)
+      json_response = JSON.parse(generador_de_respuestas_http.respuesta)
+
+      expect(generador_de_respuestas_http.estado).to eq 201
+      expect(json_response['id']).to be > 0
+    end
+  end
 end

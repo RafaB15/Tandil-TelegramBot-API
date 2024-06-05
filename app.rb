@@ -141,3 +141,16 @@ post '/calificacion' do
 
   enviar_respuesta(generador_de_respuestas_http)
 end
+
+post '/favoritos' do
+  @body ||= request.body.read
+  parametros_calificacion = JSON.parse(@body)
+  email = parametros_calificacion['email']
+  id_contenido = parametros_calificacion['id_contenido']
+
+  creador_de_favoritos = CreadorDeFavoritos.new(email, id_contenido)
+  generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
+  generador_de_respuestas_http.aniadir_favorito(creador_de_favoritos)
+
+  enviar_respuesta(generador_de_respuestas_http)
+end

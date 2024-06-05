@@ -58,15 +58,18 @@ class GeneradorDeRespuestasHTTP
   end
 
   def obtener_mas_vistos(visualizaciones)
-    mas_vistos = contar_vistas_por_id(visualizaciones)
-    nombres = nombres_por_id(visualizaciones)
-    mas_vistos_nombre = mas_vistos.map { |id_pelicula, count| { id: id_pelicula, titulo: nombres[id_pelicula], vistas: count } }
-    mas_vistos_trim = mas_vistos_nombre.sort_by { |c| [-c[:vistas], c[:titulo]] }.first(3)
+    mas_vistos = ContadorDeVistas.new(visualizaciones).obtener_mas_vistos
 
     @estado = 200
-    @respuesta = mas_vistos_trim.to_json
+    @respuesta = mas_vistos.to_json
   rescue StandardError => _e
-    error_inesperado
+    @estado = 500
+    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado)
+  end
+
+  def aniadir_favorito(_creador_de_favorito)
+    @estado = 201
+    @respuesta = { id: 1, email: 'test@gmail.com', id_contenido: 2 }.to_json
   end
 
   private
@@ -96,18 +99,6 @@ class GeneradorDeRespuestasHTTP
     error_key = error.class.name.split('::').last
     error_info = ERROR_MAP_PELICULA[error_key] || ERROR_MAP_PELICULA['StandardError']
     generar_respuesta_error(error_info[:estado], error_info[:campo], error_info[:mensaje])
-  end
-
-  def contar_vistas_por_id(visualizaciones)
-    visualizaciones.each_with_object(Hash.new(0)) do |v, mas_vistos|
-      mas_vistos[v.pelicula.id] += 1
-    end
-  end
-
-  def nombres_por_id(visualizaciones)
-    visualizaciones.each_with_object({}) do |v, nombres|
-      nombres[v.pelicula.id] = v.pelicula.titulo
-    end
   end
 
   def generar_respuesta(estado, data)
