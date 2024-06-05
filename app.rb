@@ -23,6 +23,8 @@ get '/version' do
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.enviar_version(version)
 
+  settings.logger.info "[Status] : #{generador_de_respuestas_http.estado} - [Response] : #{generador_de_respuestas_http.respuesta}"
+
   enviar_respuesta(generador_de_respuestas_http)
 end
 
@@ -36,6 +38,8 @@ post '/reset' do
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.reiniciar_usuarios
 
+  settings.logger.info "[Status] : #{generador_de_respuestas_http.estado} - [Response] : #{generador_de_respuestas_http.respuesta}"
+
   enviar_respuesta(generador_de_respuestas_http)
 end
 
@@ -45,6 +49,8 @@ get '/usuarios' do
   usuarios = RepositorioUsuarios.new.all
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.enviar_usuarios(usuarios)
+
+  settings.logger.info "[Status] : #{generador_de_respuestas_http.estado} - [Response] : #{generador_de_respuestas_http.respuesta}"
 
   enviar_respuesta(generador_de_respuestas_http)
 end
@@ -62,6 +68,8 @@ post '/usuarios' do
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.crear_usuario(creador_de_usuario)
 
+  settings.logger.info "[Status] : #{generador_de_respuestas_http.estado} - [Response] : #{generador_de_respuestas_http.respuesta}"
+
   enviar_respuesta(generador_de_respuestas_http)
 end
 
@@ -77,6 +85,8 @@ post '/contenido' do
   creador_de_pelicula = CreadorDePelicula.new(titulo, anio, genero)
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.crear_pelicula(creador_de_pelicula)
+
+  settings.logger.info "[Status] : #{generador_de_respuestas_http.estado} - [Response] : #{generador_de_respuestas_http.respuesta}"
 
   enviar_respuesta(generador_de_respuestas_http)
 end
@@ -94,6 +104,8 @@ post '/visualizacion' do
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.crear_visualizacion(creador_de_visualizacion)
 
+  settings.logger.info "[Status] : #{generador_de_respuestas_http.estado} - [Response] : #{generador_de_respuestas_http.respuesta}"
+
   enviar_respuesta(generador_de_respuestas_http)
 end
 
@@ -103,6 +115,8 @@ get '/visualizacion/top' do
   visualizaciones = RepositorioVisualizaciones.new.all
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.obtener_mas_vistos(visualizaciones)
+
+  settings.logger.info "[Status] : #{generador_de_respuestas_http.estado} - [Response] : #{generador_de_respuestas_http.respuesta}"
 
   enviar_respuesta(generador_de_respuestas_http)
 end

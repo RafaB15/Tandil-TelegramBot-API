@@ -27,48 +27,16 @@ class GeneradorDeRespuestasHTTP
 
   def crear_usuario(creador_de_usuario)
     usuario = creador_de_usuario.crear
-
-    @estado = 201
-    @respuesta = { id: usuario.id, email: usuario.email, telegram_id: usuario.telegram_id }.to_json
-  rescue ErrorAlPersistirUsuarioYaExistente => _e
-    error_crear_usuario_con_parametro_existente(:telegram_id)
-  rescue ErrorAlPersistirEmailYaExistente => _e
-    error_crear_usuario_con_parametro_existente(:email)
-  rescue ErrorAlInstanciarUsuarioEmailInvalido => _e
-    @estado = 422
-    @respuesta = {
-      error: 'Entidad no procesable',
-      message: 'La request se hizo bien, pero no se pudo completar por un error en la semantica del email.',
-      details: [{ field: :email, message: 'Email invalido.' }]
-    }.to_json
-  rescue StandardError => _e
-    error_inesperado
+    generar_respuesta(201, { id: usuario.id, email: usuario.email, telegram_id: usuario.telegram_id })
+  rescue StandardError => e
+    manejar_error_usuario(e)
   end
 
   def crear_pelicula(creador_de_pelicula)
     pelicula = creador_de_pelicula.crear
-
-    @estado = 201
-    @respuesta = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }.to_json
-  rescue ErrorAlInstanciarPeliculaAnioInvalido => _e
-    @estado = 400
-    @respuesta = { error: 'Solicitud Incorrecta', message: 'El parámetro requerido anio debe ser un año positivo.' }.to_json
-  rescue ErrorAlInstanciarPeliculaTituloInvalido => _e
-    @estado = 400
-    @respuesta = { error: 'Solicitud Incorrecta', message: 'El parámetro requerido titulo debe ser un nombre.' }.to_json
-  rescue ErrorAlInstanciarPeliculaGeneroInvalido => _e
-    @estado = 400
-    @respuesta = {
-      error: 'Solicitud Incorrecta',
-      message: 'El parámetro requerido \'genero\' debe ser un valor permitido.',
-      details: { field: :genero, value: 'suspenso', allowed_values: %w[drama accion comedia],
-                 message: "El valor proporcionado para 'genero' debe ser uno de los siguientes: drama, accion, comedia." }
-    }.to_json
-  rescue ErrorAlPersistirPeliculaYaExistente => _e
-    @estado = 409
-    @respuesta = { error: 'Conflicto', message: 'Ya existe una película con el mismo título y año.', field: %w[titulo anio] }.to_json
-  rescue StandardError => _e
-    error_inesperado
+    generar_respuesta(201, { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero })
+  rescue StandardError => e
+    manejar_error_pelicula(e)
   end
 
   def crear_visualizacion(creador_de_visualizacion)
@@ -76,7 +44,8 @@ class GeneradorDeRespuestasHTTP
     @estado = 201
     @respuesta = { id: visualizacion.id, id_usuario: visualizacion.usuario.id, id_pelicula: visualizacion.pelicula.id, fecha: visualizacion.fecha.iso8601 }.to_json
   rescue StandardError => _e
-    error_inesperado
+    @estado = 500
+    @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado)
   end
 
   def obtener_mas_vistos(visualizaciones)
@@ -89,6 +58,37 @@ class GeneradorDeRespuestasHTTP
   end
 
   private
+
+  ERROR_MAP_USUARIO = {
+    'ErrorAlPersistirUsuarioYaExistente' => { estado: 409, campo: 'telegram_id', mensaje: 'Usuario ya existente' },
+    'ErrorAlPersistirEmailYaExistente' => { estado: 409, campo: 'email', mensaje: 'Usuario ya existente' },
+    'ErrorAlInstanciarUsuarioEmailInvalido' => { estado: 422, campo: 'email', mensaje: '' },
+    'StandardError' => { estado: 500, campo: '', mensaje: '' }
+  }.freeze
+
+  ERROR_MAP_PELICULA = {
+    'ErrorAlInstanciarPeliculaAnioInvalido' => { estado: 400, campo: 'anio', mensaje: 'un año positivo' },
+    'ErrorAlInstanciarPeliculaTituloInvalido' => { estado: 400, campo: 'titulo', mensaje: 'un nombre' },
+    'ErrorAlInstanciarPeliculaGeneroInvalido' => { estado: 400, campo: 'genero', mensaje: 'drama, accion o comedia' },
+    'ErrorAlPersistirPeliculaYaExistente' => { estado: 409, campo: 'titulo anio', mensaje: 'Ya existe una pelicula con el mismo titulo y año.' },
+    'StandardError' => { estado: 500, campo: '', mensaje: '' }
+  }.freeze
+
+  def manejar_error_usuario(error)
+    error_key = error.class.name.split('::').last
+
+    error_info = ERROR_MAP_USUARIO[error_key] || ERROR_MAP_USUARIO['StandardError']
+
+    generar_respuesta_error(error_info[:estado], error_info[:campo], error_info[:mensaje])
+  end
+
+  def manejar_error_pelicula(error)
+    error_key = error.class.name.split('::').last
+
+    error_info = ERROR_MAP_PELICULA[error_key] || ERROR_MAP_PELICULA['StandardError']
+
+    generar_respuesta_error(error_info[:estado], error_info[:campo], error_info[:mensaje])
+  end
 
   def contar_vistas_por_id(visualizaciones)
     mas_vistos = Hash.new(0)
@@ -106,14 +106,15 @@ class GeneradorDeRespuestasHTTP
     nombres
   end
 
-  def error_crear_usuario_con_parametro_existente(campo)
-    parametros = { telegram_id: 'telegram ID', email: 'email' }
-    @estado = 409
-    @respuesta = { error: 'Conflicto', message: "El #{parametros[campo]} ya está asociado con una cuenta existente.", field: campo }.to_json
+  def generar_respuesta(estado, data)
+    @estado = estado
+    @respuesta = data.to_json
   end
 
-  def error_inesperado
-    @estado = 500
-    @respuesta = { error: 'Error Interno del Servidor', message: 'Ocurrió un error inesperado en el servidor. Por favor, inténtelo de nuevo más tarde.' }.to_json
+  def generar_respuesta_error(estado, campo = '', mensaje = '')
+    error_response = GeneradorDeRespuestasDeErroresHTTP.new(estado, campo, mensaje)
+
+    @estado = error_response.estado
+    @respuesta = error_response.respuesta
   end
 end
