@@ -147,6 +147,7 @@ post '/favorito' do
   id_contenido = parametros_calificacion['id_contenido']
 
   creador_de_favorito = CreadorDeFavorito.new(id_telegram, id_contenido)
+
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.aniadir_favorito(creador_de_favorito)
 

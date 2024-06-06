@@ -1,7 +1,7 @@
 # language: es
 Característica: Consultar los contenidos más vistos
 
-    Antecedentes: 
+Antecedentes: 
         Dado que existe un usuario con email "fer@gmail.com" y id_telegram 123456789
         Dado que existen 3 contenidos en la plataforma
     
