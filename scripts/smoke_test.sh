@@ -7,7 +7,7 @@ TARGET_URL="https://api.9521.com.ar/tandil-$TARGET_HOST/version"
 
 i="0"
 
-while [ $i -lt 3 ]
+while [ $i -lt 6 ]
 do
 	echo "Smoke test"
 	result=$(curl $TARGET_URL | grep $VERSION)
