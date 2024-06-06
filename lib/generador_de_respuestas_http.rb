@@ -71,7 +71,7 @@ class GeneradorDeRespuestasHTTP
   def aniadir_favorito(creador_de_favorito)
     favorito = creador_de_favorito.crear
     @estado = 201
-    @respuesta = { id: favorito.id, email: favorito.usuario.email, id_contenido: favorito.contenido.id }.to_json
+    @respuesta = { id: favorito.id, id_telegram: favorito.usuario.id_telegram, id_contenido: favorito.contenido.id }.to_json
   rescue StandardError => e
     @estado = 500
     @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado, '', e.message).respuesta

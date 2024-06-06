@@ -143,10 +143,10 @@ end
 post '/favorito' do
   @body ||= request.body.read
   parametros_calificacion = JSON.parse(@body)
-  email = parametros_calificacion['email']
+  id_telegram = parametros_calificacion['id_telegram']
   id_contenido = parametros_calificacion['id_contenido']
 
-  creador_de_favorito = CreadorDefavorito.new(email, id_contenido)
+  creador_de_favorito = CreadorDeFavorito.new(id_telegram, id_contenido)
   generador_de_respuestas_http = GeneradorDeRespuestasHTTP.new
   generador_de_respuestas_http.aniadir_favorito(creador_de_favorito)
 

@@ -16,12 +16,12 @@ end
 
 Cuando('el usuario aniade un contenido {string} a favoritos') do |_contenido|
   json_response_usuario = JSON.parse(@response_usuario.body)
-  @email = json_response_usuario['email']
+  @id_telegram = json_response_usuario['id_telegram']
 
   json_response_pelicula = JSON.parse(@response_pelicula.body)
   @id_pelicula = json_response_pelicula['id']
 
-  request_body = { email: @email, id_contenido: @id_pelicula }.to_json
+  request_body = { id_telegram: @id_telegram, id_contenido: @id_pelicula }.to_json
 
   @response = Faraday.post('/favorito', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -35,6 +35,6 @@ Entonces('ve un mensaje de exito al aniadir la pelicula a favoritos') do
   json_response = JSON.parse(@response.body)
 
   expect(json_response['id']).to be > 0
-  expect(json_response['email']).to eq @email
+  expect(json_response['id_telegram']).to eq @id_telegram
   expect(json_response['id_contenido']).to eq @id_pelicula
 end
