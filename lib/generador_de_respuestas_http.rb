@@ -62,7 +62,6 @@ class GeneradorDeRespuestasHTTP
 
     @estado = 200
     @respuesta = mas_vistos.to_json
-    puts @respuesta
   rescue StandardError => e
     @estado = 500
     @respuesta = GeneradorDeRespuestasDeErroresHTTP.new(@estado, '', e.message).respuesta
