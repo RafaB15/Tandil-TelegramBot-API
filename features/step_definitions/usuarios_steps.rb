@@ -1,3 +1,5 @@
+# TARGET_URL = 'https://api.9521.com.ar/tandil-test'.freeze
+
 Cuando(/^creo un usuario$/) do
   request_body = { email: 'juan@test.com', id_telegram: 123_456_789 }.to_json
   @response = Faraday.post('/usuarios', request_body, { 'Content-Type' => 'application/json' })
