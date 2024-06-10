@@ -15,8 +15,12 @@ variables:
   TEAM: tandil
 
 stages:
+  - build
+  - package
   - deploy_test
   - acceptance_test
+  - deploy_prod
+
 
 code_quality:
   stage: build
