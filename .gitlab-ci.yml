@@ -73,7 +73,7 @@ deploy_test_job:
 
 acceptance_test_job:
   stage: acceptance_test
-    before_script:
+  before_script:
     - gem install bundler --no-document
     - bundle install --without staging production
   script:
