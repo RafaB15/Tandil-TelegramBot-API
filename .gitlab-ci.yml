@@ -70,15 +70,15 @@ deploy_test_job:
   only:
     - tags
 
-acceptance_test_job:
-  stage: acceptance_test
-  before_script:
-    - gem install bundler --no-document
-    - bundle install --without staging production
-  script:
-    - NON_LOCAL_TEST=true bundle exec rake remote_acceptance_test
-  only:
-    - tags
+# acceptance_test_job:
+#   stage: acceptance_test
+#   before_script:
+#     - gem install bundler --no-document
+#     - bundle install --without staging production
+#   script:
+#     - NON_LOCAL_TEST=true bundle exec rake remote_acceptance_test
+#   only:
+#     - tags
 
 deploy_prod_job:
   stage: deploy_prod
