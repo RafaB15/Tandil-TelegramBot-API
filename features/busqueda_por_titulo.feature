@@ -5,7 +5,7 @@ Antecedentes:
     Dado un usuario "pepito@gmail.com" 123456789
     Y que el contenido "Titanic" 1997 "drama" existe en la base de datos
 
-    @wip
+    @current
     Escenario: US08 - 01 Como cinefilo quiero buscar una pelicula por su nombre completo
         Cuando el usuario busca la pelicula "Titanic"
         Entonces debería ver la película "Titanic" listada entre las existentes

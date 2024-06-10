@@ -96,6 +96,14 @@ post '/contenido' do
   enviar_respuesta(controlador_contenido)
 end
 
+get '/contenido' do
+  titulo = params['titulo']
+
+  pelicula = RepositorioPeliculas.new.find_by_title(titulo)
+  status 200
+  [{ id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }].to_json
+end
+
 post '/visualizacion' do
   @body ||= request.body.read
   parametros_visualizacion = JSON.parse(@body)
