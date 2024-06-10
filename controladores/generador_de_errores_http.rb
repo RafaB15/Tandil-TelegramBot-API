@@ -1,6 +1,6 @@
 require 'sinatra'
 
-class GeneradorDeRespuestasDeErroresHTTP
+class GeneradorDeErroresHTTP
   attr_reader :respuesta, :estado
 
   ERROR_MAP = {
@@ -18,6 +18,8 @@ class GeneradorDeRespuestasDeErroresHTTP
   end
 
   def generar_respuesta_final(error, mensaje, detalles = {})
+    settings.logger.info "GENERAR RESPUESTA FINAL : #{mensaje}"
+
     {
       error:,
       message: mensaje,
