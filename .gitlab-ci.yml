@@ -74,7 +74,7 @@ deploy_test_job:
 acceptance_test_job:
   stage: acceptance_test
   script:
-    - NON_LOCAL_TEST=true bundle exec remote_acceptance_test
+    - NON_LOCAL_TEST=true bundle exec rake remote_acceptance_test
 
 deploy_prod_job:
   stage: deploy_prod
