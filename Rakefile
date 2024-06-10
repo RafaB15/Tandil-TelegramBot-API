@@ -1,6 +1,7 @@
 require 'bundler/setup'
 
 ENV['APP_MODE'] ||= 'test'
+ENV['NON_LOCAL_TEST'] ||= 'false'
 
 task :version do
   require './lib/version'

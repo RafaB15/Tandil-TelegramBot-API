@@ -21,7 +21,6 @@ stages:
   - acceptance_test
   - deploy_prod
 
-
 code_quality:
   stage: build
   artifacts:
