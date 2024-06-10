@@ -33,7 +33,12 @@ Cucumber::Rake::Task.new(:cucumber) do |task|
 end
 
 Cucumber::Rake::Task.new(:acceptance_report) do |task|
-  task.cucumber_opts = ['features', '--publish-quiet', '--tags \'not @wip and @notlocal\'', '--format pretty',
+  task.cucumber_opts = ['features', '--publish-quiet', '--tags \'not @wip and not @remote\'', '--format pretty',
+                        '--format html -o reports/cucumber.html']
+end
+
+Cucumber::Rake::Task.new(:remote_acceptance_test) do |task|
+  task.cucumber_opts = ['features', '--publish-quiet', '--tags \'not @wip and @remote\'', '--format pretty',
                         '--format html -o reports/cucumber.html']
 end
 

@@ -6,7 +6,7 @@ services:
   - docker:dind  
 
 variables:
-  REGISTRY_URL: registry.gitlab.com/fiuba-memo2/tp2/tandil-api
+  REGISTRY_URL: registry.gitlab.com/fiuba-memo2/tp2/tandil-api  
   POSTGRES_DB: db_test
   POSTGRES_USER: webapi
   POSTGRES_PASSWORD: Passw0rd!
@@ -15,11 +15,8 @@ variables:
   TEAM: tandil
 
 stages:
-  - build
-  - package
   - deploy_test
   - acceptance_test
-  - deploy_prod
 
 code_quality:
   stage: build
@@ -74,7 +71,7 @@ deploy_test_job:
 acceptance_test_job:
   stage: acceptance_test
   script:
-    - bundle exec acceptance_report
+    - NON_LOCAL_TEST=true bundle exec remote_acceptance_test
 
 deploy_prod_job:
   stage: deploy_prod

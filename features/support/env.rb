@@ -13,7 +13,7 @@ db.loggers << logger
 Sequel::Migrator.run(db, 'db/migrations')
 
 
-include Rack::Test::Methods
+include Rack::Test::Methods unless ENV['NON_LOCAL_TEST'].present?
 def app
   Sinatra::Application
 end
