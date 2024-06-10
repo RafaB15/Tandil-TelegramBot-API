@@ -29,4 +29,14 @@ describe RepositorioPeliculas do
     pelicula2 = Pelicula.new('Iron Man', anio_de_estreno, otro_genero_de_pelicula)
     expect { repositorio.save(pelicula2) }.to raise_error(ErrorAlPersistirPeliculaYaExistente)
   end
+
+  it 'debería recuperar una película por título' do
+    repositorio = described_class.new
+
+    pelicula1 = Pelicula.new('Titanic', anio_de_estreno, genero_de_pelicula)
+    repositorio.save(pelicula1)
+
+    pelicula = repositorio.find_by_title('Titanic')
+    expect(pelicula.titulo).to eq('Titanic')
+  end
 end

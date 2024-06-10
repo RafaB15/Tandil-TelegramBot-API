@@ -23,6 +23,11 @@ class RepositorioPeliculas < AbstractRepository
     load_object(row) unless row.nil?
   end
 
+  def find_by_title(titulo)
+    row = dataset.first(titulo:)
+    load_object(row) unless row.nil?
+  end
+
   protected
 
   def load_object(a_hash)
