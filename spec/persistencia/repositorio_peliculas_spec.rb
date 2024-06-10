@@ -37,6 +37,15 @@ describe RepositorioPeliculas do
     repositorio.save(pelicula1)
 
     pelicula = repositorio.find_by_title('Titanic')
-    expect(pelicula.titulo).to eq('Titanic')
+    expect(pelicula[0].titulo).to eq('Titanic')
+  end
+
+  it 'debería recuperar una película por título parcial' do
+    repositorio = described_class.new
+    pelicula1 = Pelicula.new('Catch me if you can', anio_de_estreno, genero_de_pelicula)
+    repositorio.save(pelicula1)
+
+    pelicula = repositorio.find_by_title('Catch')
+    expect(pelicula[0].titulo).to eq 'Catch me if you can'
   end
 end

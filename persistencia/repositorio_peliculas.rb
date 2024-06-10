@@ -24,8 +24,7 @@ class RepositorioPeliculas < AbstractRepository
   end
 
   def find_by_title(titulo)
-    row = dataset.first(titulo:)
-    load_object(row) unless row.nil?
+    load_collection dataset.where(Sequel.like(:titulo, "%#{titulo}%", case_insensitive: true))
   end
 
   protected

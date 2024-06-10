@@ -99,9 +99,13 @@ end
 get '/contenido' do
   titulo = params['titulo']
 
-  pelicula = RepositorioPeliculas.new.find_by_title(titulo)
+  peliculas = RepositorioPeliculas.new.find_by_title(titulo)
   status 200
-  [{ id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }].to_json
+  response = []
+  peliculas.each do |pelicula|
+    response << { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }
+  end
+  response.to_json
 end
 
 post '/visualizacion' do
