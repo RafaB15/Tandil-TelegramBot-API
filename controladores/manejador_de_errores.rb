@@ -16,20 +16,12 @@ class ManejadorDeErrores
   }.freeze
 
   def manejar_error(error)
-    error_info = case error
-                 when *ERROR_MAP_USUARIO.keys
-                   ERROR_MAP_USUARIO[error.class.name] || ERROR_MAP_USUARIO['StandardError']
-                 when *ERROR_MAP_PELICULA.keys
-                   ERROR_MAP_PELICULA[error.class.name] || ERROR_MAP_PELICULA['StandardError']
-                 else
-                   { estado: 500, campo: '', mensaje: error.message }
-                 end
-    generar_respuesta_error(error_info[:estado], error_info[:campo], error_info[:mensaje])
-  end
-
-  private
-
-  def generar_respuesta_error(estado, campo, mensaje)
-    { estado:, campo:, mensaje: }.to_json
+    if ERROR_MAP_USUARIO.key?(error.class.name)
+      ERROR_MAP_USUARIO[error.class.name]
+    elsif ERROR_MAP_PELICULA.key?(error.class.name)
+      ERROR_MAP_PELICULA[error.class.name]
+    else
+      { estado: 500, campo: '', mensaje: error.message }
+    end
   end
 end

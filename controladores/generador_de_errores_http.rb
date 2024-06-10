@@ -18,8 +18,6 @@ class GeneradorDeErroresHTTP
   end
 
   def generar_respuesta_final(error, mensaje, detalles = {})
-    settings.logger.info "GENERAR RESPUESTA FINAL : #{mensaje}"
-
     {
       error:,
       message: mensaje,
