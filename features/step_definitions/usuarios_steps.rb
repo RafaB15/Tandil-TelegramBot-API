@@ -1,10 +1,9 @@
-URL_PREFIX = ENV['NON_LOCAL_TEST'] == 'true' ? 'https://api.9521.com.ar/tandil-test'.freeze : ''.freeze
+URL = ENV['NON_LOCAL_TEST'] == 'true' ? 'https://api.9521.com.ar/tandil-test/usuarios:3000'.freeze : '/usuarios'.freeze
 
 Cuando(/^creo un usuario$/) do
   request_body = { email: 'juan@test.com', id_telegram: 123_456_789 }.to_json
-  url = "#{URL_PREFIX}/usuarios"
 
-  @response = Faraday.post(url, request_body, { 'Content-Type' => 'application/json' })
+  @response = Faraday.post(URL, request_body, { 'Content-Type' => 'application/json' })
 end
 
 Entonces(/^se le asigna un id$/) do
@@ -18,7 +17,7 @@ Cuando(/^que no existen usuario$/) do
 end
 
 Cuando(/^consulto los usuarios$/) do
-  url = "#{URL_PREFIX}/usuarios"
+  url = "#{URL}/usuarios"
 
   @response = Faraday.get(url)
 end
