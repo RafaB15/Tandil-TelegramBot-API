@@ -168,3 +168,17 @@ post '/favorito' do
 
   enviar_respuesta(controlador_favorito)
 end
+
+get '/favoritos' do
+  id_telegram = params['id_telegram']
+  usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
+
+  favoritos = RepositorioFavoritos.new.find_by_user(usuario.id)
+  status 200
+  response = []
+  favoritos.each do |favorito|
+    response << { id: favorito.contenido.id, titulo: favorito.contenido.titulo, anio: favorito.contenido.anio, genero: favorito.contenido.genero }
+  end
+
+  response.to_json
+end

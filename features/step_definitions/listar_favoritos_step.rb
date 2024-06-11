@@ -3,7 +3,6 @@
 
 Dado('que marco la película {string} como favorita') do |_string|
   json_response_usuario = JSON.parse(@response_usuario.body)
-  @id_usuario = json_response_usuario['id']
   @id_telegram = json_response_usuario['id_telegram']
 
   request_body = { id_telegram: @id_telegram, id_contenido: @id_pelicula3 }.to_json
@@ -18,8 +17,8 @@ end
 # Cuando
 # =========================================================
 Cuando('quiero ver mis favoritos') do
-  id_usuario = @id_usuario
-  @response_favoritos = Faraday.get('/favoritos', id_usuario:, 'Content-Type' => 'application/json')
+  id_telegram = @id_telegram
+  @response_favoritos = Faraday.get('/favoritos', id_telegram:, 'Content-Type' => 'application/json')
 end
 
 # Entonces
