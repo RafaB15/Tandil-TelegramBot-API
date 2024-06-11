@@ -3,7 +3,7 @@ Característica: Consultar los contenidos añadidos en la última semana
 
     @wip
     Escenario: US21 - 01 Como cinefilo quiero poder visualizar las peliculas cargadas en la ultima semana
-        Dado que se agrego un nuevo contenido "Titanic" "1997" "drama" y "Super Man" "1978" "accion" esta semana
+        Dado que se agrego dos nuevos contenidos esta semana
         Cuando solicito ver las ultimas peliculas cargadas
         Entonces visualizo un listado donde se encuentran las peliculas
 
