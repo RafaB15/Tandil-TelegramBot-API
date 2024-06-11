@@ -1,19 +1,12 @@
 # Dado
 # =========================================================
 
-Dado('que se agrego un nuevo contenido {string} {string} {string} y {string} {string} {string} esta semana') do |titulo1, anio1, genero1, titulo2, anio2, genero2|
-  @titulo1 = titulo1
-  @anio1 = anio1
-  @genero1 = genero1
-  request_pelicula_body1 = { titulo: titulo1, anio: anio1, genero: genero1}.to_json
+Dado('que se agrego dos nuevos contenidos esta semana') do
+  request_pelicula_body1 = { titulo: 'Titanic', anio: 1989, genero: 'drama' }.to_json
   Faraday.post('/contenido', request_pelicula_body1, { 'Content-Type' => 'application/json' })
 
-  @titulo2 = titulo2
-  @anio2 = anio2
-  @genero2 = genero2
-  request_pelicula_body2 = { titulo: titulo2, anio: anio2, genero: genero2}.to_json
+  request_pelicula_body2 = { titulo: 'Juliet', anio: 2004, genero: 'comedia' }.to_json
   Faraday.post('/contenido', request_pelicula_body2, { 'Content-Type' => 'application/json' })
-
 end
 
 Dado('que no se agrego contenido nuevo esta semana') do
