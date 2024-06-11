@@ -6,9 +6,9 @@ describe ControladorUltimosAgregados do
 
   describe 'obtener_ultimos_agregados' do
     before(:each) do
-      pelicula1 = CreadorDePelicula.new('Nahir', 2024, 'drama').crear
-      pelicula2 = CreadorDePelicula.new('Amor', 2001, 'comedia').crear
-      pelicula3 = CreadorDePelicula.new('Batman', 1998, 'accion').crear
+      CreadorDePelicula.new('Nahir', 2024, 'drama').crear
+      CreadorDePelicula.new('Amor', 2001, 'comedia').crear
+      CreadorDePelicula.new('Batman', 1998, 'accion').crear
     end
 
     xit 'dado que hay 3 contenidos recientemente agregados a la plataforma se ve una lista de los 3 contenidos' do

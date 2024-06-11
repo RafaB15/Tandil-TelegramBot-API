@@ -182,6 +182,8 @@ get '/favoritos' do
   end
 
   response.to_json
+end
+
 get '/contenidos/ultimosagregados' do
   settings.logger.info '[GET] /contenidos/ultimosagregados - Consultando los ultimos contenidos agregados de la semana'
 
