@@ -18,7 +18,6 @@ Antecedentes:
         Cuando el usuario busca la pelicula "titanic"
         Entonces debería ver la película "Titanic" listada entre las existentes
 
-    @wip
     Escenario: US08 - 04 Como cinefilo quiero ver multiples peliculas que coincidan con mi criterio de busqueda
         Dado que el contenido "Titan" 2001 "accion" existe en la base de datos
         Cuando el usuario busca la pelicula "tita"

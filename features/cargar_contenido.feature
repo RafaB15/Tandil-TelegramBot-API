@@ -5,7 +5,6 @@ Característica: Cargar peliculas via API
         Cuando cargo "Suerte" 2022 "comedia"
         Entonces deberia devolver un resultado exitoso
 
-    @failing
     Escenario: US19 - 02 Como administrador cargo una pelicula repetido via API
         Dado que ya esta cargada la pelicula "Atlas" 2024 "accion"
         Cuando cargo "Atlas" 2024 "drama" ya es un contenido existente
