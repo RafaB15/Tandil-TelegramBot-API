@@ -7,7 +7,7 @@ describe OMDbConectorAPIProxy do
   subject(:pelicula) { instance_double(Pelicula, titulo: 'Titanic') }
 
   describe 'detallar_pelicula' do
-    it 'afafafdsa' do
+    it 'buscar detalles válidos debería devovler los datos correctos' do
       titulo = pelicula.titulo
       respuesta = described_class.new.detallar_pelicula(titulo)
 
