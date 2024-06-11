@@ -27,6 +27,10 @@ class RepositorioPeliculas < AbstractRepository
     load_collection dataset.where(Sequel.like(:titulo, "%#{titulo}%", case_insensitive: true))
   end
 
+  def ultimos_agregados
+    load_collection dataset.where(Sequel.lit('created_on >= ?', Date.today - 7))
+  end
+
   protected
 
   def load_object(a_hash)

@@ -17,7 +17,7 @@ end
 # =========================================================
 
 Cuando('solicito ver las ultimas peliculas cargadas') do
-  @response = Faraday.get('/contenidos/ultimosagregados', { 'Content-Type' => 'application/json' })
+  @response = Faraday.get('/contenidos/ultimos-agregados', { 'Content-Type' => 'application/json' })
 end
 
 # Entonces

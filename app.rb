@@ -25,7 +25,6 @@ controlador_favorito = ControladorFavorito.new
 controlador_mas_vistos = ControladorMasVistos.new
 controlador_visualizacion = ControladorVisualizacion.new
 controlador_version = ControladorVersion.new
-controlador_ultimos_agregados = ControladorUltimosAgregados.new
 
 get '/version' do
   settings.logger.info '[GET] /version - Consultando la version de la API Rest'
@@ -184,13 +183,16 @@ get '/favoritos' do
   response.to_json
 end
 
-get '/contenidos/ultimosagregados' do
-  settings.logger.info '[GET] /contenidos/ultimosagregados - Consultando los ultimos contenidos agregados de la semana'
+get '/contenidos/ultimos-agregados' do
+  settings.logger.info '[GET] /contenidos/ultimos-agregados - Consultando los ultimos contenidos agregados de la semana'
 
-  contenidos = RepositorioContenidos.new.all
-  controlador_ultimos_agregados.obtener_ultimos_agregados(contenidos)
+  contenidos = RepositorioPeliculas.new.all
 
-  settings.logger.info "[Status] : #{controlador_ultimos_agregados.estado} - [Response] : #{controlador_ultimos_agregados.respuesta}"
+  status 200
+  response = []
+  contenidos.each do |contenido|
+    response << { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero }
+  end
 
-  enviar_respuesta(controlador_ultimos_agregados)
+  response.to_json
 end
