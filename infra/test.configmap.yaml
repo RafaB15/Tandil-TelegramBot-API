@@ -6,3 +6,4 @@ data:
   PORT: "3000"
   LOG_LEVEL: "debug"
   APP_MODE: "production"
+  OMDB_API_KEY: "51c445cf"

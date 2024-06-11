@@ -6,6 +6,7 @@ Dir[File.join(__dir__, 'controladores', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'dominio', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'persistencia', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'lib', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'lib/om_db_conector_api', '*.rb')].each { |file| require file }
 
 customer_logger = Configuration.logger
 set :logger, customer_logger
@@ -199,4 +200,32 @@ get '/contenidos/ultimos-agregados' do
   end
 
   response.to_json
+end
+
+get '/contenidos/:id_pelicula/detalles' do
+  id_pelicula = params['id_pelicula']
+
+  settings.logger.info "[GET] /contenidos/#{id_pelicula}/detalles - Consultando los detalles acerca de la pelicula con id: #{id_pelicula}"
+
+  pelicula = RepositorioPeliculas.new.find(id_pelicula)
+  titulo = pelicula.titulo
+
+  omdb_respuesta = OMDbConectorAPIProxy.new.detallar_pelicula(titulo)
+
+  raise StandardError unless omdb_respuesta['estado'] == 200
+
+  detalles_pelicula = omdb_respuesta['cuerpo']
+
+  respuesta = {
+    titulo: detalles_pelicula['Title'],
+    anio: detalles_pelicula['Year'],
+    premios: detalles_pelicula['Awards'],
+    director: detalles_pelicula['Director'],
+    sinopsis: detalles_pelicula['Plot']
+  }.to_json
+
+  settings.logger.info "[Status] : 200 - [Response] : #{respuesta}"
+
+  status 200
+  respuesta
 end
