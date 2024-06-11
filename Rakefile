@@ -43,6 +43,11 @@ Cucumber::Rake::Task.new(:remote_acceptance_test) do |task|
                         '--format html -o reports/cucumber.html']
 end
 
+Cucumber::Rake::Task.new(:individual) do |task|
+  task.cucumber_opts = ['features', '--publish-quiet', '--tags \'@current\'', '--format pretty',
+                        '--format html -o reports/cucumber.html']
+end
+
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |task|
   task.rspec_opts = '--color --format d'
