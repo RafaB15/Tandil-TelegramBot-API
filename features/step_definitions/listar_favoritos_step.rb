@@ -10,7 +10,7 @@ Dado('que marco la película {string} como favorita') do |_string|
   @response = Faraday.post('/favorito', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que marco la películas {string}, {string} y {string} como favoritas') do |_titulo1, _titulo2, _titulo3|
+Dado('que marco las películas {string}, {string} y {string} como favoritas') do |_titulo1, _titulo2, _titulo3|
   json_response_usuario = JSON.parse(@response_usuario.body)
   @id_telegram = json_response_usuario['id_telegram']
 
@@ -40,9 +40,11 @@ Entonces('aparece {string} en el listado') do |titulo|
   expect(@favoritos[0]['titulo']).to eq titulo
 end
 
-Entonces('aparece {string}, {string} y {string} en el listado') do |_titulo1, _titulo2, _titulo3|
+Entonces('aparece {string}, {string} y {string} en el listado') do |titulo1, titulo2, titulo3|
   @favoritos = JSON.parse(@response_favoritos.body)
   expect(@response_favoritos.status).to eq 200
-  expect(@favoritos.length).to eq 1
-  expect(@favoritos[0]['titulo']).to eq titulo
+  expect(@favoritos.length).to eq 3
+  expect(@favoritos[0]['titulo']).to eq titulo2
+  expect(@favoritos[1]['titulo']).to eq titulo3
+  expect(@favoritos[2]['titulo']).to eq titulo1
 end

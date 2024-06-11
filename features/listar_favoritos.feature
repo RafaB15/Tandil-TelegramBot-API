@@ -13,7 +13,7 @@ Escenario: US23 - 01 Lista de favoritos con una sola pelicula
     Cuando quiero ver mis favoritos
     Entonces aparece "Batman" en el listado
 
-@wip
+@current
 Escenario: US23 - 01 Lista de favoritos con 3 peliculas
      
     Dado que marco las películas "Batman", "Nahir" y "Amor" como favoritas
