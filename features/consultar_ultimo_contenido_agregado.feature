@@ -2,7 +2,7 @@
 Característica: Consultar los contenidos añadidos en la última semana
 
     Escenario: US21 - 01 Como cinefilo quiero poder visualizar las peliculas cargadas en la ultima semana
-        Dado que se agrego dos nuevos contenidos esta semana
+        Dado que se agrego dos nuevos contenidos esta semana "Titanic" "Juliet"
         Cuando solicito ver las ultimas peliculas cargadas
         Entonces visualizo un listado donde se encuentran las peliculas
 
