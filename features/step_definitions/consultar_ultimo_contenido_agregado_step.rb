@@ -13,6 +13,14 @@ Dado('que no se agrego contenido nuevo esta semana') do
   # nada que hacer
 end
 
+Dado('que se agrego {string} hace {float} dias') do |titulo, dias_previos|
+  require 'date'
+  fecha = (Date.today - dias_previos).strftime('%Y-%m-%d')
+  request_pelicula_body1 = { titulo:, anio: 1989, genero: 'drama', fecha_agregado: fecha }.to_json
+
+  Faraday.post('/contenido', request_pelicula_body1, { 'Content-Type' => 'application/json' })
+end
+
 # Cuando
 # =========================================================
 
@@ -39,4 +47,12 @@ Entonces('Entonces tengo un listado de vistos vacio') do
 
   expect(json_response.length).to eq 0
   expect(@response.status).to eq 200
+end
+
+Entonces('me muestra {string}') do |titulo|
+  json_response = JSON.parse(@response.body)
+  expect(json_response.length).to eq 1
+  expect(@response.status).to eq 200
+  expect(json_response[0]['id']).to be > 0
+  expect(json_response[0]['titulo']).to eq titulo
 end

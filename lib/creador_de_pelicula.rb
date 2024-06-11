@@ -9,10 +9,11 @@ class ErrorAlInstanciarPeliculaTituloInvalido < ArgumentError
 end
 
 class CreadorDePelicula
-  def initialize(titulo, anio, genero)
+  def initialize(titulo, anio, genero, fecha_agregado = Date.today)
     @titulo = titulo
     @anio = anio
     @genero = genero
+    @fecha_agregado = fecha_agregado
   end
 
   def crear
@@ -20,7 +21,7 @@ class CreadorDePelicula
 
     genero_de_pelicula = Genero.new(@genero)
     anio_de_estreno = AnioDeEstreno.new(@anio)
-    pelicula = Pelicula.new(@titulo, anio_de_estreno, genero_de_pelicula)
+    pelicula = Pelicula.new(@titulo, anio_de_estreno, genero_de_pelicula, @fecha_agregado)
 
     RepositorioPeliculas.new.save(pelicula)
 

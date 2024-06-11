@@ -80,15 +80,19 @@ post '/usuarios' do
 end
 
 post '/contenido' do
+  require 'date'
+
   @body ||= request.body.read
   parametros_contenido = JSON.parse(@body)
   titulo = parametros_contenido['titulo']
   anio = parametros_contenido['anio']
   genero = parametros_contenido['genero']
+  fecha_agregado_str = parametros_contenido['fecha_agregado']
+  fecha_agregado = fecha_agregado_str ? Date.parse(fecha_agregado_str) : Date.today
 
   settings.logger.info "[POST] /contenido - Iniciando creación de un nuevo contenido - Body: #{parametros_contenido}"
 
-  creador_de_pelicula = CreadorDePelicula.new(titulo, anio, genero)
+  creador_de_pelicula = CreadorDePelicula.new(titulo, anio, genero, fecha_agregado)
   controlador_contenido.crear_pelicula(creador_de_pelicula)
 
   settings.logger.info "[Status] : #{controlador_contenido.estado} - [Response] : #{controlador_contenido.respuesta}"
@@ -186,7 +190,7 @@ end
 get '/contenidos/ultimos-agregados' do
   settings.logger.info '[GET] /contenidos/ultimos-agregados - Consultando los ultimos contenidos agregados de la semana'
 
-  contenidos = RepositorioPeliculas.new.all
+  contenidos = RepositorioPeliculas.new.ultimos_agregados
 
   status 200
   response = []
