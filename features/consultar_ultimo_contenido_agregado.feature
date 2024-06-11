@@ -17,8 +17,7 @@ Característica: Consultar los contenidos añadidos en la última semana
         Cuando solicito ver las ultimas peliculas cargadas
         Entonces me muestra "Superman"
 
-    @wip
     Escenario: US21 - 04 Hay contenidos pero no fueron agregados la última semana
         Dado que se agrego "pelicula1" hace 10 dias
         Cuando solicito ver las ultimas peliculas cargadas
-        Entonces me indica que no hay contenidos nuevos
+        Entonces tengo un listado de vistos vacio
