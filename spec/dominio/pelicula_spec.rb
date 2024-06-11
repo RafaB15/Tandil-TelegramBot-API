@@ -12,6 +12,7 @@ describe Pelicula do
     it { is_expected.to respond_to(:titulo) }
     it { is_expected.to respond_to(:anio) }
     it { is_expected.to respond_to(:genero) }
+    it { is_expected.to respond_to(:fecha_agregado) }
     it { is_expected.to respond_to(:created_on) }
     it { is_expected.to respond_to(:updated_on) }
   end

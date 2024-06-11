@@ -55,4 +55,18 @@ describe RepositorioPeliculas do
     expect(pelicula[0].titulo).to eq 'Catch me if you can'
     expect(pelicula[1].titulo).to eq 'Titanic'
   end
+
+  it 'debería recuperar solo las películas agregadas en la última semana, sin incluir más viejas' do
+    fecha_vieja = Date.today - 8
+    hoy = Date.today
+
+    pelicula1 = Pelicula.new('Catch me if you can', anio_de_estreno, genero_de_pelicula, fecha_vieja)
+    pelicula2 = Pelicula.new('Titanic', anio_de_estreno, genero_de_pelicula, hoy)
+    repositorio.save(pelicula1)
+    repositorio.save(pelicula2)
+
+    pelicula = repositorio.ultimos_agregados
+    expect(pelicula.size).to eq 1
+    expect(pelicula[0].titulo).to eq 'Titanic'
+  end
 end

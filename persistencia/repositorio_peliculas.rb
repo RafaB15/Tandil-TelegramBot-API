@@ -1,4 +1,5 @@
 require_relative './abstract_repository'
+require 'date'
 
 class ErrorAlPersistirPeliculaYaExistente < StandardError
   MSG_DE_ERROR = 'Error: pelicula ya existente'.freeze
@@ -28,7 +29,7 @@ class RepositorioPeliculas < AbstractRepository
   end
 
   def ultimos_agregados
-    load_collection dataset.where(Sequel.lit('created_on >= ?', Date.today - 7))
+    load_collection dataset.where(Sequel.lit('peliculas.fecha_agregado >= ?', Date.today - 7))
   end
 
   protected
@@ -36,14 +37,16 @@ class RepositorioPeliculas < AbstractRepository
   def load_object(a_hash)
     genero_de_pelicula = Genero.new(a_hash[:genero])
     anio_de_estreno = AnioDeEstreno.new(a_hash[:anio])
-    Pelicula.new(a_hash[:titulo], anio_de_estreno, genero_de_pelicula, a_hash[:id])
+    fecha_agregado = a_hash[:fecha_agregado]
+    Pelicula.new(a_hash[:titulo], anio_de_estreno, genero_de_pelicula, fecha_agregado, a_hash[:id])
   end
 
   def changeset(pelicula)
     {
       titulo: pelicula.titulo,
       anio: pelicula.anio,
-      genero: pelicula.genero
+      genero: pelicula.genero,
+      fecha_agregado: pelicula.fecha_agregado
     }
   end
 end
