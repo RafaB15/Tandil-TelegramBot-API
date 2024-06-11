@@ -4,6 +4,10 @@ class RepositorioFavoritos < AbstractRepository
   self.table_name = :favoritos
   self.model_class = 'Favorito'
 
+  def find_by_user(id_usuario)
+    load_collection dataset.where(id_usuario:)
+  end
+
   protected
 
   def load_object(a_hash)

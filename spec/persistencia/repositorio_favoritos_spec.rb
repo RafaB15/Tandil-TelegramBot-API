@@ -24,4 +24,12 @@ describe RepositorioFavoritos do
     described_class.new.save(favorito)
     expect(favorito.id).not_to be_nil
   end
+
+  it 'deberia poder listar todos los favoritos' do
+    repositorio = described_class.new
+    favorito = Favorito.new(usuario, pelicula)
+    described_class.new.save(favorito)
+    favoritos = repositorio.find_by_user(usuario.id)
+    expect(favoritos[0].contenido.titulo).to eq 'Nair'
+  end
 end

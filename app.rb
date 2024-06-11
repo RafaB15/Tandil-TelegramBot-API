@@ -40,9 +40,9 @@ end
 post '/reset' do
   settings.logger.info '[POST] /reset - Reinicia la base de datos'
 
-  RepositorioUsuarios.new.delete_all
-  RepositorioPeliculas.new.delete_all
-  RepositorioVisualizaciones.new.delete_all
+  AbstractRepository.subclasses.each do |repositorio|
+    repositorio.new.delete_all
+  end
 
   controlador_usuarios.reiniciar_usuarios
 
