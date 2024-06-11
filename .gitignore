@@ -22,4 +22,4 @@ infra/*secret.yaml
 /coverage
 *.py
 *.html
-err.txt
+*.txt
