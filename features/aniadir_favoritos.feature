@@ -1,5 +1,5 @@
 # language: es
-Caracteristica: Aniadir contenido a favoritos
+Característica: Aniadir contenido a favoritos
     
 Antecedentes:
     Dado un usuario "pepito@gmail.com" 123456789

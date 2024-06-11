@@ -1,5 +1,5 @@
 # language: es
-Caracteristica: Infraestructura
+Característica: Infraestructura
 
 Escenario: version
   Cuando pido /version

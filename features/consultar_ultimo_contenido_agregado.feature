@@ -1,5 +1,5 @@
 # language: es
-Caracteristica: Consultar los contenidos añadidos en la última semana
+Característica: Consultar los contenidos añadidos en la última semana
 
     @wip
     Escenario: US21 - 01 Como cinefilo quiero poder visualizar las peliculas cargadas en la ultima semana

@@ -1,5 +1,5 @@
 # language: es
-Caracteristica: ABM de usuarios
+Característica: ABM de usuarios
 
   @remote
   Escenario: Alta de usuario

@@ -1,5 +1,5 @@
 # language: es
-Caracteristica: Consultar los contenidos más vistos
+Característica: Consultar los contenidos más vistos
 
 Antecedentes: 
         Dado que existe un usuario con email "fer@gmail.com" y id_telegram 123456789

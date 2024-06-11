@@ -1,5 +1,5 @@
 # language: es
-Caracteristica: Consultar los contenidos más vistos
+Característica: Consultar los contenidos más vistos
 
 Antecedentes:
 

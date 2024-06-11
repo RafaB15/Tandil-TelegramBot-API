@@ -1,5 +1,5 @@
 # language: es
-Caracteristica: Marcar contenido como visto
+Característica: Marcar contenido como visto
     
 Antecedentes:
     Dado un usuario "juan@gmail.com" 123456789
