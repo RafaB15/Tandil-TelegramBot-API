@@ -1,5 +1,5 @@
 # language: es
-Característica: Calificar contenido
+Caracteristica: Calificar contenido
     
 Antecedentes:
     Dado un usuario "juan@gmail.com" 123456789

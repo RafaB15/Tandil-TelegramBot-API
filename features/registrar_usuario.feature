@@ -1,5 +1,5 @@
 # language: es
-Característica: Registrar usuario
+Caracteristica: Registrar usuario
     
     Escenario: US01 - 01 Un usuario sin registrar se puede registrar correctamente
         Dado que no estoy registrado

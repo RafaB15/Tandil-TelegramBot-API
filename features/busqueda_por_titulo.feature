@@ -1,5 +1,5 @@
 # language: es
-Característica: Buscar contenido por título
+Caracteristica: Buscar contenido por título
 
 Antecedentes:
     Dado un usuario "pepito@gmail.com" 123456789
