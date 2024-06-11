@@ -31,7 +31,7 @@ end
 # Entonces
 # =========================================================
 
-Entonces('visualizo un listado donde se encuentran las peliculas') do
+Entonces('visualizo un listado donde se encuentran las peliculas {string} {string}') do |titulo1, titulo2|
   json_response = JSON.parse(@response.body)
 
   expect(json_response.length).to eq 2
@@ -40,6 +40,8 @@ Entonces('visualizo un listado donde se encuentran las peliculas') do
   expect(json_response[1]['id']).to be > 0
   expect(json_response[0]['pelicula']).to eq @request_pelicula_body1
   expect(json_response[1]['pelicula']).to eq @request_pelicula_body2
+  expect(json_response[0]['titulo']).to eq titulo1
+  expect(json_response[1]['titulo']).to eq titulo2
 end
 
 Entonces('Entonces tengo un listado de vistos vacio') do
