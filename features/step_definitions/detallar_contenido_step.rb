@@ -1,6 +1,25 @@
 # Dado
 # =========================================================
 Dado('que no hay contenidos en la BD') do
+  # nada que hacer
+end
+
+Dado('que el usuario ya lo vio') do
+  json_response_usuario = JSON.parse(@response_usuario.body)
+  @email = json_response_usuario['email']
+
+  json_response_pelicula = JSON.parse(@response_pelicula.body)
+  @id_pelicula = json_response_pelicula['id']
+
+  @fecha = Time.now.floor.iso8601
+
+  request_body = { email: @email, id_pelicula: @id_pelicula, fecha: @fecha }.to_json
+
+  @response = Faraday.post('/visualizacion', request_body, { 'Content-Type' => 'application/json' })
+end
+
+Dado('que el usuario no lo vio') do
+  # nada que hacer
 end
 
 # Cuando
@@ -46,4 +65,14 @@ end
 Entonces('debería ver el campo {string} como no disponible') do |campo|
   json_response_detalles = JSON.parse(@response_detalles.body)
   expect(json_response_detalles[campo]).to eq ''
+end
+
+Entonces('debería mostrar que ya fue visto') do
+  json_response_detalles = JSON.parse(@response_detalles.body)
+  expect(json_response_detalles['fue_visto']).to eq true
+end
+
+Entonces('debería mostrar que no fue visto') do
+  json_response_detalles = JSON.parse(@response_detalles.body)
+  expect(json_response_detalles['fue_visto']).to eq false
 end
