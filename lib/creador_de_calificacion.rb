@@ -29,6 +29,6 @@ class CreadorDeCalificacion
   private
 
   def es_la_calificacion_valida?
-    @calificacion > 0
+    @calificacion > 0 && @calificacion < 6
   end
 end

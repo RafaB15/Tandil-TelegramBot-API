@@ -25,7 +25,6 @@ Antecedentes:
         Cuando el usuario quiere calificar el contenido "Ayer"
         Entonces ve un mensaje "Error al calificar: El contenido a calificar no existe"
 
-    @wip
     Escenario: US15 - 05 La calificacion esta fuera de rango
         Cuando califica la pelicula con un 6
         Entonces ve un mensaje "Error al calificar: Calificacion fuera de rango"
