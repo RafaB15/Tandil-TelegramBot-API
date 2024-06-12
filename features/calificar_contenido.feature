@@ -21,8 +21,7 @@ Antecedentes:
 
     @wip
     Escenario: US15 - 04 El contenido a calificar no existe
-        Dado que el contenido "Ayer" no existe en la base de datos
-        Cuando el usuario quiere calificar el contenido "Ayer"
+        Cuando el usuario quiere calificar con 4 un contenido que no existe en la base de datos
         Entonces ve un mensaje "Error al calificar: El contenido a calificar no existe"
 
     Escenario: US15 - 05 La calificacion esta fuera de rango

@@ -42,3 +42,10 @@ end
 Entonces('ve un mensaje {string}') do |_string|
   expect(@response_calificacion.status).to eq 422
 end
+
+Cuando('el usuario quiere calificar con {int} un contenido que no existe en la base de datos') do |calificacion|
+  @calificacion = calificacion
+
+  request_body = { id_telegram: @id_telegram, id_pelicula: 11_111_111, calificacion: }.to_json
+  @response_calificacion = Faraday.post('/calificacion', request_body, { 'Content-Type' => 'application/json' })
+end
