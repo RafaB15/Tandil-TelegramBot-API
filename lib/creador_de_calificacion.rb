@@ -14,7 +14,6 @@ class CreadorDeCalificacion
   end
 
   def crear
-
     raise ErrorAlInstanciarCalificacionInvalida unless es_la_calificacion_valida?
 
     usuario = RepositorioUsuarios.new.find_by_id_telegram(@id_telegram)

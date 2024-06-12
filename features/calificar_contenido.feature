@@ -15,7 +15,6 @@ Antecedentes:
         Cuando califica la pelicula con un 3 se actualiza
         Y ve un mensaje "Calificacion registrada exitosamente"
 
-    @current
     Escenario: US15 - 03 Ingreso el valor de la calificacion negativa
         Cuando califica la pelicula con un -1
         Entonces ve un mensaje "Error al calificar: Calificacion faltante"
