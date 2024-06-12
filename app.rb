@@ -209,11 +209,7 @@ get '/contenidos/:id_pelicula/detalles' do
 
   settings.logger.info "[GET] /contenidos/#{id_pelicula}/detalles - Consultando los detalles acerca de la pelicula con id: #{id_pelicula}"
 
-  begin
-    pelicula = RepositorioPeliculas.new.find(id_pelicula)
-  rescue NameError
-    raise ErrorPeliculaInexistente
-  end
+  pelicula = RepositorioPeliculas.new.find(id_pelicula)
 
   titulo = pelicula.titulo
 

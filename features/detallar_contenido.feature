@@ -9,13 +9,11 @@ Antecedentes:
         Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
         Entonces debería ver la informacion esperada
 
-    @wip
     Escenario: US22.1 - 02 La pelicula no está en nuestra BD
 
         Dado que no hay contenidos en la BD
         Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
         Entonces debería ver un mensaje de error de que no está lo que busca
-    
   
     Escenario: US22.1 - 03 La película está en nuestra BD pero OMDB no la tiene
 

@@ -9,7 +9,6 @@ Antecedentes:
         Cuando el usuario aniade un contenido "Siempre Risas" a favoritos
         Entonces ve un mensaje de exito al aniadir la pelicula a favoritos
 
-    @wip
     Escenario: US08 - 02 Contenido inexistente
         Dado que el contenido "Amor de Primavera" no existe en la base de datos
         Cuando el usuario aniade un contenido "Amor de Primavera" a favoritos
