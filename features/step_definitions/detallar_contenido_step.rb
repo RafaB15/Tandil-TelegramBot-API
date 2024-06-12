@@ -37,3 +37,8 @@ Entonces('debería ver un mensaje de error de que no está lo que busca') do
 
   expect(json_response_detalles['error']).to eq 'no encontrado'
 end
+
+Entonces('debería ver un mensaje que no se pueden mostrar detalles adicionales') do
+  json_response_detalles = JSON.parse(@response_detalles.body)
+  expect(json_response_detalles['error']).to eq 'no hay detalles para mostrar'
+end

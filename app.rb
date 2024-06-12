@@ -217,8 +217,6 @@ get '/contenidos/:id_pelicula/detalles' do
 
   omdb_respuesta = OMDbConectorAPIProxy.new.detallar_pelicula(titulo)
 
-  raise StandardError unless omdb_respuesta['estado'] == 200
-
   detalles_pelicula = omdb_respuesta['cuerpo']
 
   respuesta = {
@@ -233,10 +231,17 @@ get '/contenidos/:id_pelicula/detalles' do
 
   status 200
   respuesta
+rescue NameError
+  armar_error('no encontrado')
+
 rescue StandardError => e
-  settings.logger.error "[Status] : 404 - [Response] : #{e.message}"
+  armar_error(e.message)
+end
+
+def armar_error(mensaje)
+  settings.logger.error "[Status] : 404 - [Response] : 'no encontrado'"
   status 404
   {
-    error: 'no encontrado'
+    error: mensaje
   }.to_json
 end
