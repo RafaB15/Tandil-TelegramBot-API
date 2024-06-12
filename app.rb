@@ -193,9 +193,6 @@ get '/contenidos/ultimos-agregados' do
 
   contenidos = RepositorioPeliculas.new.ultimos_agregados
 
-  # require 'debug'
-  # debugger
-
   top_5_contenidos = contenidos.sort_by { |contenido| -contenido.fecha_agregado.to_time.to_i }.first(5)
 
   status 200

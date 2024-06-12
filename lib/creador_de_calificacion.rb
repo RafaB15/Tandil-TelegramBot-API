@@ -13,8 +13,8 @@ class CreadorDeCalificacion
     @calificacion = calificacion
   end
 
-  # TODO: chequear que exista la visualizacion para esta calificacion
   def crear
+
     raise ErrorAlInstanciarCalificacionInvalida unless es_la_calificacion_valida?
 
     usuario = RepositorioUsuarios.new.find_by_id_telegram(@id_telegram)
@@ -25,8 +25,6 @@ class CreadorDeCalificacion
     RepositorioCalificaciones.new.save(calificacion)
 
     calificacion
-  rescue StandardError => _e
-    raise
   end
 
   private

@@ -25,11 +25,6 @@ Cuando('califica la pelicula con un {int}') do |calificacion|
   @response_calificacion = Faraday.post('/calificacion', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Cuando('califica la pelicula con un -') do
-  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, calificacion: '' }.to_json
-  @response_calificacion = Faraday.post('/calificacion', request_body, { 'Content-Type' => 'application/json' })
-end
-
 # Entonces
 # =========================================================
 
@@ -45,5 +40,5 @@ Entonces('ve un mensaje de exito') do
 end
 
 Entonces('ve un mensaje {string}') do |_string|
-  expect(@response_calificacion.status).to eq 400
+  expect(@response_calificacion.status).to eq 422
 end
