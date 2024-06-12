@@ -213,9 +213,11 @@ get '/contenidos/:id_pelicula/detalles' do
 
   titulo = pelicula.titulo
 
-  omdb_respuesta = OMDbConectorAPIProxy.new.detallar_pelicula(titulo)
+  omdb_respuesta = OMDbConectorAPIProxy.new.detallar_pelicula(titulo, settings.logger)
 
   detalles_pelicula = omdb_respuesta['cuerpo']
+
+  settings.logger.info "[OMDb API Response] : #{omdb_respuesta}"
 
   respuesta = {
     titulo: detalles_pelicula['Title'],

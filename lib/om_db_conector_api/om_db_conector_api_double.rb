@@ -1,5 +1,5 @@
 class OMDbConectorAPIDouble
-  def detallar_pelicula(titulo)
+  def detallar_pelicula(titulo, _logger = nil)
     if titulo == 'Titanic'
       {
         'estado' => 200,
