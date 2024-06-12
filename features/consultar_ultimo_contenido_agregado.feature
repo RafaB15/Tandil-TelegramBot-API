@@ -22,6 +22,7 @@ Característica: Consultar los contenidos añadidos en la última semana
         Cuando solicito ver las ultimas peliculas cargadas
         Entonces tengo un listado de vistos vacio
     
+    @current
     Escenario: US21 - 05 Hay mas de 5 contenidos nuevos y me muestra los 5 mas recientes
         Dado que se agrego "Barbie" hace 6 dias
         Dado que se agrego "Cenicienta" hace 5 dias
@@ -30,4 +31,9 @@ Característica: Consultar los contenidos añadidos en la última semana
         Dado que se agrego "Jasmin" hace 2 dias
         Dado que se agrego "Aurora" hace 1 dias
         Cuando solicito ver las ultimas peliculas cargadas
-        Entonces me muestra "Cenicienta" "Bella" "La Sirenita" "Jasmin" "Aurora"
+        Entonces me muestra "Cenicienta" en la posicion 5
+        Entonces me muestra "Bella" en la posicion 4
+        Entonces me muestra "La Sirenita" en la posicion 3
+        Entonces me muestra "Jasmin" en la posicion 2
+        Entonces me muestra "Aurora" en la posicion 1
+        Entonces me muestra 5 contenidos
