@@ -3,7 +3,7 @@ require_relative './abstract_repository'
 class ErrorAlPersistirUsuarioYaExistente < StandardError
   MSG_DE_ERROR = 'Error: usuario ya existente'.freeze
 
-  def initiliza(msg_de_error = MSG_DE_ERROR)
+  def initialize(msg_de_error = MSG_DE_ERROR)
     super(msg_de_error)
   end
 end
@@ -11,7 +11,7 @@ end
 class ErrorAlPersistirEmailYaExistente < StandardError
   MSG_DE_ERROR = 'Error: email ya existente'.freeze
 
-  def initiliza(msg_de_error = MSG_DE_ERROR)
+  def initialize(msg_de_error = MSG_DE_ERROR)
     super(msg_de_error)
   end
 end

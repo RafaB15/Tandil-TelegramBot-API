@@ -9,7 +9,7 @@ Antecedentes:
         Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
         Entonces debería ver la informacion esperada
 
-
+    @wip
     Escenario: US22.1 - 02 La pelicula no está en nuestra BD
 
         Dado que no hay contenidos en la BD

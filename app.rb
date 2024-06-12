@@ -209,7 +209,12 @@ get '/contenidos/:id_pelicula/detalles' do
 
   settings.logger.info "[GET] /contenidos/#{id_pelicula}/detalles - Consultando los detalles acerca de la pelicula con id: #{id_pelicula}"
 
-  pelicula = RepositorioPeliculas.new.find(id_pelicula)
+  begin
+    pelicula = RepositorioPeliculas.new.find(id_pelicula)
+  rescue NameError
+    raise ErrorPeliculaInexistente
+  end
+
   titulo = pelicula.titulo
 
   omdb_respuesta = OMDbConectorAPIProxy.new.detallar_pelicula(titulo)

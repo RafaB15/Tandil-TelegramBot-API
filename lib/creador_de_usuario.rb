@@ -1,7 +1,7 @@
 class ErrorAlInstanciarUsuarioTelegramIDInvalido < ArgumentError
   MSG_DE_ERROR = 'Error: telegram ID invalido'.freeze
 
-  def initiliza(msg_de_error = MSG_DE_ERROR)
+  def initialize(msg_de_error = MSG_DE_ERROR)
     super(msg_de_error)
   end
 end

@@ -1,7 +1,7 @@
 class ErrorAlInstanciarCalificacionInvalida < ArgumentError
   MSG_DE_ERROR = 'Error: calificacion invalida'.freeze
 
-  def initiliza(msg_de_error = MSG_DE_ERROR)
+  def initialize(msg_de_error = MSG_DE_ERROR)
     super(msg_de_error)
   end
 end
@@ -16,8 +16,13 @@ class CreadorDeCalificacion
   def crear
     raise ErrorAlInstanciarCalificacionInvalida unless es_la_calificacion_valida?
 
+    begin
+      pelicula = RepositorioPeliculas.new.find(@id_pelicula)
+    rescue NameError
+      raise ErrorPeliculaInexistente
+    end
+
     usuario = RepositorioUsuarios.new.find_by_id_telegram(@id_telegram)
-    pelicula = RepositorioPeliculas.new.find(@id_pelicula)
 
     calificacion = Calificacion.new(usuario, pelicula, @calificacion)
 

@@ -5,6 +5,7 @@ class GeneradorDeErroresHTTP
 
   ERROR_MAP = {
     400 => :generar_respuesta400,
+    404 => :generar_respuesta404,
     409 => :generar_respuesta409,
     422 => :generar_respuesta422,
     500 => :generar_respuesta_default
@@ -38,6 +39,13 @@ class GeneradorDeErroresHTTP
   def generar_respuesta400
     error = 'Solicitud Incorrecta'
     mensaje = "El parametro requerido #{@campo} debe ser #{@mensaje}"
+    detalles = { field: @campo }
+    generar_respuesta_final(error, mensaje, detalles)
+  end
+
+  def generar_respuesta404
+    error = 'No encontrado'
+    mensaje = "El objeto #{@campo} indicado no existe"
     detalles = { field: @campo }
     generar_respuesta_final(error, mensaje, detalles)
   end

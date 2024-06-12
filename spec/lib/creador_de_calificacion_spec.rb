@@ -29,6 +29,12 @@ describe CreadorDeCalificacion do
     described_class.new(usuario.id_telegram, id_pelicula, 6)
   end
 
+  let(:creador_de_calificacion_pelicula_inexistente) do
+    usuario = CreadorDeUsuario.new('rodrigo@gmail.com', 123_456_789).crear
+
+    described_class.new(usuario.id_telegram, 111_111_111, 3)
+  end
+
   describe 'crear' do
     it 'dado que el id_telegram, id_pelicula y calificacion son válidos se crea y se guarda una calificacion' do
       calificacion = creador_de_calificacion.crear
@@ -43,6 +49,10 @@ describe CreadorDeCalificacion do
 
     it 'debe levantar un error cuando la calificacion es mayor a 5' do
       expect { creador_de_calificacion_mayor_a_cinco.crear }.to raise_error(ErrorAlInstanciarCalificacionInvalida)
+    end
+
+    it 'debe levantar un error cuando el contenido a calificar es inexistente' do
+      expect { creador_de_calificacion_pelicula_inexistente.crear }.to raise_error(ErrorPeliculaInexistente)
     end
   end
 end

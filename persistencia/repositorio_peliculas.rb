@@ -4,7 +4,7 @@ require 'date'
 class ErrorAlPersistirPeliculaYaExistente < StandardError
   MSG_DE_ERROR = 'Error: pelicula ya existente'.freeze
 
-  def initiliza(msg_de_error = MSG_DE_ERROR)
+  def initialize(msg_de_error = MSG_DE_ERROR)
     super(msg_de_error)
   end
 end

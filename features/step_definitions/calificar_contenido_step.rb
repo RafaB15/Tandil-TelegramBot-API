@@ -39,8 +39,12 @@ Entonces('ve un mensaje de exito') do
   expect(json_response['calificacion']).to eq @calificacion
 end
 
-Entonces('ve un mensaje {string}') do |_string|
+Entonces('ve un mensaje de calificacion fuera de rango') do
   expect(@response_calificacion.status).to eq 422
+end
+
+Entonces('ve un mensaje de que el contenido a calificar no existe') do
+  expect(@response_calificacion.status).to eq 404
 end
 
 Cuando('el usuario quiere calificar con {int} un contenido que no existe en la base de datos') do |calificacion|
