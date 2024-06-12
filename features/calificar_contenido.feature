@@ -16,8 +16,8 @@ Antecedentes:
         Y ve un mensaje "Calificacion registrada exitosamente"
 
     @wip
-    Escenario: US15 - 03 No ingreso el valor de la calificacion
-        Cuando califica la pelicula con un -
+    Escenario: US15 - 03 Ingreso el valor de la calificacion negativa
+        Cuando califica la pelicula con un -1
         Entonces ve un mensaje "Error al calificar: Calificacion faltante"
 
     @wip
