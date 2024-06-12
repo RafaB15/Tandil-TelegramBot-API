@@ -11,6 +11,17 @@ class OMDbConectorAPIDouble
           'Awards' => 'Won 11 Oscars. 126 wins & 83 nominations total'
         }
       }
+    elsif titulo == 'peliculasindirectorenOMDB'
+      {
+        'estado' => 200,
+        'cuerpo' => {
+          'Title' => 'peliculasindirectorenOMDB',
+          'Year' => 2000,
+          'Director' => '',
+          'Plot' => 'A nice plot',
+          'Awards' => 'N/A'
+        }
+      }
     else
       raise StandardError, 'no hay detalles para mostrar'
     end

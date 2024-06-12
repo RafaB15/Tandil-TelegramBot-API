@@ -23,10 +23,8 @@ Antecedentes:
         Cuando el cinefilo pide detalles acerca de la pelicula "estapelinoexisteenOMDB" con su ID
         Entonces debería ver un mensaje que no se pueden mostrar detalles adicionales
 
-    @wip
     Escenario: US22.1 - 04 La pelicula está en OMDB pero no tiene todos los campos que queremos
 
-        Dado que existe el contenido "Titanic" 1997 "drama"
-        Dado que OMDB no da información del campo "director"
-        Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
+        Dado que existe el contenido "peliculasindirectorenOMDB" 1997 "drama"
+        Cuando el cinefilo pide detalles acerca de la pelicula "peliculasindirectorenOMDB" con su ID
         Entonces debería ver el campo "director" como no disponible

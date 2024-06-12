@@ -42,3 +42,8 @@ Entonces('debería ver un mensaje que no se pueden mostrar detalles adicionales'
   json_response_detalles = JSON.parse(@response_detalles.body)
   expect(json_response_detalles['error']).to eq 'no hay detalles para mostrar'
 end
+
+Entonces('debería ver el campo {string} como no disponible') do |campo|
+  json_response_detalles = JSON.parse(@response_detalles.body)
+  expect(json_response_detalles[campo]).to eq ''
+end
