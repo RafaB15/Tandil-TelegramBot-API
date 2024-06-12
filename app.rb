@@ -233,4 +233,10 @@ get '/contenidos/:id_pelicula/detalles' do
 
   status 200
   respuesta
+rescue StandardError => e
+  settings.logger.error "[Status] : 404 - [Response] : #{e.message}"
+  status 404
+  {
+    error: 'no encontrado'
+  }.to_json
 end
