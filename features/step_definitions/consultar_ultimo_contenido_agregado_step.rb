@@ -58,3 +58,16 @@ Entonces('me muestra {string}') do |titulo|
   expect(json_response[0]['id']).to be > 0
   expect(json_response[0]['titulo']).to eq titulo
 end
+
+Entonces('me muestra {string} {string} {string} {string} {string}') do |titulo2, titulo3, titulo4, titulo5, titulo6|
+  json_response = JSON.parse(@response.body)
+
+  expect(json_response.length).to eq 5
+  expect(@response.status).to eq 200
+
+  expect(json_response[0]['titulo']).to eq titulo6
+  expect(json_response[1]['titulo']).to eq titulo5
+  expect(json_response[2]['titulo']).to eq titulo4
+  expect(json_response[3]['titulo']).to eq titulo3
+  expect(json_response[4]['titulo']).to eq titulo2
+end
