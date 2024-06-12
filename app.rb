@@ -148,6 +148,16 @@ post '/calificacion' do
   id_pelicula = parametros_calificacion['id_pelicula']
   calificacion = parametros_calificacion['calificacion']
 
+  RepositorioPeliculas.new.find(id_pelicula)
+
+  usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
+  fue_visto = !RepositorioVisualizaciones.new.find_by_usuario_y_pelicula(usuario.id.to_i, id_pelicula.to_i).nil?
+
+  unless fue_visto
+    status 422
+    return { error: 'Contenido no visto' }.to_json
+  end
+
   settings.logger.info "[POST] /calificacion - Iniciando creación de una nueva calificion - Body: #{parametros_calificacion}"
 
   creador_de_calificacion = CreadorDeCalificacion.new(id_telegram, id_pelicula, calificacion)
@@ -157,6 +167,10 @@ post '/calificacion' do
   settings.logger.info "[Status] : #{controlador_calificacion.estado} - [Response] : #{controlador_calificacion.respuesta}"
 
   enviar_respuesta(controlador_calificacion)
+
+rescue NameError
+  status 404
+  { error: 'Contenido no encontrado' }.to_json
 end
 
 put '/calificacion' do

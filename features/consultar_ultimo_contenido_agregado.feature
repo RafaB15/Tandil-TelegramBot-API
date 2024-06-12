@@ -22,7 +22,6 @@ Característica: Consultar los contenidos añadidos en la última semana
         Cuando solicito ver las ultimas peliculas cargadas
         Entonces tengo un listado de vistos vacio
     
-    @current
     Escenario: US21 - 05 Hay mas de 5 contenidos nuevos y me muestra los 5 mas recientes
         Dado que se agrego "Barbie" hace 6 dias
         Dado que se agrego "Cenicienta" hace 5 dias

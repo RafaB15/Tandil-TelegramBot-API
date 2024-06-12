@@ -27,7 +27,7 @@ Antecedentes:
         Cuando califica la pelicula con un 6
         Entonces ve un mensaje de calificacion fuera de rango
 
-    @wip
     Escenario: US15 - 06 La pelicula no fue vista aun
-        Cuando califica la pelicula con un 1
-        Entonces ve un mensaje "Error al calificar: Solo puedes calificar peliculas ya vistas"
+        Dado que existe el contenido "Titanic" 1997 "drama" y el usuario no lo vio
+        Cuando califica una pelicula que no vio con un 1
+        Entonces ve un mensaje de que la pelicula no fue vista
