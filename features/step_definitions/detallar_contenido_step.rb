@@ -7,6 +7,7 @@ end
 Dado('que el usuario ya lo vio') do
   json_response_usuario = JSON.parse(@response_usuario.body)
   @email = json_response_usuario['email']
+  @id_telegram = json_response_usuario['id_telegram']
 
   json_response_pelicula = JSON.parse(@response_pelicula.body)
   @id_pelicula = json_response_pelicula['id']
@@ -35,7 +36,7 @@ Cuando('el cinefilo pide detalles acerca de la pelicula {string} con su ID') do 
 
   @titulo = titulo
 
-  @response_detalles = Faraday.get("/contenidos/#{id_pelicula}/detalles", { 'Content-Type' => 'application/json' })
+  @response_detalles = Faraday.get("/contenidos/#{id_pelicula}/detalles", id_telegram: @id_telegram, 'Content-Type' => 'application/json')
 end
 
 # Entonces

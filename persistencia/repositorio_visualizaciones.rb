@@ -4,6 +4,11 @@ class RepositorioVisualizaciones < AbstractRepository
   self.table_name = :visualizaciones
   self.model_class = 'Visualizacion'
 
+  def find_by_usuario_y_pelicula(id_usuario, id_pelicula)
+    row = dataset.first(id_usuario:, id_pelicula:)
+    load_object(row) unless row.nil?
+  end
+
   protected
 
   def load_object(a_hash)

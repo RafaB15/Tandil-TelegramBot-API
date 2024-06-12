@@ -205,16 +205,18 @@ get '/contenidos/ultimos-agregados' do
 end
 
 get '/contenidos/:id_pelicula/detalles' do
+  id_telegram = params['id_telegram']
   id_pelicula = params['id_pelicula']
 
   settings.logger.info "[GET] /contenidos/#{id_pelicula}/detalles - Consultando los detalles acerca de la pelicula con id: #{id_pelicula}"
 
   pelicula = RepositorioPeliculas.new.find(id_pelicula)
-  titulo = pelicula.titulo
 
-  omdb_respuesta = OMDbConectorAPIProxy.new.detallar_pelicula(titulo, settings.logger)
+  omdb_respuesta = OMDbConectorAPIProxy.new.detallar_pelicula(pelicula.titulo, settings.logger)
 
-  respuesta = armar_respuesta(omdb_respuesta, settings.logger)
+  respuesta = armar_respuesta(omdb_respuesta, id_telegram, id_pelicula)
+
+  logger.info "[Status] : 200 - [Response] : #{respuesta}"
 
   status 200
   respuesta
@@ -225,17 +227,15 @@ rescue StandardError => e
 end
 
 def armar_error(mensaje)
-  settings.logger.error "[Status] : 404 - [Response] : 'no encontrado'"
+  settings.logger.error "[Status] : 404 - [Response] : 'no encontrado' - [Mensaje] '#{mensaje}'"
   status 404
   {
     error: mensaje
   }.to_json
 end
 
-def armar_respuesta(omdb_respuesta, logger)
+def armar_respuesta(omdb_respuesta, id_telegram, id_pelicula)
   detalles_pelicula = omdb_respuesta['cuerpo']
-
-  logger.info "[OMDb API Response] : #{omdb_respuesta}"
 
   respuesta = {
     titulo: detalles_pelicula['Title'],
@@ -243,9 +243,13 @@ def armar_respuesta(omdb_respuesta, logger)
     premios: detalles_pelicula['Awards'],
     director: detalles_pelicula['Director'],
     sinopsis: detalles_pelicula['Plot']
-  }.to_json
+  }
 
-  logger.info "[Status] : 200 - [Response] : #{respuesta}"
+  usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
+  if usuario
+    fue_visto = !RepositorioVisualizaciones.new.find_by_usuario_y_pelicula(usuario.id, id_pelicula).nil?
+    respuesta[:fue_visto] = fue_visto
+  end
 
-  respuesta
+  respuesta.to_json
 end
