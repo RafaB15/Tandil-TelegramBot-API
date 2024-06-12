@@ -193,7 +193,7 @@ get '/contenidos/ultimos-agregados' do
 
   contenidos = RepositorioPeliculas.new.ultimos_agregados
 
-  top_5_contenidos = contenidos.sort_by { |contenido| -contenido.fecha_agregado.to_time.to_i }.first(5)
+  top_5_contenidos = contenidos.sort_by { |contenido| [-contenido.fecha_agregado.to_time.to_i, contenido.titulo] }.first(5)
 
   status 200
   response = []

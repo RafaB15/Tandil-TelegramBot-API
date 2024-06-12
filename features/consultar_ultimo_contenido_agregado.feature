@@ -37,3 +37,16 @@ Característica: Consultar los contenidos añadidos en la última semana
         Entonces me muestra "Jasmin" en la posicion 2
         Entonces me muestra "Aurora" en la posicion 1
         Entonces me muestra 5 contenidos
+
+    Escenario: US21 - 06 Hay 5 contenidos añadidos al mismo tiempo y me los muestra en orden alfabético
+        Dado que se agrego "La Sirenita" hace 3 dias
+        Dado que se agrego "Cenicienta" hace 3 dias
+        Dado que se agrego "Bella" hace 3 dias
+        Dado que se agrego "Aurora" hace 3 dias
+        Dado que se agrego "Jasmin" hace 3 dias
+        Cuando solicito ver las ultimas peliculas cargadas
+        Entonces me muestra "Aurora" en la posicion 1
+        Entonces me muestra "Bella" en la posicion 2
+        Entonces me muestra "Cenicienta" en la posicion 3
+        Entonces me muestra "Jasmin" en la posicion 4
+        Entonces me muestra "La Sirenita" en la posicion 5
