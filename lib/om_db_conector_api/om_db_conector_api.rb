@@ -15,6 +15,8 @@ class OMDbConectorAPI
 
     detalles_pelicula = JSON.parse(respuesta_omdb.body)
 
+    raise StandardError, 'no hay detalles para mostrar' if detalles_pelicula['Response'] == 'False'
+
     {
       'estado' => respuesta_omdb.status,
       'cuerpo' => detalles_pelicula
