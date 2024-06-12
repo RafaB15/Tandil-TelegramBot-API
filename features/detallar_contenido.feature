@@ -28,8 +28,7 @@ Característica: Detallar contenido via informacion de API externa
         Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
         Entonces debería mostrar que ya fue visto
 
-    @wip
-    Escenario: US22.1 - 02 La pelicula buscada no fue vista por el usuario
+    Escenario: US22.2 - 02 La pelicula buscada no fue vista por el usuario
         Dado un usuario "juan@gmail.com" 123456789
         Y que existe el contenido "Titanic" 1997 "drama"
         Y que el usuario no lo vio

@@ -20,7 +20,8 @@ Dado('que el usuario ya lo vio') do
 end
 
 Dado('que el usuario no lo vio') do
-  # nada que hacer
+  json_response_usuario = JSON.parse(@response_usuario.body)
+  @id_telegram = json_response_usuario['id_telegram']
 end
 
 # Cuando
