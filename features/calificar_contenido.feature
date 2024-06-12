@@ -31,3 +31,9 @@ Antecedentes:
         Dado que existe el contenido "Titanic" 1997 "drama" y el usuario no lo vio
         Cuando califica una pelicula que no vio con un 1
         Entonces ve un mensaje de que la pelicula no fue vista
+
+    @current
+    Escenario: US15 - 07 La pelicula fue vista ya
+
+        Cuando califica la pelicula con un 1
+        Entonces ve un mensaje de calificación exitosa

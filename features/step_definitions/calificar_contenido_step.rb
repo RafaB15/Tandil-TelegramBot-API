@@ -95,3 +95,7 @@ end
 Entonces('ve un mensaje de que la pelicula no fue vista') do
   expect(@response_calificacion.status).to eq 422
 end
+
+Entonces('ve un mensaje de calificación exitosa') do
+  expect(@response_calificacion.status).to eq 201
+end
