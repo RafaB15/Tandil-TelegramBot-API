@@ -159,6 +159,27 @@ post '/calificacion' do
   enviar_respuesta(controlador_calificacion)
 end
 
+put '/calificacion' do
+  @body ||= request.body.read
+  parametros_calificacion = JSON.parse(@body)
+  id_telegram = parametros_calificacion['id_telegram']
+  id_pelicula = parametros_calificacion['id_pelicula']
+  nueva_calificacion = parametros_calificacion['calificacion']
+
+  calificacion = RepositorioCalificaciones.new.find_by_ids_contenido_y_usuario(id_telegram, id_pelicula)
+
+  RepositorioCalificaciones.new.destroy(calificacion)
+
+  settings.logger.info "[PUT] /calificacion - Actualizando la calificion - Body: #{parametros_calificacion}"
+
+  creador_de_calificacion = CreadorDeCalificacion.new(id_telegram, id_pelicula, nueva_calificacion)
+  controlador_calificacion.crear_calificacion(creador_de_calificacion)
+
+  settings.logger.info "[Status] : #{controlador_calificacion.estado} - [Response] : #{controlador_calificacion.respuesta}"
+
+  enviar_respuesta(controlador_calificacion)
+end
+
 post '/favorito' do
   @body ||= request.body.read
   parametros_calificacion = JSON.parse(@body)

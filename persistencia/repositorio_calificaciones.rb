@@ -4,6 +4,11 @@ class RepositorioCalificaciones < AbstractRepository
   self.table_name = :calificaciones
   self.model_class = 'Calificacion'
 
+  def find_by_ids_contenido_y_usuario(id_usuario, id_pelicula)
+    row = dataset.first(id_usuario:, id_pelicula:)
+    load_object(row) unless row.nil?
+  end
+
   protected
 
   def load_object(a_hash)
