@@ -4,6 +4,12 @@ class Plataforma
     @id_contenido = id_contenido
   end
 
+  def registrar_usuario(email, id_telegram, repositorio_usuarios)
+    usuario = Usuario.new(email, id_telegram)
+    repositorio_usuarios.save(usuario)
+    usuario
+  end
+
   def registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos)
     usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
     pelicula = repositorio_contenidos.find(@id_contenido)

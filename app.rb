@@ -75,13 +75,23 @@ post '/usuarios' do
 
   settings.logger.info "[POST] /usuarios - Iniciando creación de un nuevo usuario - Body: #{parametros_usuario}"
 
-  creador_de_usuario = CreadorDeUsuario.new(email, id_telegram)
+  repositorio_usuarios = RepositorioUsuarios.new
 
-  controlador_usuarios.crear_usuario(creador_de_usuario)
+  plataforma = Plataforma.new
 
-  settings.logger.info "[Status] : #{controlador_usuarios.estado} - [Response] : #{controlador_usuarios.respuesta}"
+  begin
+    usuario = plataforma.registrar_usuario(email, id_telegram, repositorio_usuarios)
+    estado = 201
+    respuesta = { id: usuario.id, email: usuario.email, id_telegram: usuario.id_telegram }
+  rescue StandardError => e
+    mapeo_error_http = ManejadorDeErrores.new(e)
+    error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
+    estado = error_response.estado
+    respuesta = error_response.respuesta
+  end
 
-  enviar_respuesta(controlador_usuarios)
+  settings.logger.info "[Status] : #{estado} - [Response] : #{respuesta}"
+  enviar_respuesta_nuevo(estado, respuesta)
 end
 
 post '/contenido' do
