@@ -14,8 +14,8 @@ class ControladorBase
     @respuesta = data.to_json
   end
 
-  def generar_respuesta_error(estado, campo = '', mensaje = '')
-    error_response = GeneradorDeErroresHTTP.new(estado, campo, mensaje)
+  def generar_respuesta_error(mapeo_error_http)
+    error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
     @estado = error_response.estado
     @respuesta = error_response.respuesta
   end

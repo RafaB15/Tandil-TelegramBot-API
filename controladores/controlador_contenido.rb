@@ -5,7 +5,7 @@ class ControladorContenido < ControladorBase
     pelicula = creador_de_pelicula.crear
     generar_respuesta(201, { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero })
   rescue StandardError => e
-    error_info = ManejadorDeErrores.new.manejar_error(e)
-    generar_respuesta_error(error_info[:estado], error_info[:campo], error_info[:mensaje])
+    mapeo = ManejadorDeErrores.new(e)
+    generar_respuesta_error(mapeo)
   end
 end

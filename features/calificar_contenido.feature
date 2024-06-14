@@ -15,6 +15,7 @@ Antecedentes:
         Cuando califica la pelicula con un 3 se actualiza
         Entonces ve un mensaje que el la calificacion fue actualizada
 
+    @current
     Escenario: US15 - 03 Ingreso el valor de la calificacion negativa
         Cuando califica la pelicula con un -1
         Entonces ve un mensaje de calificacion fuera de rango

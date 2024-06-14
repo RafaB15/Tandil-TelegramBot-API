@@ -148,7 +148,12 @@ post '/calificacion' do
   id_pelicula = parametros_calificacion['id_pelicula']
   calificacion = parametros_calificacion['calificacion']
 
+  # require 'debug'
+  # debugger
+
   RepositorioPeliculas.new.find(id_pelicula)
+
+  # Pelicula.crear_y_guardar(id_pelicula, '', '', Date.today, repositorio)
 
   usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
   fue_visto = !RepositorioVisualizaciones.new.find_by_usuario_y_pelicula(usuario.id.to_i, id_pelicula.to_i).nil?
@@ -288,3 +293,35 @@ def armar_respuesta(omdb_respuesta, id_telegram, id_pelicula)
 
   respuesta.to_json
 end
+
+# class Plataforma #Objeto fachada de aplicación - simil NonaPedidos.
+#   def registrar_usuario(email, id_telegram, repo)
+#     raise ErrorAlPersistirUsuarioYaExistente unless repo.find_by_id_telegram(id_telegram).nil?
+
+#     usuario = Usuario.new(email, id_telegram) #Verificaciones de validez de email y telegram id van dentro de usuario
+#     repo.save(usuario)
+#     usuario
+#   end
+# end
+
+# post '/usuarios' do
+#   # rescatar parametros
+#   @body ||= request.body.read
+#   parametros_usuario = JSON.parse(@body)
+#   email = parametros_usuario['email']
+#   id_telegram = parametros_usuario['id_telegram']
+
+#   repo = RepositorioUsuarios.new #Objeto de I/O
+#   plataforma = Plataforma.new #Objeto de negocio
+#   usuario = plataforma.registrar_usuario(email, id_telegram, repo) #Tira error si falla.
+
+#   status 200
+#   { id: usuario.id, email: usuario.email, id_telegram: usuario.id_telegram }.to_json #respuesta HTTP correcta
+# rescue StandardError => e
+#   mapeo = MapeoErrorAHTTP.new(e) #Entidad que sabe los errores del negocio y mapea al error HTTP correspondiente
+#   #Ahora el manejador guarda en sus atributos lo necesario para pasarse al generador y que este arme un error HTTP
+
+#   error_http = ErrorHTTP.new(mapeo) #Este objeto recibe un manejador con los datos necesarios en sus atributos
+#   status error_http.estado
+#   error_http.respuesta #Genera el error HTTP como json
+# end

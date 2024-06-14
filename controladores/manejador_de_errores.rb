@@ -1,4 +1,13 @@
 class ManejadorDeErrores
+  attr_reader :estado, :campo, :mensaje
+
+  def initialize(error)
+    respuesta = manejar_error(error)
+    @estado = respuesta[:estado]
+    @campo = respuesta[:campo]
+    @mensaje = respuesta[:mensaje]
+  end
+
   ERROR_MAP = {
     'ErrorAlPersistirUsuarioYaExistente' => { estado: 409, campo: 'id_telegram', mensaje: 'Usuario ya existente' },
     'ErrorAlPersistirEmailYaExistente' => { estado: 409, campo: 'email', mensaje: 'Usuario ya existente' },

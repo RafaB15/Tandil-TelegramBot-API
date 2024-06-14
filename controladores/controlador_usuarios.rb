@@ -14,7 +14,7 @@ class ControladorUsuarios < ControladorBase
     usuario = creador_de_usuario.crear
     generar_respuesta(201, { id: usuario.id, email: usuario.email, id_telegram: usuario.id_telegram })
   rescue StandardError => e
-    error_info = ManejadorDeErrores.new.manejar_error(e)
-    generar_respuesta_error(error_info[:estado], error_info[:campo], error_info[:mensaje])
+    mapeo = ManejadorDeErrores.new(e)
+    generar_respuesta_error(mapeo)
   end
 end

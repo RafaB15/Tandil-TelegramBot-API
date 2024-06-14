@@ -16,8 +16,10 @@ describe ControladorBase do
   end
 
   describe 'generar_respuesta_error' do
+    let(:mapeo_error) { instance_double('ManejadorDeErrores', mensaje: 'mensaje_test', campo: 'campo_test', estado: 409) }
+
     it 'debe devolver un json con el estado y mensaje de error' do
-      controlador_base.generar_respuesta_error(409, 'campo_test', 'mensaje_test')
+      controlador_base.generar_respuesta_error(mapeo_error)
 
       respuesta_json = JSON.parse(controlador_base.respuesta)
 

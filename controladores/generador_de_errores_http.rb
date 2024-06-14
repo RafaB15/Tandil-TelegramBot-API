@@ -11,10 +11,11 @@ class GeneradorDeErroresHTTP
     500 => :generar_respuesta_default
   }.freeze
 
-  def initialize(estado = 500, campo = '', mensaje = '')
-    @estado = estado
-    @campo = campo
-    @mensaje = mensaje
+  def initialize(mapeo_http)
+    @mapeo = mapeo_http
+    @mensaje = mapeo_http.mensaje
+    @campo = mapeo_http.campo
+    @estado = mapeo_http.estado
     @respuesta = generar_respuesta
   end
 
