@@ -145,6 +145,7 @@ get '/visualizacion/top' do
   enviar_respuesta(controlador_mas_vistos)
 end
 
+## Lista
 post '/calificacion' do
   @body ||= request.body.read
   parametros_calificacion = JSON.parse(@body)
@@ -152,34 +153,28 @@ post '/calificacion' do
   id_pelicula = parametros_calificacion['id_pelicula']
   calificacion = parametros_calificacion['calificacion']
 
-  # require 'debug'
-  # debugger
-
-  RepositorioPeliculas.new.find(id_pelicula)
-
-  # Pelicula.crear_y_guardar(id_pelicula, '', '', Date.today, repositorio)
-
-  usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
-  fue_visto = !RepositorioVisualizaciones.new.find_by_usuario_y_pelicula(usuario.id.to_i, id_pelicula.to_i).nil?
-
-  unless fue_visto
-    status 422
-    return { error: 'Contenido no visto' }.to_json
-  end
-
   settings.logger.info "[POST] /calificacion - Iniciando creación de una nueva calificion - Body: #{parametros_calificacion}"
 
-  creador_de_calificacion = CreadorDeCalificacion.new(id_telegram, id_pelicula, calificacion)
+  repositorio_contenidos = RepositorioPeliculas.new
+  repositorio_usuarios = RepositorioUsuarios.new
+  repositorio_visualizaciones = RepositorioVisualizaciones.new
+  repositorio_calificaciones = RepositorioCalificaciones.new
 
-  controlador_calificacion.crear_calificacion(creador_de_calificacion)
+  plataforma = Plataforma.new(id_telegram, id_pelicula)
 
-  settings.logger.info "[Status] : #{controlador_calificacion.estado} - [Response] : #{controlador_calificacion.respuesta}"
+  begin
+    calificacion = plataforma.registrar_calificacion(calificacion, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+    estado = 201
+    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_pelicula: calificacion.pelicula.id, calificacion: calificacion.calificacion }
+  rescue StandardError => e
+    mapeo_error_http = ManejadorDeErrores.new(e)
+    error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
+    estado = error_response.estado
+    respuesta = error_response.respuesta
+  end
 
-  enviar_respuesta(controlador_calificacion)
-
-rescue NameError
-  status 404
-  { error: 'Contenido no encontrado' }.to_json
+  settings.logger.info "[Status] : #{estado} - [Response] : #{respuesta}"
+  enviar_respuesta_nuevo(estado, respuesta)
 end
 
 put '/calificacion' do
@@ -206,18 +201,20 @@ end
 ## Listo
 post '/favorito' do
   @body ||= request.body.read
-  parametros_calificacion = JSON.parse(@body)
-  id_telegram = parametros_calificacion['id_telegram']
-  id_contenido = parametros_calificacion['id_contenido']
+  parametros_favorito = JSON.parse(@body)
+  id_telegram = parametros_favorito['id_telegram']
+  id_contenido = parametros_favorito['id_contenido']
 
-  usuario = RepositorioUsuarios.new
-  pelicula = RepositorioPeliculas.new
-  favorito = RepositorioFavoritos.new
+  settings.logger.info "[POST] /favorito - Iniciando creación de un nuevo contenido favorito - Body: #{parametros_favorito}"
+
+  repositorio_usuarios = RepositorioUsuarios.new
+  repositorio_peliculas = RepositorioPeliculas.new
+  repositorio_favoritos = RepositorioFavoritos.new
 
   plataforma = Plataforma.new(id_telegram, id_contenido)
 
   begin
-    favorito = plataforma.registrar_favorito(usuario, pelicula, favorito)
+    favorito = plataforma.registrar_favorito(repositorio_usuarios, repositorio_peliculas, repositorio_favoritos)
     estado = 201
     respuesta = { id: favorito.id, id_telegram:, id_contenido: }
   rescue StandardError => e
@@ -306,7 +303,7 @@ def armar_respuesta(omdb_respuesta, id_telegram, id_pelicula)
 
   usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
   if usuario
-    fue_visto = !RepositorioVisualizaciones.new.find_by_usuario_y_pelicula(usuario.id, id_pelicula).nil?
+    fue_visto = !RepositorioVisualizaciones.new.find_by_usuario_y_contenido(usuario.id, id_pelicula).nil?
     respuesta[:fue_visto] = fue_visto
   end
 

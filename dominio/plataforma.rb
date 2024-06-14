@@ -13,4 +13,22 @@ class Plataforma
 
     favorito
   end
+
+  def registrar_calificacion(numero_calificacion, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+    begin
+      contenido = repositorio_contenidos.find(@id_contenido)
+    rescue NameError
+      raise ErrorPeliculaInexistente
+    end
+
+    usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
+
+    visualizacion = repositorio_visualizaciones.find_by_usuario_y_contenido(usuario.id, @id_contenido.to_i)
+
+    raise ErrorVisualizacionInexistente if visualizacion.nil?
+
+    calificacion = Calificacion.new(usuario, contenido, numero_calificacion)
+    repositorio_calificaciones.save(calificacion)
+    calificacion
+  end
 end

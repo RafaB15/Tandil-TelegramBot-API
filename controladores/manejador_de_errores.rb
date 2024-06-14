@@ -19,6 +19,7 @@ class ManejadorDeErrores
     'ErrorAlPersistirPeliculaYaExistente' => { estado: 409, campo: 'titulo anio', mensaje: 'Ya existe una pelicula con el mismo titulo y año.' },
     'ErrorAlInstanciarCalificacionInvalida' => { estado: 422, campo: 'calificacion', mensaje: '' },
     'ErrorPeliculaInexistente' => { estado: 404, campo: 'pelicula', mensaje: '' },
+    'ErrorVisualizacionInexistente' => { estado: 422, campo: 'visualizacion', mensaje: '' },
     'StandardError' => { estado: 500, campo: '', mensaje: '' }
   }.freeze
 
