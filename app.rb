@@ -18,11 +18,15 @@ def enviar_respuesta(controlador)
   controlador.respuesta
 end
 
+def enviar_respuesta_nuevo(estado, respuesta)
+  status(estado)
+  respuesta.to_json
+end
+
 # Crear instancias de los controladores
 controlador_usuarios = ControladorUsuarios.new
 controlador_contenido = ControladorContenido.new
 controlador_calificacion = ControladorCalificacion.new
-controlador_favorito = ControladorFavorito.new
 controlador_mas_vistos = ControladorMasVistos.new
 controlador_visualizacion = ControladorVisualizacion.new
 controlador_version = ControladorVersion.new
@@ -199,28 +203,43 @@ put '/calificacion' do
   enviar_respuesta(controlador_calificacion)
 end
 
+## Listo
 post '/favorito' do
   @body ||= request.body.read
   parametros_calificacion = JSON.parse(@body)
   id_telegram = parametros_calificacion['id_telegram']
   id_contenido = parametros_calificacion['id_contenido']
 
-  creador_de_favorito = CreadorDeFavorito.new(id_telegram, id_contenido)
+  usuario = RepositorioUsuarios.new
+  pelicula = RepositorioPeliculas.new
+  favorito = RepositorioFavoritos.new
 
-  controlador_favorito.aniadir_favorito(creador_de_favorito)
+  plataforma = Plataforma.new(id_telegram, id_contenido)
 
-  settings.logger.info "[Status] : #{controlador_favorito.estado} - [Response] : #{controlador_favorito.respuesta}"
+  begin
+    favorito = plataforma.registrar_favorito(usuario, pelicula, favorito)
+    estado = 201
+    respuesta = { id: favorito.id, id_telegram:, id_contenido: }
+  rescue StandardError => e
+    mapeo_error_http = ManejadorDeErrores.new(e)
+    error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
+    estado = error_response.estado
+    respuesta = error_response.respuesta
+  end
 
-  enviar_respuesta(controlador_favorito)
+  settings.logger.info "[Status] : #{estado} - [Response] : #{respuesta}"
+  enviar_respuesta_nuevo(estado, respuesta)
 end
 
+## Listo
 get '/favoritos' do
   id_telegram = params['id_telegram']
   usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
-
   favoritos = RepositorioFavoritos.new.find_by_user(usuario.id)
+
   status 200
   response = []
+
   favoritos.each do |favorito|
     response << { id: favorito.contenido.id, titulo: favorito.contenido.titulo, anio: favorito.contenido.anio, genero: favorito.contenido.genero }
   end
@@ -295,12 +314,14 @@ def armar_respuesta(omdb_respuesta, id_telegram, id_pelicula)
 end
 
 # class Plataforma #Objeto fachada de aplicación - simil NonaPedidos.
-#   def registrar_usuario(email, id_telegram, repo)
-#     raise ErrorAlPersistirUsuarioYaExistente unless repo.find_by_id_telegram(id_telegram).nil?
 
+#   def registrar_usuario(email, id_telegram, repo)
+
+#     raise ErrorAlPersistirUsuarioYaExistente unless repo.find_by_id_telegram(id_telegram).nil?
 #     usuario = Usuario.new(email, id_telegram) #Verificaciones de validez de email y telegram id van dentro de usuario
 #     repo.save(usuario)
 #     usuario
+
 #   end
 # end
 

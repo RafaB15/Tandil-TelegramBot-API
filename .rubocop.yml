@@ -33,6 +33,8 @@ RSpec/MultipleExpectations:
   Max: 3
 RSpec/ExampleLength:
   Max: 10
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
 Style/NumericPredicate:
   Enabled: false  
 Style/GuardClause:
