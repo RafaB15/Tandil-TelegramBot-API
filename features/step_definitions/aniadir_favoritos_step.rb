@@ -8,7 +8,7 @@ Dado('que el contenido {string} {int} {string} existe en la base de datos') do |
 
   request_body = { titulo:, anio:, genero: }.to_json
 
-  @response_pelicula = Faraday.post('/contenido', request_body, { 'Content-Type' => 'application/json' })
+  @response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 
 # Cuando

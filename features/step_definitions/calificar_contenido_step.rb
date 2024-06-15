@@ -3,7 +3,7 @@
 
 Dado('que el usuario ya vio la pelicula {string} {int} {string}') do |titulo, anio, genero|
   request_body = { titulo:, anio:, genero: }.to_json
-  response_pelicula = Faraday.post('/contenido', request_body, { 'Content-Type' => 'application/json' })
+  response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
   @id_pelicula = JSON.parse(response_pelicula.body)['id']
 
   json_response_usuario = JSON.parse(@response_usuario.body)
@@ -24,7 +24,7 @@ end
 
 Dado('que existe el contenido {string} {int} {string} y el usuario no lo vio') do |titulo, anio, genero|
   request_body = { titulo:, anio:, genero: }.to_json
-  @response_pelicula = Faraday.post('/contenido', request_body, { 'Content-Type' => 'application/json' })
+  @response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 
 # Cuando

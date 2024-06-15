@@ -10,13 +10,13 @@ end
 
 Dado('que existen 3 contenidos en la plataforma') do
   @request_pelicula_body1 = { titulo: 'Nahir', anio: 2024, genero: 'drama' }.transform_keys(&:to_s)
-  @response_pelicula1 = Faraday.post('/contenido', @request_pelicula_body1.to_json, { 'Content-Type' => 'application/json' })
+  @response_pelicula1 = Faraday.post('/contenidos', @request_pelicula_body1.to_json, { 'Content-Type' => 'application/json' })
 
   @request_pelicula_body2 = { titulo: 'Amor', anio: 2001, genero: 'comedia' }.transform_keys(&:to_s)
-  @response_pelicula2 = Faraday.post('/contenido', @request_pelicula_body2.to_json, { 'Content-Type' => 'application/json' })
+  @response_pelicula2 = Faraday.post('/contenidos', @request_pelicula_body2.to_json, { 'Content-Type' => 'application/json' })
 
   @request_pelicula_body3 = { titulo: 'Batman', anio: 1998, genero: 'accion' }.transform_keys(&:to_s)
-  @response_pelicula3 = Faraday.post('/contenido', @request_pelicula_body3.to_json, { 'Content-Type' => 'application/json' })
+  @response_pelicula3 = Faraday.post('/contenidos', @request_pelicula_body3.to_json, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que hay 3 contenidos vistos en la plataforma') do
@@ -56,16 +56,16 @@ end
 
 Dado('que hay 4 contenidos: {string}, {string}, {string}, {string}') do |titulo1, titulo2, titulo3, titulo4|
   @request_pelicula_body1 = { titulo: titulo1, anio: 2024, genero: 'drama' }.transform_keys(&:to_s)
-  @response_contenido1 = Faraday.post('/contenido', @request_pelicula_body1.to_json, { 'Content-Type' => 'application/json' })
+  @response_contenido1 = Faraday.post('/contenidos', @request_pelicula_body1.to_json, { 'Content-Type' => 'application/json' })
 
   @request_pelicula_body2 = { titulo: titulo2, anio: 2001, genero: 'comedia' }.transform_keys(&:to_s)
-  @response_contenido2 = Faraday.post('/contenido', @request_pelicula_body2.to_json, { 'Content-Type' => 'application/json' })
+  @response_contenido2 = Faraday.post('/contenidos', @request_pelicula_body2.to_json, { 'Content-Type' => 'application/json' })
 
   @request_pelicula_body3 = { titulo: titulo3, anio: 1998, genero: 'accion' }.transform_keys(&:to_s)
-  @response_contenido3 = Faraday.post('/contenido', @request_pelicula_body3.to_json, { 'Content-Type' => 'application/json' })
+  @response_contenido3 = Faraday.post('/contenidos', @request_pelicula_body3.to_json, { 'Content-Type' => 'application/json' })
 
   @request_pelicula_body4 = { titulo: titulo4, anio: 1998, genero: 'accion' }.transform_keys(&:to_s)
-  @response_contenido4 = Faraday.post('/contenido', @request_pelicula_body4.to_json, { 'Content-Type' => 'application/json' })
+  @response_contenido4 = Faraday.post('/contenidos', @request_pelicula_body4.to_json, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que los 4 contenidos son los mas vistos en la plataforma con la misma cantidad de vistas') do

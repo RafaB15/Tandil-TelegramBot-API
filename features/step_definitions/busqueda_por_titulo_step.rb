@@ -5,7 +5,7 @@
 # =========================================================
 
 Cuando('el usuario busca la pelicula {string}') do |titulo|
-  @response = Faraday.get('/contenido', titulo:, 'Content-Type' => 'application/json')
+  @response = Faraday.get('/contenidos', titulo:, 'Content-Type' => 'application/json')
 end
 
 # Entonces

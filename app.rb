@@ -102,7 +102,7 @@ post '/usuarios' do
 end
 
 # En progreso
-post '/contenido' do
+post '/contenidos' do
   require 'date'
 
   @body ||= request.body.read
@@ -132,7 +132,7 @@ post '/contenido' do
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
-get '/contenido' do
+get '/contenidos' do
   titulo = params['titulo']
 
   peliculas = RepositorioPeliculas.new.find_by_title(titulo)
@@ -204,7 +204,7 @@ post '/calificaciones' do
   enviar_respuesta_nuevo(estado, respuesta)
 end
 
-put '/calificacion' do
+put '/calificaciones' do
   @body ||= request.body.read
   parametros_calificacion = JSON.parse(@body)
   id_telegram = parametros_calificacion['id_telegram']
