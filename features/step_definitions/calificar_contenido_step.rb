@@ -15,11 +15,11 @@ Dado('que el usuario ya vio la pelicula {string} {int} {string}') do |titulo, an
   Faraday.post('/visualizaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que el usuario la habia calificado con un {int}') do |calificacion|
-  @calificacion = calificacion
+Dado('que el usuario la habia calificado con un {int}') do |puntaje|
+  @puntaje = puntaje
 
-  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, calificacion: }.to_json
-  @response_calificacion = Faraday.post('/calificacion', request_body, { 'Content-Type' => 'application/json' })
+  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, puntaje: }.to_json
+  @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que existe el contenido {string} {int} {string} y el usuario no lo vio') do |titulo, anio, genero|
@@ -30,72 +30,72 @@ end
 # Cuando
 # =========================================================
 
-Cuando('califica la pelicula con un {int}') do |calificacion|
-  @calificacion = calificacion
+Cuando('califica la pelicula con un {int}') do |puntaje|
+  @puntaje = puntaje
 
-  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, calificacion: }.to_json
-  @response_calificacion = Faraday.post('/calificacion', request_body, { 'Content-Type' => 'application/json' })
+  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, puntaje: }.to_json
+  @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Cuando('el usuario quiere calificar con {int} un contenido que no existe en la base de datos') do |calificacion|
-  @calificacion = calificacion
+Cuando('el usuario quiere calificar con {int} un contenido que no existe en la base de datos') do |puntaje|
+  @puntaje = puntaje
 
-  request_body = { id_telegram: @id_telegram, id_pelicula: 11_111_111, calificacion: }.to_json
-  @response_calificacion = Faraday.post('/calificacion', request_body, { 'Content-Type' => 'application/json' })
+  request_body = { id_telegram: @id_telegram, id_pelicula: 11_111_111, puntaje: }.to_json
+  @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Cuando('califica la pelicula con un {int} se actualiza') do |nueva_calificacion|
-  @nueva_calificacion = nueva_calificacion
+Cuando('califica la pelicula con un {int} se actualiza') do |nuevo_puntaje|
+  @nuevo_puntaje = nuevo_puntaje
 
-  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, calificacion: nueva_calificacion }.to_json
-  @response_calificacion_actualizada = Faraday.put('/calificacion', request_body, { 'Content-Type' => 'application/json' })
+  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, puntaje: nuevo_puntaje }.to_json
+  @response_calificaciones_actualizada = Faraday.put('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Cuando('califica una pelicula que no vio con un {int}') do |calificacion|
-  @calificacion = calificacion
+Cuando('califica una pelicula que no vio con un {int}') do |puntaje|
+  @puntaje = puntaje
 
   @id_pelicula = JSON.parse(@response_pelicula.body)['id']
-  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, calificacion: }.to_json
-  @response_calificacion = Faraday.post('/calificacion', request_body, { 'Content-Type' => 'application/json' })
+  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, puntaje: }.to_json
+  @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 # Entonces
 # =========================================================
 
 Entonces('ve un mensaje de exito') do
-  expect(@response_calificacion.status).to eq 201
+  expect(@response_calificaciones.status).to eq 201
 
-  json_response = JSON.parse(@response_calificacion.body)
+  json_response = JSON.parse(@response_calificaciones.body)
 
   expect(json_response['id']).to be > 0
   expect(json_response['id_telegram']).to eq @id_telegram
   expect(json_response['id_pelicula']).to eq @id_pelicula
-  expect(json_response['calificacion']).to eq @calificacion
+  expect(json_response['puntaje']).to eq @puntaje
 end
 
 Entonces('ve un mensaje de calificacion fuera de rango') do
-  expect(@response_calificacion.status).to eq 422
+  expect(@response_calificaciones.status).to eq 422
 end
 
 Entonces('ve un mensaje de que el contenido a calificar no existe') do
-  expect(@response_calificacion.status).to eq 404
+  expect(@response_calificaciones.status).to eq 404
 end
 
 Entonces('ve un mensaje que el la calificacion fue actualizada') do
-  expect(@response_calificacion_actualizada.status).to eq 201
+  expect(@response_calificaciones_actualizada.status).to eq 201
 
-  json_response = JSON.parse(@response_calificacion_actualizada.body)
+  json_response = JSON.parse(@response_calificaciones_actualizada.body)
 
   expect(json_response['id']).to be > 0
   expect(json_response['id_telegram']).to eq @id_telegram
   expect(json_response['id_pelicula']).to eq @id_pelicula
-  expect(json_response['calificacion']).to eq @nueva_calificacion
+  expect(json_response['puntaje']).to eq @nuevo_puntaje
 end
 
 Entonces('ve un mensaje de que la pelicula no fue vista') do
-  expect(@response_calificacion.status).to eq 422
+  expect(@response_calificaciones.status).to eq 422
 end
 
 Entonces('ve un mensaje de calificación exitosa') do
-  expect(@response_calificacion.status).to eq 201
+  expect(@response_calificaciones.status).to eq 201
 end

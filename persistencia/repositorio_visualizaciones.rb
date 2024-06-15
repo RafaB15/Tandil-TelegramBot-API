@@ -4,7 +4,7 @@ class RepositorioVisualizaciones < AbstractRepository
   self.table_name = :visualizaciones
   self.model_class = 'Visualizacion'
 
-  def find_by_usuario_y_contenido(id_usuario, id_pelicula)
+  def find_by_id_usuario_y_id_contenido(id_usuario, id_pelicula)
     row = dataset.first(id_usuario:, id_pelicula:)
     load_object(row) unless row.nil?
   end

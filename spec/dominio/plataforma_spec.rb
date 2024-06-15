@@ -42,31 +42,36 @@ describe 'Plataforma' do
     before(:each) do
       allow(repositorio_usuarios).to receive(:find_by_id_telegram).and_return(usuario)
       allow(repositorio_contenidos).to receive(:find).and_return(pelicula)
-      allow(repositorio_visualizaciones).to receive(:find_by_usuario_y_contenido).and_return(visualizacion)
+      allow(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).and_return(visualizacion)
       allow(Calificacion).to receive(:new).and_return(calificacion)
       allow(repositorio_calificaciones).to receive(:save)
     end
 
-    it 'debería crear y guardar una nueva calificación' do
+    it 'dado que el id_telegram, id_pelicula y calificacion son válidos se crea una calificacion' do
       expect(Calificacion).to receive(:new).with(usuario, pelicula, 5)
       expect(repositorio_calificaciones).to receive(:save).with(calificacion)
+      puntaje = 5
 
-      result = plataforma.registrar_calificacion(5, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+      result = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
 
       expect(result).to eq(calificacion)
     end
 
     it 'debería lanzar un error si el contenido no existe' do
       allow(repositorio_contenidos).to receive(:find).and_raise(NameError)
+      puntaje = 5
 
-      expect { plataforma.registrar_calificacion(5, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones) }.to raise_error(ErrorPeliculaInexistente)
+      expect do
+        plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+      end.to raise_error(ErrorPeliculaInexistente)
     end
 
     it 'debería lanzar un error si la visualizacion no existe' do
-      allow(repositorio_visualizaciones).to receive(:find_by_usuario_y_contenido).and_return(nil)
+      allow(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).and_return(nil)
+      puntaje = 5
 
       expect do
-        plataforma.registrar_calificacion(5, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+        plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
       end.to raise_error(ErrorVisualizacionInexistente)
     end
   end

@@ -1,11 +1,11 @@
 class Calificacion
-  attr_reader :created_on, :updated_on, :usuario, :pelicula, :calificacion
+  attr_reader :created_on, :updated_on, :usuario, :pelicula, :puntaje
   attr_accessor :id
 
-  def initialize(usuario, pelicula, calificacion, id = nil)
+  def initialize(usuario, pelicula, puntaje, id = nil)
     @usuario = usuario
     @pelicula = pelicula
-    @calificacion = calificacion
+    @puntaje = puntaje
     @id = id
     raise ErrorAlInstanciarCalificacionInvalida unless son_los_parametros_validos?
   end
@@ -13,7 +13,7 @@ class Calificacion
   private
 
   def son_los_parametros_validos?
-    @calificacion > 0 && @calificacion < 6
+    @puntaje > 0 && @puntaje < 6
   end
 end
 

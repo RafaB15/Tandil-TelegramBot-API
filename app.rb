@@ -164,14 +164,14 @@ get '/visualizaciones/top' do
 end
 
 ## Listo
-post '/calificacion' do
+post '/calificaciones' do
   @body ||= request.body.read
-  parametros_calificacion = JSON.parse(@body)
-  id_telegram = parametros_calificacion['id_telegram']
-  id_pelicula = parametros_calificacion['id_pelicula']
-  calificacion = parametros_calificacion['calificacion']
+  parametros_calificaciones = JSON.parse(@body)
+  id_telegram = parametros_calificaciones['id_telegram']
+  id_pelicula = parametros_calificaciones['id_pelicula']
+  puntaje = parametros_calificaciones['puntaje']
 
-  settings.logger.info "[POST] /calificacion - Iniciando creación de una nueva calificion - Body: #{parametros_calificacion}"
+  settings.logger.info "[POST] /calificaciones - Iniciando creación de una nueva calificion - Body: #{parametros_calificaciones}"
 
   repositorio_contenidos = RepositorioPeliculas.new
   repositorio_usuarios = RepositorioUsuarios.new
@@ -181,9 +181,9 @@ post '/calificacion' do
   plataforma = Plataforma.new(id_telegram, id_pelicula)
 
   begin
-    calificacion = plataforma.registrar_calificacion(calificacion, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+    calificacion = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
     estado = 201
-    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_pelicula: calificacion.pelicula.id, calificacion: calificacion.calificacion }
+    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_pelicula: calificacion.pelicula.id, puntaje: calificacion.puntaje }
   rescue StandardError => e
     mapeo_error_http = ManejadorDeErrores.new(e)
     error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
@@ -191,7 +191,7 @@ post '/calificacion' do
     respuesta = error_response.respuesta
   end
 
-  settings.logger.info "[Status] : #{estado} - [Response] : #{respuesta}"
+  settings.logger.info "Respuesta - [Estado] : #{estado} - [Cuerpo] : #{respuesta}"
   enviar_respuesta_nuevo(estado, respuesta)
 end
 
@@ -202,7 +202,7 @@ put '/calificacion' do
   id_pelicula = parametros_calificacion['id_pelicula']
   nueva_calificacion = parametros_calificacion['calificacion']
 
-  calificacion = RepositorioCalificaciones.new.find_by_ids_contenido_y_usuario(id_telegram, id_pelicula)
+  calificacion = RepositorioCalificaciones.new.find_by_id_usuario_y_id_contenido(id_telegram, id_pelicula)
 
   RepositorioCalificaciones.new.destroy(calificacion)
 
@@ -321,7 +321,7 @@ def armar_respuesta(omdb_respuesta, id_telegram, id_contenido)
 
   usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
   if usuario
-    fue_visto = !RepositorioVisualizaciones.new.find_by_usuario_y_contenido(usuario.id, id_contenido).nil?
+    fue_visto = !RepositorioVisualizaciones.new.find_by_id_usuario_y_id_contenido(usuario.id, id_contenido).nil?
     respuesta[:fue_visto] = fue_visto
   end
 

@@ -4,7 +4,7 @@ class RepositorioCalificaciones < AbstractRepository
   self.table_name = :calificaciones
   self.model_class = 'Calificacion'
 
-  def find_by_ids_contenido_y_usuario(id_usuario, id_pelicula)
+  def find_by_id_usuario_y_id_contenido(id_usuario, id_pelicula)
     row = dataset.first(id_usuario:, id_pelicula:)
     load_object(row) unless row.nil?
   end
@@ -15,14 +15,14 @@ class RepositorioCalificaciones < AbstractRepository
     usuario = RepositorioUsuarios.new.find(a_hash[:id_usuario])
     pelicula = RepositorioPeliculas.new.find(a_hash[:id_pelicula])
 
-    Calificacion.new(usuario, pelicula, a_hash[:calificacion], a_hash[:id])
+    Calificacion.new(usuario, pelicula, a_hash[:puntaje], a_hash[:id])
   end
 
   def changeset(calificacion)
     {
       id_usuario: calificacion.usuario.id,
       id_pelicula: calificacion.pelicula.id,
-      calificacion: calificacion.calificacion
+      puntaje: calificacion.puntaje
     }
   end
 end
