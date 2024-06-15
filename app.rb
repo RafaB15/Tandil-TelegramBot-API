@@ -24,24 +24,25 @@ def enviar_respuesta_nuevo(estado, respuesta)
 end
 
 # Crear instancias de los controladores
-controlador_usuarios = ControladorUsuarios.new
 controlador_contenido = ControladorContenido.new
 controlador_calificacion = ControladorCalificacion.new
 controlador_mas_vistos = ControladorMasVistos.new
 controlador_visualizacion = ControladorVisualizacion.new
-controlador_version = ControladorVersion.new
 
+# Listo
 get '/version' do
   settings.logger.info '[GET] /version - Consultando la version de la API Rest'
 
   version = Version.current
-  controlador_version.enviar_version(version)
+  cuerpo = { version: }.to_json
 
-  settings.logger.info "[Status] : #{controlador_version.estado} - [Response] : #{controlador_version.respuesta}"
+  settings.logger.info "Respuesta - [Estado] : 200 - [Cuerpo] : #{cuerpo}"
 
-  enviar_respuesta(controlador_version)
+  status 200
+  cuerpo
 end
 
+# Listo
 post '/reset' do
   settings.logger.info '[POST] /reset - Reinicia la base de datos'
 
@@ -49,22 +50,28 @@ post '/reset' do
     repositorio.new.delete_all
   end
 
-  controlador_usuarios.reiniciar_usuarios
+  settings.logger.info 'Respuesta - [Estado] : 200 - [Cuerpo] : vacio'
 
-  settings.logger.info "[Status] : #{controlador_usuarios.estado} - [Response] : #{controlador_usuarios.respuesta}"
-
-  enviar_respuesta(controlador_usuarios)
+  status 200
 end
 
+# Listo
 get '/usuarios' do
   settings.logger.info '[GET] /usuarios - Consultando los usuarios registrados'
 
   usuarios = RepositorioUsuarios.new.all
-  controlador_usuarios.enviar_usuarios(usuarios)
+  cuerpo = usuarios.map do |u|
+    {
+      email: u.email,
+      id_telegram: u.id_telegram,
+      id: u.id
+    }
+  end.to_json
 
-  settings.logger.info "[Status] : #{controlador_usuarios.estado} - [Response] : #{controlador_usuarios.respuesta}"
+  settings.logger.info "Respuesta - [Estado] : 200 - [Cuerpo] : #{cuerpo}"
 
-  enviar_respuesta(controlador_usuarios)
+  status 200
+  cuerpo
 end
 
 # Listo
