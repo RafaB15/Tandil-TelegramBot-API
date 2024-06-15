@@ -152,7 +152,7 @@ post '/visualizaciones' do
   enviar_respuesta(controlador_visualizacion)
 end
 
-get '/visualizacion/top' do
+get '/visualizaciones/top' do
   settings.logger.info '[GET] /visualizacion/top - Consultando las visualizaciones existentes'
 
   visualizaciones = RepositorioVisualizaciones.new.all

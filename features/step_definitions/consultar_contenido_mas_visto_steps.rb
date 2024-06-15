@@ -130,7 +130,7 @@ end
 # =========================================================
 
 Cuando('se consulta por la lista de contenidos mas vistos') do
-  @response = Faraday.get('/visualizacion/top', { 'Content-Type' => 'application/json' })
+  @response = Faraday.get('/visualizaciones/top', { 'Content-Type' => 'application/json' })
 end
 
 # Entonces
