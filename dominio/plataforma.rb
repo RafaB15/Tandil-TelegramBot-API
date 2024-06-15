@@ -1,3 +1,5 @@
+require 'date'
+
 class Plataforma
   def initialize(id_telegram = nil, id_contenido = nil)
     @id_telegram = id_telegram
@@ -8,6 +10,16 @@ class Plataforma
     usuario = Usuario.new(email, id_telegram)
     repositorio_usuarios.save(usuario)
     usuario
+  end
+
+  def registrar_contenido(titulo, anio, genero, repositorio_contenidos, fecha_agregado = Date.today)
+    genero_de_pelicula = Genero.new(genero)
+    anio_de_estreno = AnioDeEstreno.new(anio)
+    pelicula = Pelicula.new(titulo, anio_de_estreno, genero_de_pelicula, fecha_agregado)
+
+    repositorio_contenidos.save(pelicula)
+
+    pelicula
   end
 
   def registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos)

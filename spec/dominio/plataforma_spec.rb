@@ -91,8 +91,45 @@ describe 'Plataforma' do
       expect(repositorio_usuarios).to receive(:save).with(usuario)
 
       result = plataforma.registrar_usuario('usuario@test.com', 123, repositorio_usuarios)
-
       expect(result).to eq(usuario)
     end
+  end
+
+  describe 'registrar_contenido' do
+    let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
+    let(:pelicula) { instance_double('Pelicula') }
+    let(:genero) { Genero.new('drama') }
+    let(:anio) { AnioDeEstreno.new(2022) }
+    let(:plataforma) { Plataforma.new }
+
+    before(:each) do
+      allow(repositorio_contenidos).to receive(:save).and_return(pelicula)
+    end
+
+    xit 'dado que el título, año y género son válidos, se crea una película exitosamente con estado 201' do
+      allow(Pelicula).to receive(:new).with('Nahir', anio, genero, '2024-05-10').and_return(pelicula)
+      expect(repositorio_contenidos).to receive(:save).with(pelicula)
+
+      resultado = plataforma.registrar_contenido('Nahir', anio, genero, repositorio_contenidos, '2024-05-10')
+      expect(resultado).to eq(pelicula)
+    end
+
+    # it 'dado que el año es inválido no se crea una película y se devuelve un estado 400' do
+    #   expect { plataforma.registrar_contenido('Nahir', 'año_inválido', 'drama', repositorio_contenidos, '2024-05-10') }.to raise_error(ErrorAlInstanciarPeliculaAnioInvalido)
+    # end
+
+    # it 'dado que el título es inválido no se crea una película y se devuelve un estado 400' do
+    #   expect { plataforma.registrar_contenido('', 2022, 'drama', repositorio_contenidos, '2024-05-10') }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+    # end
+
+    # it 'dado que el género es inválido no se crea una película y se devuelve un estado 400' do
+    #   expect { plataforma.registrar_contenido('Nahir', 2022, 'género_inválido', repositorio_contenidos, '2024-05-10') }.to raise_error(ErrorAlInstanciarPeliculaGeneroInvalido)
+    # end
+
+    # it 'dado que la película ya está registrada no se crea una película y se devuelve un estado 409' do
+    #   allow(repositorio_contenidos).to receive(:save).and_raise(ErrorPeliculaYaRegistrada)
+
+    #   expect { plataforma.registrar_contenido('Nahir', 2022, 'drama', repositorio_contenidos, '2024-05-10') }.to raise_error(ErrorPeliculaYaRegistrada)
+    # end
   end
 end

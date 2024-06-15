@@ -16,4 +16,10 @@ describe Pelicula do
     it { is_expected.to respond_to(:created_on) }
     it { is_expected.to respond_to(:updated_on) }
   end
+
+  describe 'titulo invalido' do
+    it 'raises an error' do
+      expect { described_class.new('', 2008, 'accion') }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+    end
+  end
 end

@@ -24,7 +24,6 @@ def enviar_respuesta_nuevo(estado, respuesta)
 end
 
 # Crear instancias de los controladores
-controlador_contenido = ControladorContenido.new
 controlador_calificacion = ControladorCalificacion.new
 controlador_mas_vistos = ControladorMasVistos.new
 controlador_visualizacion = ControladorVisualizacion.new
@@ -102,6 +101,7 @@ post '/usuarios' do
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
+# En progreso
 post '/contenido' do
   require 'date'
 
@@ -113,14 +113,23 @@ post '/contenido' do
   fecha_agregado_str = parametros_contenido['fecha_agregado']
   fecha_agregado = fecha_agregado_str ? Date.parse(fecha_agregado_str) : Date.today
 
-  settings.logger.info "[POST] /contenido - Iniciando creación de un nuevo contenido - Body: #{parametros_contenido}"
+  settings.logger.info "[POST] /contenidos - Iniciando creación de un nuevo contenido - Cuerpo: #{parametros_contenido}"
 
-  creador_de_pelicula = CreadorDePelicula.new(titulo, anio, genero, fecha_agregado)
-  controlador_contenido.crear_pelicula(creador_de_pelicula)
+  begin
+    repositorio_peliculas = RepositorioPeliculas.new
+    pelicula = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_peliculas, fecha_agregado)
+    estado = 201
+    cuerpo = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }
+  rescue StandardError => e
+    mapeo_error_http = ManejadorDeErrores.new(e)
+    error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
+    estado = error_response.estado
+    cuerpo = error_response.respuesta
+  end
 
-  settings.logger.info "[Status] : #{controlador_contenido.estado} - [Response] : #{controlador_contenido.respuesta}"
+  settings.logger.info "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
 
-  enviar_respuesta(controlador_contenido)
+  enviar_respuesta_nuevo(estado, cuerpo)
 end
 
 get '/contenido' do
@@ -250,6 +259,7 @@ end
 get '/favoritos' do
   id_telegram = params['id_telegram']
   usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
+
   favoritos = RepositorioFavoritos.new.find_by_user(usuario.id)
 
   status 200
