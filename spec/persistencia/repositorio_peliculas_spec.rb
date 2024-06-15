@@ -50,7 +50,7 @@ describe RepositorioPeliculas do
     repositorio.save(pelicula1)
     repositorio.save(pelicula2)
 
-    pelicula = repositorio.ultimos_agregados
+    pelicula = repositorio.agregados_despues_de_fecha(Date.today - 7)
     expect(pelicula[0].titulo).to eq 'Catch me if you can'
     expect(pelicula[1].titulo).to eq 'Titanic'
   end
@@ -64,7 +64,7 @@ describe RepositorioPeliculas do
     repositorio.save(pelicula1)
     repositorio.save(pelicula2)
 
-    pelicula = repositorio.ultimos_agregados
+    pelicula = repositorio.agregados_despues_de_fecha(Date.today - 7)
     expect(pelicula.size).to eq 1
     expect(pelicula[0].titulo).to eq 'Titanic'
   end

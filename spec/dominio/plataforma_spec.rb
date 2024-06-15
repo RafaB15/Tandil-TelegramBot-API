@@ -184,4 +184,25 @@ describe 'Plataforma' do
       expect(result).to eq(visualizacion)
     end
   end
+
+  describe 'obtener_contenido_ultimos_agregados' do
+    let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
+    let(:plataforma) { Plataforma.new }
+
+    it 'debería devolver una lista de películas agregadas en la última semana' do
+      pelicula = Pelicula.new('Iron Man', 2008, 'accion', Date.today - 4)
+      allow(Pelicula).to receive(:new).with('Iron Man', 2008, 'accion', Date.today).and_return(pelicula)
+      allow(repositorio_contenidos).to receive(:agregados_despues_de_fecha).and_return([pelicula])
+
+      result = plataforma.obtener_contenido_ultimos_agregados(repositorio_contenidos)
+      expect(result).to eq([pelicula])
+    end
+
+    it 'debería devolver una lista vacía si no hay películas agregadas en la última semana' do
+      allow(repositorio_contenidos).to receive(:agregados_despues_de_fecha).and_return([])
+
+      result = plataforma.obtener_contenido_ultimos_agregados(repositorio_contenidos)
+      expect(result).to eq([])
+    end
+  end
 end

@@ -32,8 +32,8 @@ class RepositorioPeliculas < AbstractRepository
     load_collection dataset.where(id:)
   end
 
-  def ultimos_agregados
-    load_collection dataset.where(Sequel.lit('peliculas.fecha_agregado >= ?', Date.today - 7))
+  def agregados_despues_de_fecha(fecha_limite)
+    load_collection dataset.where(Sequel.lit('peliculas.fecha_agregado >= ?', fecha_limite))
   end
 
   protected

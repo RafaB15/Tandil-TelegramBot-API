@@ -288,17 +288,20 @@ end
 get '/contenidos/ultimos-agregados' do
   settings.logger.info '[GET] /contenidos/ultimos-agregados - Consultando los ultimos contenidos agregados de la semana'
 
-  contenidos = RepositorioPeliculas.new.ultimos_agregados
+  repositorio_peliculas = RepositorioPeliculas.new
 
-  top_5_contenidos = contenidos.sort_by { |contenido| [-contenido.fecha_agregado.to_time.to_i, contenido.titulo] }.first(5)
+  plataforma = Plataforma.new
 
-  status 200
-  response = []
-  top_5_contenidos.each do |contenido|
-    response << { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero }
+  contenidos = plataforma.obtener_contenido_ultimos_agregados(repositorio_peliculas)
+
+  respuesta = []
+  contenidos.each do |contenido|
+    respuesta << { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero }
   end
 
-  response.to_json
+  estado = 200
+
+  enviar_respuesta_nuevo(estado, respuesta)
 end
 
 get '/contenidos/:id_contenido/detalles' do
