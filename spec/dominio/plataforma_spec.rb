@@ -158,4 +158,30 @@ describe 'Plataforma' do
       end.to raise_error(ErrorPeliculaInexistente)
     end
   end
+
+  describe 'registrar_visualizacion' do
+    let(:repositorio_usuarios) { instance_double('RepositorioUsuarios') }
+    let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
+    let(:repositorio_visualizaciones) { instance_double('RepositorioVisualizaciones') }
+    let(:usuario) { instance_double('Usuario') }
+    let(:pelicula) { instance_double('Pelicula') }
+    let(:visualizacion) { instance_double('Visualizacion') }
+    let(:plataforma) { Plataforma.new(123, 456) }
+    let(:fecha) { '2023-04-01T12:00:00Z' }
+
+    before(:each) do
+      allow(repositorio_usuarios).to receive(:find_by_email).and_return(usuario)
+      allow(repositorio_contenidos).to receive(:find).and_return(pelicula)
+      allow(Visualizacion).to receive(:new).and_return(visualizacion)
+      allow(repositorio_visualizaciones).to receive(:save)
+    end
+
+    it 'debería crear y guardar una nueva visualización' do
+      expect(Visualizacion).to receive(:new).with(usuario, pelicula, Time.iso8601(fecha))
+      expect(repositorio_visualizaciones).to receive(:save).with(visualizacion)
+
+      result = plataforma.registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, '', fecha)
+      expect(result).to eq(visualizacion)
+    end
+  end
 end

@@ -26,7 +26,6 @@ end
 # Crear instancias de los controladores
 controlador_calificacion = ControladorCalificacion.new
 controlador_mas_vistos = ControladorMasVistos.new
-controlador_visualizacion = ControladorVisualizacion.new
 
 # Listo
 get '/version' do
@@ -128,7 +127,6 @@ post '/contenidos' do
   end
 
   settings.logger.info "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
-
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
@@ -147,6 +145,7 @@ get '/contenidos' do
   response.to_json
 end
 
+## Listo
 post '/visualizaciones' do
   @body ||= request.body.read
   parametros_visualizaciones = JSON.parse(@body)
@@ -156,12 +155,23 @@ post '/visualizaciones' do
 
   settings.logger.info "[POST] /visualizaciones - Iniciando creación de una nueva visualizacion - Body: #{parametros_visualizaciones}"
 
-  creador_de_visualizacion = CreadorDeVisualizacion.new(email, id_pelicula, fecha)
-  controlador_visualizacion.crear_visualizacion(creador_de_visualizacion)
+  repositorio_usuarios = RepositorioUsuarios.new
+  repositorio_peliculas = RepositorioPeliculas.new
+  repositorio_visualizaciones = RepositorioVisualizaciones.new
 
-  settings.logger.info "[Status] : #{controlador_visualizacion.estado} - [Response] : #{controlador_visualizacion.respuesta}"
+  begin
+    visualizacion = Plataforma.new(nil, id_pelicula).registrar_visualizacion(repositorio_usuarios, repositorio_peliculas, repositorio_visualizaciones, email, fecha)
+    estado = 201
+    cuerpo = { id: visualizacion.id, email: visualizacion.usuario.email, id_pelicula: visualizacion.pelicula.id, fecha: visualizacion.fecha.iso8601 }
+  rescue StandardError => e
+    mapeo_error_http = ManejadorDeErrores.new(e)
+    error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
+    estado = error_response.estado
+    cuerpo = error_response.respuesta
+  end
 
-  enviar_respuesta(controlador_visualizacion)
+  settings.logger.info "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
+  enviar_respuesta_nuevo(estado, cuerpo)
 end
 
 get '/visualizaciones/top' do

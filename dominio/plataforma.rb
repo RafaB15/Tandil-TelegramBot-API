@@ -49,6 +49,17 @@ class Plataforma
     calificacion
   end
 
+  def registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, email, fecha)
+    contenido = repositorio_contenidos.find(@id_contenido)
+    usuario = repositorio_usuarios.find_by_email(email)
+    fecha_time = Time.iso8601(fecha)
+    visualizacion = Visualizacion.new(usuario, contenido, fecha_time)
+
+    repositorio_visualizaciones.save(visualizacion)
+
+    visualizacion
+  end
+
   def obtener_contenido_por_titulo(titulo, repositorio_contenidos)
     contenidos = repositorio_contenidos.find_by_title(titulo)
     raise ErrorPeliculaInexistente if contenidos.empty?
