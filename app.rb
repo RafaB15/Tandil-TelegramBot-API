@@ -217,13 +217,13 @@ put '/calificacion' do
 end
 
 ## Listo
-post '/favorito' do
+post '/favoritos' do
   @body ||= request.body.read
-  parametros_favorito = JSON.parse(@body)
-  id_telegram = parametros_favorito['id_telegram']
-  id_contenido = parametros_favorito['id_contenido']
+  parametros_favoritos = JSON.parse(@body)
+  id_telegram = parametros_favoritos['id_telegram']
+  id_contenido = parametros_favoritos['id_contenido']
 
-  settings.logger.info "[POST] /favorito - Iniciando creación de un nuevo contenido favorito - Body: #{parametros_favorito}"
+  settings.logger.info "[POST] /favoritos - Iniciando creación de un nuevo contenido favorito - Body: #{parametros_favoritos}"
 
   repositorio_usuarios = RepositorioUsuarios.new
   repositorio_peliculas = RepositorioPeliculas.new

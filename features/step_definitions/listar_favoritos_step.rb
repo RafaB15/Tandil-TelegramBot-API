@@ -7,7 +7,7 @@ Dado('que marco la película {string} como favorita') do |_string|
 
   request_body = { id_telegram: @id_telegram, id_contenido: @id_pelicula3 }.to_json
 
-  @response = Faraday.post('/favorito', request_body, { 'Content-Type' => 'application/json' })
+  @response = Faraday.post('/favoritos', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que marco las películas {string}, {string} y {string} como favoritas') do |_titulo1, _titulo2, _titulo3|
@@ -15,13 +15,13 @@ Dado('que marco las películas {string}, {string} y {string} como favoritas') do
   @id_telegram = json_response_usuario['id_telegram']
 
   request_body = { id_telegram: @id_telegram, id_contenido: @id_pelicula1 }.to_json
-  Faraday.post('/favorito', request_body, { 'Content-Type' => 'application/json' })
+  Faraday.post('/favoritos', request_body, { 'Content-Type' => 'application/json' })
 
   request_body = { id_telegram: @id_telegram, id_contenido: @id_pelicula2 }.to_json
-  Faraday.post('/favorito', request_body, { 'Content-Type' => 'application/json' })
+  Faraday.post('/favoritos', request_body, { 'Content-Type' => 'application/json' })
 
   request_body = { id_telegram: @id_telegram, id_contenido: @id_pelicula3 }.to_json
-  Faraday.post('/favorito', request_body, { 'Content-Type' => 'application/json' })
+  Faraday.post('/favoritos', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que marco las películas {string} y {string} como favoritas') do |_string, _string2|
@@ -29,10 +29,10 @@ Dado('que marco las películas {string} y {string} como favoritas') do |_string,
   @id_telegram = json_response_usuario['id_telegram']
 
   request_body = { id_telegram: @id_telegram, id_contenido: @id_pelicula1 }.to_json
-  Faraday.post('/favorito', request_body, { 'Content-Type' => 'application/json' })
+  Faraday.post('/favoritos', request_body, { 'Content-Type' => 'application/json' })
 
   request_body = { id_telegram: @id_telegram, id_contenido: @id_pelicula2 }.to_json
-  Faraday.post('/favorito', request_body, { 'Content-Type' => 'application/json' })
+  Faraday.post('/favoritos', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que no marco {string} como favorita') do |string|
