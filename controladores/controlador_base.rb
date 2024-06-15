@@ -17,6 +17,6 @@ class ControladorBase
   def generar_respuesta_error(mapeo_error_http)
     error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
     @estado = error_response.estado
-    @respuesta = error_response.respuesta
+    @respuesta = error_response.respuesta.to_json
   end
 end

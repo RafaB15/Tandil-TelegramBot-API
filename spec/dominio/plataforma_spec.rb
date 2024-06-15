@@ -70,4 +70,24 @@ describe 'Plataforma' do
       end.to raise_error(ErrorVisualizacionInexistente)
     end
   end
+
+  describe 'registrar_usuario' do
+    let(:repositorio_usuarios) { instance_double('RepositorioUsuarios') }
+    let(:usuario) { instance_double('Usuario') }
+    let(:plataforma) { Plataforma.new(123, 456) }
+
+    before(:each) do
+      allow(Usuario).to receive(:new).and_return(usuario)
+      allow(repositorio_usuarios).to receive(:save)
+    end
+
+    it 'debería crear y guardar un nuevo usuario' do
+      expect(Usuario).to receive(:new).with('usuario@test.com', 123)
+      expect(repositorio_usuarios).to receive(:save).with(usuario)
+
+      result = plataforma.registrar_usuario('usuario@test.com', 123, repositorio_usuarios)
+
+      expect(result).to eq(usuario)
+    end
+  end
 end

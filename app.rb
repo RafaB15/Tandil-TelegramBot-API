@@ -67,6 +67,7 @@ get '/usuarios' do
   enviar_respuesta(controlador_usuarios)
 end
 
+# Listo
 post '/usuarios' do
   @body ||= request.body.read
   parametros_usuario = JSON.parse(@body)
@@ -82,16 +83,16 @@ post '/usuarios' do
   begin
     usuario = plataforma.registrar_usuario(email, id_telegram, repositorio_usuarios)
     estado = 201
-    respuesta = { id: usuario.id, email: usuario.email, id_telegram: usuario.id_telegram }
+    cuerpo = { id: usuario.id, email: usuario.email, id_telegram: usuario.id_telegram }
   rescue StandardError => e
     mapeo_error_http = ManejadorDeErrores.new(e)
     error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
     estado = error_response.estado
-    respuesta = error_response.respuesta
+    cuerpo = error_response.respuesta
   end
 
-  settings.logger.info "[Status] : #{estado} - [Response] : #{respuesta}"
-  enviar_respuesta_nuevo(estado, respuesta)
+  settings.logger.info "Respuesta => [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
+  enviar_respuesta_nuevo(estado, cuerpo)
 end
 
 post '/contenido' do
@@ -155,7 +156,7 @@ get '/visualizacion/top' do
   enviar_respuesta(controlador_mas_vistos)
 end
 
-## Lista
+## Listo
 post '/calificacion' do
   @body ||= request.body.read
   parametros_calificacion = JSON.parse(@body)

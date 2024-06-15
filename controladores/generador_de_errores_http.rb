@@ -24,7 +24,7 @@ class GeneradorDeErroresHTTP
       error:,
       message: mensaje,
       details: detalles
-    }.to_json
+    }
   end
 
   def generar_respuesta

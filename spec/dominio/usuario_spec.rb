@@ -16,5 +16,9 @@ describe Usuario do
     it 'debe levantar un error cuando el email no es valido' do
       expect { described_class.new('gmail.com', 123_456_789) }.to raise_error(ErrorAlInstanciarUsuarioEmailInvalido)
     end
+
+    it 'debe levantar un error cuando el id telegram no es valido' do
+      expect { described_class.new('usuario@test.com', -123_456_789) }.to raise_error(ErrorAlInstanciarUsuarioTelegramIDInvalido)
+    end
   end
 end
