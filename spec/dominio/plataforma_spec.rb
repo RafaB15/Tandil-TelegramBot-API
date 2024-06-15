@@ -205,4 +205,23 @@ describe 'Plataforma' do
       expect(result).to eq([])
     end
   end
+
+  describe 'obtener_visualizacion_mas_vistos' do
+    let(:repositorio_visualizaciones) { instance_double('RepositorioVisualizaciones') }
+    let(:plataforma) { Plataforma.new }
+    let(:contador) { instance_double('ContadorDeVisualizaciones') }
+    let(:visualizacion) { instance_double('Visualizacion') }
+    let(:visualizaciones) { [visualizacion] }
+
+    before(:each) do
+      allow(repositorio_visualizaciones).to receive(:all).and_return(visualizaciones)
+      allow(ContadorDeVisualizaciones).to receive(:new).and_return(contador)
+      allow(contador).to receive(:obtener_mas_vistos).and_return(visualizacion)
+    end
+
+    it 'debería devolver la visualización más vista' do
+      result = plataforma.obtener_visualizacion_mas_vistos(repositorio_visualizaciones)
+      expect(result).to eq(visualizacion)
+    end
+  end
 end

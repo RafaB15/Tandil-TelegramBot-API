@@ -25,7 +25,6 @@ end
 
 # Crear instancias de los controladores
 controlador_calificacion = ControladorCalificacion.new
-controlador_mas_vistos = ControladorMasVistos.new
 
 # Listo
 get '/version' do
@@ -174,15 +173,25 @@ post '/visualizaciones' do
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
+## Listo
 get '/visualizaciones/top' do
   settings.logger.info '[GET] /visualizacion/top - Consultando las visualizaciones existentes'
 
-  visualizaciones = RepositorioVisualizaciones.new.all
-  controlador_mas_vistos.obtener_mas_vistos(visualizaciones)
+  repositorio_visualizaciones = RepositorioVisualizaciones.new
 
-  settings.logger.info "[Status] : #{controlador_mas_vistos.estado} - [Response] : #{controlador_mas_vistos.respuesta}"
+  begin
+    contenidos_mas_vistos = Plataforma.new.obtener_visualizacion_mas_vistos(repositorio_visualizaciones)
+    estado = 200
+    cuerpo = contenidos_mas_vistos
+  rescue StandardError => e
+    mapeo_error_http = ManejadorDeErrores.new(e)
+    error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
+    estado = error_response.estado
+    cuerpo = error_response.respuesta
+  end
 
-  enviar_respuesta(controlador_mas_vistos)
+  settings.logger.info "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
+  enviar_respuesta_nuevo(estado, cuerpo)
 end
 
 ## Listo

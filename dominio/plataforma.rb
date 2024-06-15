@@ -71,4 +71,9 @@ class Plataforma
     contenidos = repositorio_contenidos.agregados_despues_de_fecha(Date.today - 7)
     contenidos.sort_by { |contenido| [-contenido.fecha_agregado.to_time.to_i, contenido.titulo] }.first(5)
   end
+
+  def obtener_visualizacion_mas_vistos(repositorio_visualizaciones)
+    visualizaciones = repositorio_visualizaciones.all
+    ContadorDeVisualizaciones.new(visualizaciones).obtener_mas_vistos
+  end
 end
