@@ -98,15 +98,13 @@ describe 'Plataforma' do
   describe 'registrar_contenido' do
     let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
     let(:genero) { instance_double('Genero') }
-    let(:anio) { instance_double('AnioDeEstreno') }
     let(:pelicula) { instance_double('Pelicula') }
     let(:plataforma) { Plataforma.new(123, 456) }
     let(:fecha_agregado) { Date.new(2023, 4, 1) }
 
     before(:each) do
       allow(Genero).to receive(:new).with('accion').and_return(genero)
-      allow(AnioDeEstreno).to receive(:new).with(2008).and_return(anio)
-      allow(Pelicula).to receive(:new).with('Iron Man', anio, genero, fecha_agregado).and_return(pelicula)
+      allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado).and_return(pelicula)
       allow(repositorio_contenidos).to receive(:save).with(pelicula).and_return(pelicula)
     end
 
@@ -115,16 +113,8 @@ describe 'Plataforma' do
       expect(result).to eq(pelicula)
     end
 
-    it 'dado que el anio es inválido no se crea una película y se levanta el error correspondiente' do
-      allow(AnioDeEstreno).to receive(:new).with(nil).and_raise(ErrorAlInstanciarPeliculaAnioInvalido)
-
-      expect do
-        plataforma.registrar_contenido('Iron Man', nil, 'accion', repositorio_contenidos, fecha_agregado)
-      end.to raise_error(ErrorAlInstanciarPeliculaAnioInvalido)
-    end
-
     it 'dado que el titulo es inválido no se crea una película y se levanta el error correspondiente' do
-      allow(Pelicula).to receive(:new).with(nil, anio, genero, fecha_agregado).and_raise(ErrorAlInstanciarPeliculaTituloInvalido)
+      allow(Pelicula).to receive(:new).with(nil, 2008, genero, fecha_agregado).and_raise(ErrorAlInstanciarPeliculaTituloInvalido)
 
       expect do
         plataforma.registrar_contenido(nil, 2008, 'accion', repositorio_contenidos, fecha_agregado)

@@ -3,8 +3,7 @@ require_relative '../../dominio/pelicula'
 
 describe Pelicula do
   subject(:pelicula) do
-    anio_de_estreno = instance_double('AnioDeEstreno', anio: 2008)
-    described_class.new('Iron Man', anio_de_estreno, 'accion')
+    described_class.new('Iron Man', 2008, 'accion')
   end
 
   describe 'modelo' do
@@ -20,6 +19,18 @@ describe Pelicula do
   describe 'titulo invalido' do
     it 'raises an error' do
       expect { described_class.new('', 2008, 'accion') }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+    end
+  end
+
+  describe 'anio invalido negativo' do
+    it 'raises an error' do
+      expect { described_class.new('Jumanji', -1, 'accion') }.to raise_error(ErrorAlInstanciarPeliculaAnioInvalido)
+    end
+  end
+
+  describe 'anio invalido string' do
+    it 'raises an error' do
+      expect { described_class.new('Jumanji', 'dos mil uno', 'accion') }.to raise_error(ErrorAlInstanciarPeliculaAnioInvalido)
     end
   end
 end

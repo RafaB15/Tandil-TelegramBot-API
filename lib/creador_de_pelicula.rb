@@ -28,8 +28,7 @@ class CreadorDePelicula
     raise ErrorAlInstanciarPeliculaTituloInvalido unless es_el_titulo_valido?
 
     genero_de_pelicula = Genero.new(@genero)
-    anio_de_estreno = AnioDeEstreno.new(@anio)
-    pelicula = Pelicula.new(@titulo, anio_de_estreno, genero_de_pelicula, @fecha_agregado)
+    pelicula = Pelicula.new(@titulo, @anio, genero_de_pelicula, @fecha_agregado)
 
     RepositorioPeliculas.new.save(pelicula)
     pelicula

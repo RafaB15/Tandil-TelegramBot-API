@@ -10,8 +10,7 @@ describe RepositorioCalificaciones do
 
   let(:pelicula) do
     genero_de_pelicula = Genero.new('drama')
-    anio_de_estreno = AnioDeEstreno.new(2024)
-    pelicula = Pelicula.new('Nair', anio_de_estreno, genero_de_pelicula)
+    pelicula = Pelicula.new('Nair', 2024, genero_de_pelicula)
     RepositorioPeliculas.new.save(pelicula)
   end
 
