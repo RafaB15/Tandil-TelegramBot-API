@@ -137,4 +137,25 @@ describe 'Plataforma' do
       end.to raise_error(ErrorAlPersistirPeliculaYaExistente)
     end
   end
+
+  describe 'obtener_contenido_por_titulo' do
+    let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
+    let(:plataforma) { Plataforma.new }
+
+    it 'debería devolver una lista de películas con el título dado' do
+      pelicula = instance_double('Los 7 enanitos')
+      allow(repositorio_contenidos).to receive(:find_by_title).and_return([pelicula])
+
+      result = plataforma.obtener_contenido_por_titulo('Los 7 enanitos', repositorio_contenidos)
+      expect(result).to eq([pelicula])
+    end
+
+    it 'debería lanzar un error si no hay películas con el título dado' do
+      allow(repositorio_contenidos).to receive(:find_by_title).and_return([])
+
+      expect do
+        plataforma.obtener_contenido_por_titulo('Amistad por siempre', repositorio_contenidos)
+      end.to raise_error(ErrorPeliculaInexistente)
+    end
+  end
 end

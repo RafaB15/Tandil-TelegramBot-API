@@ -101,7 +101,7 @@ post '/usuarios' do
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
-# En progreso
+# Listo
 post '/contenidos' do
   require 'date'
 
@@ -132,10 +132,13 @@ post '/contenidos' do
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
+## Listo
 get '/contenidos' do
   titulo = params['titulo']
 
-  peliculas = RepositorioPeliculas.new.find_by_title(titulo)
+  repositorio_peliculas = RepositorioPeliculas.new
+  peliculas = Plataforma.new.obtener_contenido_por_titulo(titulo, repositorio_peliculas)
+
   status 200
   response = []
   peliculas.each do |pelicula|

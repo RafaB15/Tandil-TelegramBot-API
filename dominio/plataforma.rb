@@ -48,4 +48,11 @@ class Plataforma
     repositorio_calificaciones.save(calificacion)
     calificacion
   end
+
+  def obtener_contenido_por_titulo(titulo, repositorio_contenidos)
+    contenidos = repositorio_contenidos.find_by_title(titulo)
+    raise ErrorPeliculaInexistente if contenidos.empty?
+
+    contenidos
+  end
 end
