@@ -32,7 +32,7 @@ Entonces('el administrador debería poder marcar el contenido como visto para es
 
   request_body = { email: @email, id_pelicula: @id_pelicula, fecha: @fecha }.to_json
 
-  @response = Faraday.post('/visualizacion', request_body, { 'Content-Type' => 'application/json' })
+  @response = Faraday.post('/visualizaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Entonces('deberia ver un mensaje de la visualizacion cargada exitosamente') do

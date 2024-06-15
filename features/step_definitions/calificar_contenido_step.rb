@@ -12,7 +12,7 @@ Dado('que el usuario ya vio la pelicula {string} {int} {string}') do |titulo, an
 
   fecha = Time.now.floor.iso8601
   request_body = { email:, id_pelicula: @id_pelicula, fecha: }.to_json
-  Faraday.post('/visualizacion', request_body, { 'Content-Type' => 'application/json' })
+  Faraday.post('/visualizaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que el usuario la habia calificado con un {int}') do |calificacion|

@@ -1,6 +1,7 @@
 # language: es
 Característica: Detallar contenido via informacion de API externa   
 
+
     Escenario: US22.1 - 01 Como cinefilo quiero detalles acerca de una pelicula
         Dado que existe el contenido "Titanic" 1997 "drama"
         Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
@@ -27,7 +28,7 @@ Característica: Detallar contenido via informacion de API externa
         Y que el usuario ya lo vio 
         Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
         Entonces debería mostrar que ya fue visto
-
+    
     Escenario: US22.2 - 02 La pelicula buscada no fue vista por el usuario
         Dado un usuario "juan@gmail.com" 123456789
         Y que existe el contenido "Titanic" 1997 "drama"

@@ -135,14 +135,14 @@ get '/contenido' do
   response.to_json
 end
 
-post '/visualizacion' do
+post '/visualizaciones' do
   @body ||= request.body.read
-  parametros_visualizacion = JSON.parse(@body)
-  email = parametros_visualizacion['email']
-  id_pelicula = parametros_visualizacion['id_pelicula']
-  fecha = parametros_visualizacion['fecha']
+  parametros_visualizaciones = JSON.parse(@body)
+  email = parametros_visualizaciones['email']
+  id_pelicula = parametros_visualizaciones['id_pelicula']
+  fecha = parametros_visualizaciones['fecha']
 
-  settings.logger.info "[POST] /visualizacion - Iniciando creación de una nueva visualizacion - Body: #{parametros_visualizacion}"
+  settings.logger.info "[POST] /visualizaciones - Iniciando creación de una nueva visualizacion - Body: #{parametros_visualizaciones}"
 
   creador_de_visualizacion = CreadorDeVisualizacion.new(email, id_pelicula, fecha)
   controlador_visualizacion.crear_visualizacion(creador_de_visualizacion)
@@ -278,17 +278,17 @@ get '/contenidos/ultimos-agregados' do
   response.to_json
 end
 
-get '/contenidos/:id_pelicula/detalles' do
+get '/contenidos/:id_contenido/detalles' do
   id_telegram = params['id_telegram']
-  id_pelicula = params['id_pelicula']
+  id_contenido = params['id_contenido']
 
-  settings.logger.info "[GET] /contenidos/#{id_pelicula}/detalles - Consultando los detalles acerca de la pelicula con id: #{id_pelicula}"
+  settings.logger.info "[GET] /contenidos/#{id_contenido}/detalles - Consultando los detalles acerca de la pelicula con id: #{id_contenido}"
 
-  pelicula = RepositorioPeliculas.new.find(id_pelicula)
+  pelicula = RepositorioPeliculas.new.find(id_contenido)
 
   omdb_respuesta = OMDbConectorAPIProxy.new.detallar_pelicula(pelicula.titulo, settings.logger)
 
-  respuesta = armar_respuesta(omdb_respuesta, id_telegram, id_pelicula)
+  respuesta = armar_respuesta(omdb_respuesta, id_telegram, id_contenido)
 
   logger.info "[Status] : 200 - [Response] : #{respuesta}"
 
@@ -308,7 +308,7 @@ def armar_error(mensaje)
   }.to_json
 end
 
-def armar_respuesta(omdb_respuesta, id_telegram, id_pelicula)
+def armar_respuesta(omdb_respuesta, id_telegram, id_contenido)
   detalles_pelicula = omdb_respuesta['cuerpo']
 
   respuesta = {
@@ -321,7 +321,7 @@ def armar_respuesta(omdb_respuesta, id_telegram, id_pelicula)
 
   usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
   if usuario
-    fue_visto = !RepositorioVisualizaciones.new.find_by_usuario_y_contenido(usuario.id, id_pelicula).nil?
+    fue_visto = !RepositorioVisualizaciones.new.find_by_usuario_y_contenido(usuario.id, id_contenido).nil?
     respuesta[:fue_visto] = fue_visto
   end
 

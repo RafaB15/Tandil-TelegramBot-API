@@ -16,7 +16,7 @@ Dado('que el usuario ya lo vio') do
 
   request_body = { email: @email, id_pelicula: @id_pelicula, fecha: @fecha }.to_json
 
-  @response = Faraday.post('/visualizacion', request_body, { 'Content-Type' => 'application/json' })
+  @response = Faraday.post('/visualizaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que el usuario no lo vio') do

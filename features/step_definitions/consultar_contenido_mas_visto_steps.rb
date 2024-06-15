@@ -36,20 +36,20 @@ Dado('que hay 3 contenidos vistos en la plataforma') do
   3.times do |_i|
     @fecha1 = Time.now.floor.iso8601
     request_body1 = { email: @email, id_pelicula: @id_pelicula1, fecha: @fecha1 }.to_json
-    @response = Faraday.post('/visualizacion', request_body1, { 'Content-Type' => 'application/json' })
+    @response = Faraday.post('/visualizaciones', request_body1, { 'Content-Type' => 'application/json' })
   end
 
   # Este contenido es visto 2 veces
   2.times do |_i|
     @fecha2 = Time.now.floor.iso8601
     request_body2 = { email: @email, id_pelicula: @id_pelicula2, fecha: @fecha2 }.to_json
-    @response = Faraday.post('/visualizacion', request_body2, { 'Content-Type' => 'application/json' })
+    @response = Faraday.post('/visualizaciones', request_body2, { 'Content-Type' => 'application/json' })
   end
 
   # Este contenido es visto 1 vez
   @fecha3 = Time.now.floor.iso8601
   request_body3 = { email: @email, id_pelicula: @id_pelicula3, fecha: @fecha3 }.to_json
-  @response = Faraday.post('/visualizacion', request_body3, { 'Content-Type' => 'application/json' })
+  @response = Faraday.post('/visualizaciones', request_body3, { 'Content-Type' => 'application/json' })
 end
 
 # Segunda prueba de aceptacion
@@ -88,16 +88,16 @@ Dado('que los 4 contenidos son los mas vistos en la plataforma con la misma cant
     fecha = Time.now.floor.iso8601
 
     request_body1 = { email: @email, id_pelicula: @id_pelicula1, fecha: }.to_json
-    @response = Faraday.post('/visualizacion', request_body1, { 'Content-Type' => 'application/json' })
+    @response = Faraday.post('/visualizaciones', request_body1, { 'Content-Type' => 'application/json' })
 
     request_body2 = { email: @email, id_pelicula: @id_pelicula2, fecha: }.to_json
-    @response = Faraday.post('/visualizacion', request_body2, { 'Content-Type' => 'application/json' })
+    @response = Faraday.post('/visualizaciones', request_body2, { 'Content-Type' => 'application/json' })
 
     request_body3 = { email: @email, id_pelicula: @id_pelicula3, fecha: }.to_json
-    @response = Faraday.post('/visualizacion', request_body3, { 'Content-Type' => 'application/json' })
+    @response = Faraday.post('/visualizaciones', request_body3, { 'Content-Type' => 'application/json' })
 
     request_body4 = { email: @email, id_pelicula: @id_pelicula4, fecha: }.to_json
-    @response = Faraday.post('/visualizacion', request_body4, { 'Content-Type' => 'application/json' })
+    @response = Faraday.post('/visualizaciones', request_body4, { 'Content-Type' => 'application/json' })
   end
 end
 
@@ -115,14 +115,14 @@ Dado('que solo hay 2 contenidos que obtuvieron visualizaciones') do
   3.times do |_i|
     @fecha1 = Time.now.floor.iso8601
     request_body1 = { email: @email, id_pelicula: @id_pelicula1, fecha: @fecha1 }.to_json
-    @response = Faraday.post('/visualizacion', request_body1, { 'Content-Type' => 'application/json' })
+    @response = Faraday.post('/visualizaciones', request_body1, { 'Content-Type' => 'application/json' })
   end
 
   # Este contenido es visto 2 veces
   2.times do |_i|
     @fecha2 = Time.now.floor.iso8601
     request_body2 = { email: @email, id_pelicula: @id_pelicula2, fecha: @fecha2 }.to_json
-    @response = Faraday.post('/visualizacion', request_body2, { 'Content-Type' => 'application/json' })
+    @response = Faraday.post('/visualizaciones', request_body2, { 'Content-Type' => 'application/json' })
   end
 end
 
