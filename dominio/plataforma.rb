@@ -44,17 +44,22 @@ class Plataforma
     end
 
     usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
+    el_contenido_fue_visto?(usuario, repositorio_visualizaciones)
 
-    visualizacion = repositorio_visualizaciones.find_by_id_usuario_y_id_contenido(usuario.id, @id_contenido.to_i)
-
-    raise ErrorVisualizacionInexistente if visualizacion.nil?
-
-    calificacion = Calificacion.new(usuario, contenido, puntaje)
-
-    calificacion.es_una_recalificacion?(repositorio_calificaciones)
-
+    calificacion = repositorio_calificaciones.find_by_id_usuario_y_id_contenido(usuario.id, @id_contenido.to_i)
+    puntaje_anterior = nil
+    if calificacion.nil?
+      calificacion = Calificacion.new(usuario, contenido, puntaje)
+    else
+      puntaje_anterior = calificacion.recalificar(puntaje)
+    end
     repositorio_calificaciones.save(calificacion)
-    calificacion
+    [calificacion, puntaje_anterior]
+  end
+
+  def el_contenido_fue_visto?(usuario, repositorio_visualizaciones)
+    visualizacion = repositorio_visualizaciones.find_by_id_usuario_y_id_contenido(usuario.id, @id_contenido.to_i)
+    raise ErrorVisualizacionInexistente if visualizacion.nil?
   end
 
   def registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, email, fecha)

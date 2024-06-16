@@ -39,7 +39,7 @@ describe 'Plataforma' do
     let(:pelicula) { instance_double('Pelicula', id: 2) }
     let(:visualizacion) { instance_double('Visualizacion') }
     let(:calificacion) { instance_double('Calificacion') }
-    let(:plataforma) { Plataforma.new(123, 456) }
+    let(:plataforma) { Plataforma.new(123, pelicula.id) }
 
     before(:each) do
       allow(repositorio_usuarios).to receive(:find_by_id_telegram).and_return(usuario)
@@ -57,12 +57,12 @@ describe 'Plataforma' do
 
       allow(repositorio_calificaciones).to receive(:find_by_id_usuario_y_id_contenido).with(usuario.id, pelicula.id).and_return(calificacion)
       allow(repositorio_calificaciones).to receive(:save).and_return(calificacion)
-      allow(calificacion).to receive(:es_una_recalificacion?).and_return(false)
+      allow(calificacion).to receive(:recalificar).and_return(5)
 
       puntaje = 5
       result = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
 
-      expect(result).to eq(calificacion)
+      expect(result).to eq([calificacion, 5])
     end
 
     it 'debería lanzar un error si el contenido no existe' do

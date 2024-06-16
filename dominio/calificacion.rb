@@ -20,6 +20,12 @@ class Calificacion
     false
   end
 
+  def recalificar(puntaje_nuevo)
+    puntaje_anterior = @puntaje
+    @puntaje = puntaje_nuevo
+    puntaje_anterior
+  end
+
   private
 
   def son_los_parametros_validos?

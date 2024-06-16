@@ -202,7 +202,7 @@ post '/calificaciones' do
   plataforma = Plataforma.new(id_telegram, id_pelicula)
 
   begin
-    calificacion = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+    calificacion, _puntaje_anterior = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
     estado = 201
     respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_pelicula: calificacion.pelicula.id, puntaje: calificacion.puntaje }
   rescue StandardError => e
