@@ -1,6 +1,6 @@
 require 'rspec'
 require_relative '../../dominio/plataforma'
-require_relative '../../dominio/calificacion'
+require_relative '../../dominio/serie'
 
 describe 'Plataforma' do
   describe 'registrar_favorito' do
@@ -9,6 +9,7 @@ describe 'Plataforma' do
     let(:repositorio_favoritos) { instance_double('RepositorioFavoritos') }
     let(:usuario) { instance_double('Usuario') }
     let(:pelicula) { instance_double('Pelicula') }
+    let(:serie) { instance_double('Serie') }
     let(:favorito) { instance_double('Favorito') }
     let(:plataforma) { Plataforma.new(123, 456) }
 
@@ -107,16 +108,19 @@ describe 'Plataforma' do
     let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
     let(:genero) { instance_double('Genero') }
     let(:pelicula) { instance_double('Pelicula') }
+    let(:serie) { instance_double('Serie') }
     let(:plataforma) { Plataforma.new(123, 456) }
     let(:fecha_agregado) { Date.new(2023, 4, 1) }
 
     before(:each) do
       allow(Genero).to receive(:new).with('accion').and_return(genero)
       allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado).and_return(pelicula)
+      allow(Serie).to receive(:new).with('Garfield', 2005, genero, fecha_agregado, 12).and_return(serie)
       allow(repositorio_contenidos).to receive(:save).with(pelicula).and_return(pelicula)
     end
 
-    xit 'dado que el titulo, anio y genero son válidos se crea una película exitosamente con estado 201' do
+    it 'dado que el titulo, anio y genero son válidos se crea una película exitosamente con estado 201' do
+      allow(pelicula).to receive(:pelicula_existente?).with(repositorio_contenidos).and_return(false)
       result = plataforma.registrar_contenido('Iron Man', 2008, 'accion', repositorio_contenidos, fecha_agregado)
       expect(result).to eq(pelicula)
     end
@@ -148,6 +152,11 @@ describe 'Plataforma' do
       expect do
         plataforma.registrar_contenido('Iron Man', 2008, 'accion', repositorio_contenidos, fecha_agregado)
       end.to raise_error(ErrorAlPersistirPeliculaYaExistente)
+    end
+
+    xit 'dado que el titulo, anio, genero, tipo y cantidad de capitulos son válidos se crea una serie exitosamente con estado 201' do
+      result = plataforma.registrar_contenido('Garfield', 2005, 'accion', repositorio_contenidos, fecha_agregado, 'serie', 12)
+      expect(result).to eq(serie)
     end
   end
 

@@ -13,13 +13,17 @@ class Plataforma
     usuario
   end
 
-  def registrar_contenido(titulo, anio, genero, repositorio_contenidos, fecha_agregado = Date.today)
-    genero_de_pelicula = Genero.new(genero)
-    pelicula = Pelicula.new(titulo, anio, genero_de_pelicula, fecha_agregado)
-    pelicula.pelicula_existente?(repositorio_contenidos)
-    repositorio_contenidos.save(pelicula)
+  def registrar_contenido(titulo, anio, genero, repositorio_contenidos, fecha_agregado = Date.today, tipo = 'pelicula', cantidad_capitulos = nil)
+    genero_de_contenido = Genero.new(genero)
+    if tipo == 'serie'
+      contenido = Serie.new(titulo, anio, genero_de_contenido, fecha_agregado, cantidad_capitulos)
+    else
+      contenido = Pelicula.new(titulo, anio, genero_de_contenido, fecha_agregado)
+      contenido.pelicula_existente?(repositorio_contenidos)
+    end
+    repositorio_contenidos.save(contenido)
 
-    pelicula
+    contenido
   end
 
   def registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos)

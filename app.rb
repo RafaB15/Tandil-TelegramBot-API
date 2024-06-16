@@ -100,6 +100,8 @@ post '/contenidos' do
   titulo = parametros_contenido['titulo']
   anio = parametros_contenido['anio']
   genero = parametros_contenido['genero']
+  tipo = parametros_contenido['tipo']
+  cantidad_capitulos = parametros_contenido['cantidad_capitulos']
   fecha_agregado_str = parametros_contenido['fecha_agregado']
   fecha_agregado = fecha_agregado_str ? Date.parse(fecha_agregado_str) : Date.today
 
@@ -107,7 +109,7 @@ post '/contenidos' do
 
   begin
     repositorio_peliculas = RepositorioPeliculas.new
-    pelicula = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_peliculas, fecha_agregado)
+    pelicula = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_peliculas, fecha_agregado, tipo, cantidad_capitulos)
     estado = 201
     cuerpo = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }
   rescue StandardError => e
