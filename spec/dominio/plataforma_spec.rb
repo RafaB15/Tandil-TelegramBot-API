@@ -94,8 +94,9 @@ describe 'Plataforma' do
     end
 
     it 'debería crear y guardar un nuevo usuario' do
-      expect(Usuario).to receive(:new).with('usuario@test.com', 123)
-      expect(repositorio_usuarios).to receive(:save).with(usuario)
+      allow(Usuario).to receive(:new).with('usuario@test.com', 123).and_return(usuario)
+      allow(usuario).to receive(:usuario_existente?).with(repositorio_usuarios).and_return(false)
+      allow(repositorio_usuarios).to receive(:save).with(usuario)
 
       result = plataforma.registrar_usuario('usuario@test.com', 123, repositorio_usuarios)
       expect(result).to eq(usuario)

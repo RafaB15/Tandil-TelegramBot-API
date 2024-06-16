@@ -20,13 +20,6 @@ class RepositorioUsuarios < AbstractRepository
   self.table_name = :usuarios
   self.model_class = 'Usuario'
 
-  def save(a_record)
-    raise ErrorAlPersistirUsuarioYaExistente if find_by_id_telegram(a_record.id_telegram)
-    raise ErrorAlPersistirEmailYaExistente if find_by_email(a_record.email)
-
-    super(a_record)
-  end
-
   def find_by_id_telegram(id_telegram)
     row = dataset.first(id_telegram:)
     load_object(row) unless row.nil?

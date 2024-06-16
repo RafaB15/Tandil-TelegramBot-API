@@ -25,6 +25,11 @@ class Usuario
     @id = id
   end
 
+  def usuario_existente?(repositorio_usuarios)
+    raise ErrorAlPersistirUsuarioYaExistente if repositorio_usuarios.find_by_id_telegram(@id_telegram)
+    raise ErrorAlPersistirEmailYaExistente if repositorio_usuarios.find_by_email(@email)
+  end
+
   private
 
   def es_el_email_valido?(email)
