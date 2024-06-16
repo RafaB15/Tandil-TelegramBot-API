@@ -52,6 +52,18 @@ Cuando('cargo {string} {int} {string} ya es un contenido existente') do |titulo,
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 
+Cuando('cargo {string} {int} {string} {string} {string}') do |titulo, anio, genero, tipo, cantidad_capitulos|
+  @titulo = titulo
+  @anio = anio
+  @genero = genero
+  @tipo = tipo
+  @cantidad_capitulos = cantidad_capitulos
+
+  request_body = { titulo:, anio:, genero:, tipo:, cantidad_capitulos: }.to_json
+
+  @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
+end
+
 # Entonces
 # =========================================================
 
@@ -64,6 +76,8 @@ Entonces('deberia devolver un resultado exitoso') do
   expect(json_response['titulo']).to eq(@titulo)
   expect(json_response['anio']).to eq(@anio)
   expect(json_response['genero']).to eq(@genero)
+  expect(json_response['tipo']).to eq(@tipo)
+  expect(json_response['cantidad_capitulos']).to eq(@cantidad_capitulos)
 end
 
 Entonces('deberia devolver solicitud incorrecta \({int}) y un mensaje de error {string}') do |estado, error_message|

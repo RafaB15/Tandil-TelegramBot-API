@@ -1,5 +1,5 @@
 # language: es
-Característica: Cargar peliculas via API
+Característica: Cargar contenido via API
 
     Escenario: US19 - 01 Como administrador quiero poder cargar una pelicula via API
         Cuando cargo "Suerte" 2022 "comedia"
@@ -26,3 +26,8 @@ Característica: Cargar peliculas via API
         Cuando cargo "Oppenheimer" 2024 "suspenso"
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido genero debe ser drama, accion o comedia"
         Y en los detalles se debe especificar los generos permitidos
+
+    @wip
+    Escenario: US24 - 01 Como administrador quiero poder cargar una serie via API
+        Cuando cargo "Game of thrones - Temporada 1" 2011 "accion" "serie" "10"
+        Entonces deberia devolver un resultado exitoso
