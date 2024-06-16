@@ -80,4 +80,21 @@ class Plataforma
     visualizaciones = repositorio_visualizaciones.all
     ContadorDeVisualizaciones.new(visualizaciones).obtener_mas_vistos
   end
+
+  def obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, api_detalles_conector)
+    begin
+      pelicula = repositorio_contenidos.find(@id_contenido)
+    rescue NameError
+      raise ErrorPeliculaInexistente
+    end
+
+    respuesta = api_detalles_conector.detallar_pelicula(pelicula.titulo)
+
+    usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
+    fue_visto = nil
+
+    fue_visto = !repositorio_visualizaciones.find_by_id_usuario_y_id_contenido(usuario.id, pelicula.id).nil? if usuario
+
+    [respuesta, fue_visto]
+  end
 end
