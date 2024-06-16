@@ -24,6 +24,14 @@ class ErrorAlInstanciarPeliculaAnioInvalido < ArgumentError
   end
 end
 
+class ErrorAlPersistirPeliculaYaExistente < StandardError
+  MSG_DE_ERROR = 'Error: pelicula ya existente'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end
+
 class Pelicula
   attr_reader :created_on, :updated_on, :titulo, :fecha_agregado, :anio
   attr_accessor :id

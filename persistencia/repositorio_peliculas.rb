@@ -1,14 +1,6 @@
 require_relative './abstract_repository'
 require 'date'
 
-class ErrorAlPersistirPeliculaYaExistente < StandardError
-  MSG_DE_ERROR = 'Error: pelicula ya existente'.freeze
-
-  def initialize(msg_de_error = MSG_DE_ERROR)
-    super(msg_de_error)
-  end
-end
-
 class RepositorioPeliculas < AbstractRepository
   self.table_name = :peliculas
   self.model_class = 'Pelicula'

@@ -14,6 +14,22 @@ class ErrorAlInstanciarUsuarioTelegramIDInvalido < ArgumentError
   end
 end
 
+class ErrorAlPersistirUsuarioYaExistente < StandardError
+  MSG_DE_ERROR = 'Error: usuario ya existente'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end
+
+class ErrorAlPersistirEmailYaExistente < StandardError
+  MSG_DE_ERROR = 'Error: email ya existente'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end
+
 class Usuario
   attr_reader :email, :updated_on, :created_on, :id_telegram
   attr_accessor :id

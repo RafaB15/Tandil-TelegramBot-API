@@ -1,21 +1,5 @@
 require_relative './abstract_repository'
 
-class ErrorAlPersistirUsuarioYaExistente < StandardError
-  MSG_DE_ERROR = 'Error: usuario ya existente'.freeze
-
-  def initialize(msg_de_error = MSG_DE_ERROR)
-    super(msg_de_error)
-  end
-end
-
-class ErrorAlPersistirEmailYaExistente < StandardError
-  MSG_DE_ERROR = 'Error: email ya existente'.freeze
-
-  def initialize(msg_de_error = MSG_DE_ERROR)
-    super(msg_de_error)
-  end
-end
-
 class RepositorioUsuarios < AbstractRepository
   self.table_name = :usuarios
   self.model_class = 'Usuario'
