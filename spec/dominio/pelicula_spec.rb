@@ -33,4 +33,12 @@ describe Pelicula do
       expect { described_class.new('Jumanji', 'dos mil uno', 'accion') }.to raise_error(ErrorAlInstanciarPeliculaAnioInvalido)
     end
   end
+
+  describe 'pelicula existente' do
+    it 'raises an error' do
+      repositorio = instance_double('RepositorioPeliculas')
+      allow(repositorio).to receive(:find_by_titulo_y_anio).and_return(true)
+      expect { pelicula.pelicula_existente?(repositorio) }.to raise_error(ErrorAlPersistirPeliculaYaExistente)
+    end
+  end
 end

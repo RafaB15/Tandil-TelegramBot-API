@@ -43,6 +43,10 @@ class Pelicula
     @genero_de_pelicula.genero
   end
 
+  def pelicula_existente?(repositorio_peliculas)
+    raise ErrorAlPersistirPeliculaYaExistente if repositorio_peliculas.find_by_titulo_y_anio(@titulo, @anio)
+  end
+
   private
 
   def es_el_titulo_valido?(titulo)

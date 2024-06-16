@@ -16,7 +16,7 @@ class Plataforma
   def registrar_contenido(titulo, anio, genero, repositorio_contenidos, fecha_agregado = Date.today)
     genero_de_pelicula = Genero.new(genero)
     pelicula = Pelicula.new(titulo, anio, genero_de_pelicula, fecha_agregado)
-
+    pelicula.pelicula_existente?(repositorio_contenidos)
     repositorio_contenidos.save(pelicula)
 
     pelicula
