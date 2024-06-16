@@ -23,7 +23,6 @@ def enviar_respuesta_nuevo(estado, respuesta)
   respuesta.to_json
 end
 
-# Listo
 get '/version' do
   settings.logger.info '[GET] /version - Consultando la version de la API Rest'
 
@@ -36,7 +35,6 @@ get '/version' do
   cuerpo
 end
 
-# Listo
 post '/reset' do
   settings.logger.info '[POST] /reset - Reinicia la base de datos'
 
@@ -49,7 +47,6 @@ post '/reset' do
   status 200
 end
 
-# Listo
 get '/usuarios' do
   settings.logger.info '[GET] /usuarios - Consultando los usuarios registrados'
 
@@ -68,7 +65,6 @@ get '/usuarios' do
   cuerpo
 end
 
-# Listo
 post '/usuarios' do
   @body ||= request.body.read
   parametros_usuario = JSON.parse(@body)
@@ -96,7 +92,6 @@ post '/usuarios' do
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
-# Listo
 post '/contenidos' do
   require 'date'
 
@@ -126,7 +121,6 @@ post '/contenidos' do
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
-## Listo
 get '/contenidos' do
   titulo = params['titulo']
 
@@ -141,7 +135,6 @@ get '/contenidos' do
   response.to_json
 end
 
-## Listo
 post '/visualizaciones' do
   @body ||= request.body.read
   parametros_visualizaciones = JSON.parse(@body)
@@ -170,7 +163,6 @@ post '/visualizaciones' do
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
-## Listo
 get '/visualizaciones/top' do
   settings.logger.info '[GET] /visualizacion/top - Consultando las visualizaciones existentes'
 
@@ -191,7 +183,6 @@ get '/visualizaciones/top' do
   enviar_respuesta_nuevo(estado, cuerpo)
 end
 
-## Listo
 post '/calificaciones' do
   @body ||= request.body.read
   parametros_calificaciones = JSON.parse(@body)
@@ -223,7 +214,6 @@ post '/calificaciones' do
   enviar_respuesta_nuevo(estado, respuesta)
 end
 
-## Listo
 post '/favoritos' do
   @body ||= request.body.read
   parametros_favoritos = JSON.parse(@body)
@@ -253,7 +243,6 @@ post '/favoritos' do
   enviar_respuesta_nuevo(estado, respuesta)
 end
 
-## Listo
 get '/favoritos' do
   id_telegram = params['id_telegram']
   usuario = RepositorioUsuarios.new.find_by_id_telegram(id_telegram)
@@ -270,7 +259,6 @@ get '/favoritos' do
   response.to_json
 end
 
-## Listo
 get '/contenidos/ultimos-agregados' do
   settings.logger.info '[GET] /contenidos/ultimos-agregados - Consultando los ultimos contenidos agregados de la semana'
 
@@ -340,37 +328,3 @@ def armar_respuesta(omdb_respuesta, fue_visto)
 
   respuesta.to_json
 end
-
-# class Plataforma #Objeto fachada de aplicación - simil NonaPedidos.
-
-#   def registrar_usuario(email, id_telegram, repo)
-
-#     raise ErrorAlPersistirUsuarioYaExistente unless repo.find_by_id_telegram(id_telegram).nil?
-#     usuario = Usuario.new(email, id_telegram) #Verificaciones de validez de email y telegram id van dentro de usuario
-#     repo.save(usuario)
-#     usuario
-
-#   end
-# end
-
-# post '/usuarios' do
-#   # rescatar parametros
-#   @body ||= request.body.read
-#   parametros_usuario = JSON.parse(@body)
-#   email = parametros_usuario['email']
-#   id_telegram = parametros_usuario['id_telegram']
-
-#   repo = RepositorioUsuarios.new #Objeto de I/O
-#   plataforma = Plataforma.new #Objeto de negocio
-#   usuario = plataforma.registrar_usuario(email, id_telegram, repo) #Tira error si falla.
-
-#   status 200
-#   { id: usuario.id, email: usuario.email, id_telegram: usuario.id_telegram }.to_json #respuesta HTTP correcta
-# rescue StandardError => e
-#   mapeo = MapeoErrorAHTTP.new(e) #Entidad que sabe los errores del negocio y mapea al error HTTP correspondiente
-#   #Ahora el manejador guarda en sus atributos lo necesario para pasarse al generador y que este arme un error HTTP
-
-#   error_http = ErrorHTTP.new(mapeo) #Este objeto recibe un manejador con los datos necesarios en sus atributos
-#   status error_http.estado
-#   error_http.respuesta #Genera el error HTTP como json
-# end
