@@ -22,6 +22,12 @@ describe Pelicula do
     end
   end
 
+  describe 'titulo invalido nil' do
+    it 'raises an error' do
+      expect { described_class.new('', nil, 'accion') }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+    end
+  end
+
   describe 'anio invalido negativo' do
     it 'raises an error' do
       expect { described_class.new('Jumanji', -1, 'accion') }.to raise_error(ErrorAlInstanciarPeliculaAnioInvalido)

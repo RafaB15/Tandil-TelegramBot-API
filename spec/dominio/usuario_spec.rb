@@ -21,6 +21,10 @@ describe Usuario do
       expect { described_class.new('usuario@test.com', -123_456_789) }.to raise_error(ErrorAlInstanciarUsuarioTelegramIDInvalido)
     end
 
+    it 'debe levantar un error cuando el id telegram es nil' do
+      expect { described_class.new('usuario@test.com', nil) }.to raise_error(ErrorAlInstanciarUsuarioTelegramIDInvalido)
+    end
+
     it 'debe levantar un error cuando intenta guardar un usuario con el mismo telegram ID dos veces' do
       repositorio = RepositorioUsuarios.new
       juan = described_class.new('jaun@test.com', 123_345_789)
