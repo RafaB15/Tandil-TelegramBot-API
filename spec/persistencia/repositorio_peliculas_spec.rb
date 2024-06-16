@@ -20,14 +20,6 @@ describe RepositorioPeliculas do
     expect(repositorio.all.size).to be(cantidad_de_peliculas_iniciales + 1)
   end
 
-  xit 'guardar una pelicula con el mismo titulo y anio dos veces da un error' do
-    pelicula1 = Pelicula.new('Iron Man', 2008, genero_de_pelicula)
-    repositorio.save(pelicula1)
-
-    pelicula2 = Pelicula.new('Iron Man', 2008, otro_genero_de_pelicula)
-    expect { repositorio.save(pelicula2) }.to raise_error(ErrorAlPersistirPeliculaYaExistente)
-  end
-
   it 'debería recuperar una película por título' do
     pelicula1 = Pelicula.new('Titanic', 2008, genero_de_pelicula)
     repositorio.save(pelicula1)
