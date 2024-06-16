@@ -45,6 +45,9 @@ class Plataforma
     raise ErrorVisualizacionInexistente if visualizacion.nil?
 
     calificacion = Calificacion.new(usuario, contenido, puntaje)
+
+    calificacion.es_una_recalificacion?(repositorio_calificaciones)
+
     repositorio_calificaciones.save(calificacion)
     calificacion
   end

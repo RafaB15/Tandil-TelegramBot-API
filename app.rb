@@ -23,9 +23,6 @@ def enviar_respuesta_nuevo(estado, respuesta)
   respuesta.to_json
 end
 
-# Crear instancias de los controladores
-controlador_calificacion = ControladorCalificacion.new
-
 # Listo
 get '/version' do
   settings.logger.info '[GET] /version - Consultando la version de la API Rest'
@@ -226,27 +223,6 @@ post '/calificaciones' do
   enviar_respuesta_nuevo(estado, respuesta)
 end
 
-put '/calificaciones' do
-  @body ||= request.body.read
-  parametros_calificacion = JSON.parse(@body)
-  id_telegram = parametros_calificacion['id_telegram']
-  id_pelicula = parametros_calificacion['id_pelicula']
-  nueva_calificacion = parametros_calificacion['calificacion']
-
-  calificacion = RepositorioCalificaciones.new.find_by_id_usuario_y_id_contenido(id_telegram, id_pelicula)
-
-  RepositorioCalificaciones.new.destroy(calificacion)
-
-  settings.logger.info "[PUT] /calificacion - Actualizando la calificion - Body: #{parametros_calificacion}"
-
-  creador_de_calificacion = CreadorDeCalificacion.new(id_telegram, id_pelicula, nueva_calificacion)
-  controlador_calificacion.crear_calificacion(creador_de_calificacion)
-
-  settings.logger.info "[Status] : #{controlador_calificacion.estado} - [Response] : #{controlador_calificacion.respuesta}"
-
-  enviar_respuesta(controlador_calificacion)
-end
-
 ## Listo
 post '/favoritos' do
   @body ||= request.body.read
@@ -294,6 +270,7 @@ get '/favoritos' do
   response.to_json
 end
 
+## Listo
 get '/contenidos/ultimos-agregados' do
   settings.logger.info '[GET] /contenidos/ultimos-agregados - Consultando los ultimos contenidos agregados de la semana'
 

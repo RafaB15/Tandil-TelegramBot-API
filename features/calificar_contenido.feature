@@ -9,7 +9,6 @@ Antecedentes:
         Cuando califica la pelicula con un 4
         Entonces ve un mensaje de exito
 
-    @wip
     Escenario: US15 - 02 Como cinefilo quiero poder re-calificar contenido ya visto
         Dado que el usuario la habia calificado con un 5
         Cuando califica la pelicula con un 3 se actualiza

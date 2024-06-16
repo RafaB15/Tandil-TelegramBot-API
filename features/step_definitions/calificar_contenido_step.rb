@@ -48,7 +48,7 @@ Cuando('califica la pelicula con un {int} se actualiza') do |nuevo_puntaje|
   @nuevo_puntaje = nuevo_puntaje
 
   request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, puntaje: nuevo_puntaje }.to_json
-  @response_calificaciones_actualizada = Faraday.put('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
+  @response_calificaciones_actualizada = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Cuando('califica una pelicula que no vio con un {int}') do |puntaje|

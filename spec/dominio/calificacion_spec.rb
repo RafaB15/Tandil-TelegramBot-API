@@ -33,4 +33,20 @@ describe Calificacion do
 
     expect { described_class.new(usuario, pelicula, puntaje) }.to raise_error(ErrorAlInstanciarCalificacionInvalida)
   end
+
+  it 'debe borrar la calificacion anterior si existe una' do
+    usuario = instance_double('Usuario')
+    allow(usuario).to receive(:id).and_return(1)
+
+    pelicula = instance_double('Pelicula')
+    allow(pelicula).to receive(:id).and_return(1)
+
+    calificacion = instance_double('Calificacion')
+    repositorio_calificaciones = instance_double('RepositorioCalificaciones')
+
+    allow(repositorio_calificaciones).to receive(:find_by_id_usuario_y_id_contenido).with(usuario.id, pelicula.id).and_return(calificacion)
+    allow(calificacion).to receive(:es_una_recalificacion?).with(repositorio_calificaciones).and_return(true)
+
+    expect(calificacion.es_una_recalificacion?(repositorio_calificaciones)).to be true
+  end
 end

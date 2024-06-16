@@ -7,7 +7,17 @@ class Calificacion
     @pelicula = pelicula
     @puntaje = puntaje
     @id = id
+
     raise ErrorAlInstanciarCalificacionInvalida unless son_los_parametros_validos?
+  end
+
+  def es_una_recalificacion?(repositorio_calificaciones)
+    calificacion = repositorio_calificaciones.find_by_id_usuario_y_id_contenido(@usuario.id, @pelicula.id)
+    if calificacion
+      repositorio_calificaciones.destroy(calificacion)
+      true
+    end
+    false
   end
 
   private

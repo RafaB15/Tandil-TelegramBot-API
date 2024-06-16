@@ -1,5 +1,6 @@
 require 'rspec'
 require_relative '../../dominio/plataforma'
+require_relative '../../dominio/calificacion'
 
 describe 'Plataforma' do
   describe 'registrar_favorito' do
@@ -34,7 +35,7 @@ describe 'Plataforma' do
     let(:repositorio_visualizaciones) { instance_double('RepositorioVisualizaciones') }
     let(:repositorio_calificaciones) { instance_double('RepositorioCalificaciones') }
     let(:usuario) { instance_double('Usuario', id: 1) }
-    let(:pelicula) { instance_double('Pelicula') }
+    let(:pelicula) { instance_double('Pelicula', id: 2) }
     let(:visualizacion) { instance_double('Visualizacion') }
     let(:calificacion) { instance_double('Calificacion') }
     let(:plataforma) { Plataforma.new(123, 456) }
@@ -48,10 +49,16 @@ describe 'Plataforma' do
     end
 
     it 'dado que el id_telegram, id_pelicula y calificacion son válidos se crea una calificacion' do
-      expect(Calificacion).to receive(:new).with(usuario, pelicula, 5)
-      expect(repositorio_calificaciones).to receive(:save).with(calificacion)
-      puntaje = 5
+      calificacion = instance_double(Calificacion)
 
+      allow(Calificacion).to receive(:new).with(usuario, pelicula, 5).and_return(calificacion)
+      allow(repositorio_calificaciones).to receive(:save).with(calificacion)
+
+      allow(repositorio_calificaciones).to receive(:find_by_id_usuario_y_id_contenido).with(usuario.id, pelicula.id).and_return(calificacion)
+      allow(repositorio_calificaciones).to receive(:save).and_return(calificacion)
+      allow(calificacion).to receive(:es_una_recalificacion?).and_return(false)
+
+      puntaje = 5
       result = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
 
       expect(result).to eq(calificacion)
