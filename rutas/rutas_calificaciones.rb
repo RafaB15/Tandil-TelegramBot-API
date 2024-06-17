@@ -7,7 +7,7 @@ post '/calificaciones' do
   id_pelicula = parametros_calificaciones['id_pelicula']
   puntaje = parametros_calificaciones['puntaje']
 
-  settings.logger.info "[POST] /calificaciones - Iniciando creación de una nueva calificion - Body: #{parametros_calificaciones}"
+  settings.logger.debug "[POST] /calificaciones - Iniciando creación de una nueva calificion - Body: #{parametros_calificaciones}"
 
   repositorio_contenidos = RepositorioContenidos.new
   repositorio_usuarios = RepositorioUsuarios.new
@@ -18,16 +18,20 @@ post '/calificaciones' do
 
   begin
     calificacion, puntaje_anterior = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
-    estado, respuesta = armar_respuesta_calificaciones(calificacion, puntaje_anterior)
+
+    estado, cuerpo = armar_respuesta_calificaciones(calificacion, puntaje_anterior)
   rescue StandardError => e
     mapeo_error_http = ManejadorDeErrores.new(e)
     error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
+
     estado = error_response.estado
-    respuesta = error_response.respuesta
+    cuerpo = error_response.respuesta
   end
 
-  settings.logger.info "Respuesta - [Estado] : #{estado} - [Cuerpo] : #{respuesta}"
-  enviar_respuesta(estado, respuesta)
+  settings.logger.debug "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
+
+  status estado
+  cuerpo.to_json
 end
 
 def armar_respuesta_calificaciones(calificacion, puntaje_anterior)

@@ -1,7 +1,7 @@
 require_relative './utiles'
 
 get '/usuarios' do
-  settings.logger.info '[GET] /usuarios - Consultando los usuarios registrados'
+  settings.logger.debug '[GET] /usuarios - Consultando los usuarios registrados'
 
   usuarios = RepositorioUsuarios.new.all
   cuerpo = usuarios.map do |u|
@@ -12,7 +12,7 @@ get '/usuarios' do
     }
   end
 
-  settings.logger.info "Respuesta - [Estado] : 200 - [Cuerpo] : #{cuerpo}"
+  settings.logger.debug "Respuesta - [Estado] : 200 - [Cuerpo] : #{cuerpo}"
 
   status 200
   cuerpo.to_json
@@ -24,10 +24,9 @@ post '/usuarios' do
   email = parametros_usuario['email']
   id_telegram = parametros_usuario['id_telegram']
 
-  settings.logger.info "[POST] /usuarios - Iniciando creación de un nuevo usuario - Body: #{parametros_usuario}"
+  settings.logger.debug "[POST] /usuarios - Iniciando creación de un nuevo usuario - Body: #{parametros_usuario}"
 
   repositorio_usuarios = RepositorioUsuarios.new
-
   plataforma = Plataforma.new
 
   begin
@@ -43,7 +42,7 @@ post '/usuarios' do
     cuerpo = error_response.respuesta
   end
 
-  settings.logger.info "Respuesta => [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
+  settings.logger.debug "Respuesta => [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
 
   status estado
   cuerpo.to_json

@@ -15,10 +15,10 @@ describe RepositorioContenidos do
   end
 
   it 'deberia recuperar todos' do
-    cantidad_de_peliculas_iniciales = repositorio.all.size
+    cantidad_de_contenidos_iniciales = repositorio.all.size
     iron_man = FabricaDeContenido.crear_contenido('Iron Man', 2008, genero_de_pelicula)
     repositorio.save(iron_man)
-    expect(repositorio.all.size).to be(cantidad_de_peliculas_iniciales + 1)
+    expect(repositorio.all.size).to be(cantidad_de_contenidos_iniciales + 1)
   end
 
   it 'debería recuperar una película por título' do

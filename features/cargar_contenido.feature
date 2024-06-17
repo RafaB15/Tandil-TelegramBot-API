@@ -27,7 +27,6 @@ Característica: Cargar contenido via API
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido genero debe ser drama, accion o comedia"
         Y en los detalles se debe especificar los generos permitidos
 
-    @current
     Escenario: US24 - 01 Como administrador quiero poder cargar una serie via API
         Cuando cargo "Game of thrones - Temporada 1" 2011 "accion" 10
         Entonces deberia devolver un resultado exitoso

@@ -12,8 +12,3 @@ customer_logger = Configuration.logger
 set :logger, customer_logger
 DB = Configuration.db
 DB.loggers << customer_logger
-
-def enviar_respuesta(estado, respuesta)
-  status(estado)
-  respuesta.to_json
-end

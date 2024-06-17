@@ -6,25 +6,29 @@ require_relative './rutas/rutas_visualizaciones'
 require_relative './rutas/rutas_favoritos'
 
 get '/version' do
-  settings.logger.info '[GET] /version - Consultando la version de la API Rest'
+  settings.logger.debug '[GET] /version - Consultando la version de la API Rest'
 
   version = Version.current
+
+  estado = 200
   cuerpo = { version: }
 
-  settings.logger.info "Respuesta - [Estado] : 200 - [Cuerpo] : #{cuerpo}"
+  settings.logger.debug "Respuesta - [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
 
-  status 200
+  status estado
   cuerpo.to_json
 end
 
 post '/reset' do
-  settings.logger.info '[POST] /reset - Reinicia la base de datos'
+  settings.logger.debug '[POST] /reset - Reinicia la base de datos'
 
   AbstractRepository.subclasses.each do |repositorio|
     repositorio.new.delete_all
   end
 
-  settings.logger.info 'Respuesta - [Estado] : 200 - [Cuerpo] : vacio'
+  estado = 200
 
-  status 200
+  settings.logger.debug "Respuesta - [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
+
+  status estado
 end

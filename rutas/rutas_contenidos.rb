@@ -13,62 +13,77 @@ post '/contenidos' do
   fecha_agregado_str = parametros_contenidos['fecha_agregado']
   fecha_agregado = fecha_agregado_str ? Date.parse(fecha_agregado_str) : Date.today
 
-  settings.logger.info "[POST] /contenidos - Iniciando creación de un nuevo contenido - Cuerpo: #{parametros_contenidos}"
+  settings.logger.debug "[POST] /contenidos - Iniciando creación de un nuevo contenido - Cuerpo: #{parametros_contenidos}"
+
+  repositorio_contenidos = RepositorioContenidos.new
 
   begin
-    repositorio_peliculas = RepositorioContenidos.new
-    contenido = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_peliculas, fecha_agregado, cantidad_capitulos)
+    contenido = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_contenidos, fecha_agregado, cantidad_capitulos)
+
     estado = 201
     cuerpo = { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero, cantidad_capitulos: contenido.cantidad_capitulos }
   rescue StandardError => e
     mapeo_error_http = ManejadorDeErrores.new(e)
     error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
+
     estado = error_response.estado
     cuerpo = error_response.respuesta
   end
 
-  settings.logger.info "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
-  enviar_respuesta(estado, cuerpo)
+  settings.logger.debug "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
+
+  status estado
+  cuerpo.to_json
 end
 
 get '/contenidos' do
   titulo = params['titulo']
 
-  repositorio_peliculas = RepositorioContenidos.new
-  peliculas = Plataforma.new.obtener_contenido_por_titulo(titulo, repositorio_peliculas)
+  settings.logger.debug '[GET] /contenidos - Consultando los contenidos guardados en la BDD'
 
-  status 200
-  response = []
-  peliculas.each do |pelicula|
-    response << { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }
+  repositorio_contenidos = RepositorioContenidos.new
+  contenidos = Plataforma.new.obtener_contenido_por_titulo(titulo, repositorio_contenidos)
+
+  estado = 200
+  cuerpo = []
+
+  contenidos.each do |contenido|
+    cuerpo << { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero }
   end
-  response.to_json
+
+  settings.logger.debug "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
+
+  status estado
+  cuerpo.to_json
 end
 
 get '/contenidos/ultimos-agregados' do
-  settings.logger.info '[GET] /contenidos/ultimos-agregados - Consultando los ultimos contenidos agregados de la semana'
+  settings.logger.debug '[GET] /contenidos/ultimos-agregados - Consultando los ultimos contenidos agregados de la semana'
 
-  repositorio_peliculas = RepositorioContenidos.new
+  repositorio_contenidos = RepositorioContenidos.new
 
   plataforma = Plataforma.new
 
-  contenidos = plataforma.obtener_contenido_ultimos_agregados(repositorio_peliculas)
-
-  respuesta = []
-  contenidos.each do |contenido|
-    respuesta << { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero }
-  end
+  contenidos = plataforma.obtener_contenido_ultimos_agregados(repositorio_contenidos)
 
   estado = 200
+  cuerpo = []
 
-  enviar_respuesta(estado, respuesta)
+  contenidos.each do |contenido|
+    cuerpo << { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero }
+  end
+
+  settings.logger.debug "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
+
+  status estado
+  cuerpo.to_json
 end
 
 get '/contenidos/:id_contenido/detalles' do
   id_telegram = params['id_telegram']
   id_contenido = params['id_contenido']
 
-  settings.logger.info "[GET] /contenidos/#{id_contenido}/detalles - Consultando los detalles acerca de la pelicula con id: #{id_contenido}"
+  settings.logger.debug "[GET] /contenidos/#{id_contenido}/detalles - Consultando los detalles acerca de la pelicula con id: #{id_contenido}"
 
   repositorio_usuarios = RepositorioUsuarios.new
   repositorio_contenidos = RepositorioContenidos.new
@@ -77,14 +92,16 @@ get '/contenidos/:id_contenido/detalles' do
   omb_conector_api = OMDbConectorAPIProxy.new
 
   plataforma = Plataforma.new(id_telegram, id_contenido)
+
   omdb_respuesta, fue_visto = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omb_conector_api)
 
-  respuesta = armar_respuesta_omdb(omdb_respuesta, fue_visto)
+  estado = 200
+  cuerpo = armar_respuesta_omdb(omdb_respuesta, fue_visto)
 
-  logger.info "[Status] : 200 - [Response] : #{respuesta}"
+  settings.logger.debug "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
 
-  status 200
-  respuesta
+  status estado
+  cuerpo
 rescue ErrorPeliculaInexistente
   armar_error('no encontrado')
 rescue StandardError => e
