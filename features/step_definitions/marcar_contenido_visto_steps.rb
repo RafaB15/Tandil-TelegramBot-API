@@ -75,10 +75,17 @@ Entonces('la serie {string} se contabiliza como vista') do |titulo_serie|
   @response = Faraday.get('/visualizaciones/top', { 'Content-Type' => 'application/json' })
   json_response = JSON.parse(@response.body)
 
-  JSON.parse(@body_visualizacion)
-
   expect(@response.status).to eq 200
 
   expect(json_response.length).to eq 1
   expect(json_response[0]['pelicula']['titulo']).to eq titulo_serie
+end
+
+Entonces('la serie {string} NO se contabiliza como vista') do |_titulo_serie|
+  @response = Faraday.get('/visualizaciones/top', { 'Content-Type' => 'application/json' })
+  json_response = JSON.parse(@response.body)
+
+  expect(@response.status).to eq 200
+
+  expect(json_response.length).to eq 0
 end

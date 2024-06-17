@@ -10,7 +10,7 @@ class RepositorioVisualizacionesDeCapitulos < AbstractRepository
   end
 
   def count_visualizaciones_de_capitulos_por_usuario(id_usuario, id_contenido)
-    visualizaciones = load_collection dataset.where(id_usuario:, id_contenido:).all
+    visualizaciones = dataset.select(:numero_capitulo).distinct.where(id_usuario:, id_contenido:).all
     visualizaciones.count
   end
 
@@ -26,7 +26,8 @@ class RepositorioVisualizacionesDeCapitulos < AbstractRepository
     {
       id_usuario: visualizacion_de_capitulo.usuario.id,
       id_contenido: visualizacion_de_capitulo.temporada_de_serie.id,
-      fecha: visualizacion_de_capitulo.fecha
+      fecha: visualizacion_de_capitulo.fecha,
+      numero_capitulo: visualizacion_de_capitulo.numero_capitulo
     }
   end
 end
