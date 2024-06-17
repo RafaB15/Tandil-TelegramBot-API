@@ -202,9 +202,8 @@ post '/calificaciones' do
   plataforma = Plataforma.new(id_telegram, id_pelicula)
 
   begin
-    calificacion, _puntaje_anterior = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
-    estado = 201
-    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_pelicula: calificacion.pelicula.id, puntaje: calificacion.puntaje }
+    calificacion, puntaje_anterior = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+    estado, respuesta = armar_respuesta_calificaciones(calificacion, puntaje_anterior)
   rescue StandardError => e
     mapeo_error_http = ManejadorDeErrores.new(e)
     error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
@@ -214,6 +213,17 @@ post '/calificaciones' do
 
   settings.logger.info "Respuesta - [Estado] : #{estado} - [Cuerpo] : #{respuesta}"
   enviar_respuesta_nuevo(estado, respuesta)
+end
+
+def armar_respuesta_calificaciones(calificacion, puntaje_anterior)
+  if puntaje_anterior.nil?
+    estado = 201
+    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_pelicula: calificacion.pelicula.id, puntaje: calificacion.puntaje }
+  else
+    estado = 200
+    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_pelicula: calificacion.pelicula.id, puntaje: calificacion.puntaje, puntaje_anterior: }
+  end
+  [estado, respuesta]
 end
 
 post '/favoritos' do
@@ -295,7 +305,7 @@ get '/contenidos/:id_contenido/detalles' do
   plataforma = Plataforma.new(id_telegram, id_contenido)
   omdb_respuesta, fue_visto = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omb_conector_api)
 
-  respuesta = armar_respuesta(omdb_respuesta, fue_visto)
+  respuesta = armar_respuesta_omdb(omdb_respuesta, fue_visto)
 
   logger.info "[Status] : 200 - [Response] : #{respuesta}"
 
@@ -315,7 +325,7 @@ def armar_error(mensaje)
   }.to_json
 end
 
-def armar_respuesta(omdb_respuesta, fue_visto)
+def armar_respuesta_omdb(omdb_respuesta, fue_visto)
   detalles_pelicula = omdb_respuesta['cuerpo']
 
   respuesta = {

@@ -55,14 +55,14 @@ describe 'Plataforma' do
       allow(Calificacion).to receive(:new).with(usuario, pelicula, 5).and_return(calificacion)
       allow(repositorio_calificaciones).to receive(:save).with(calificacion)
 
-      allow(repositorio_calificaciones).to receive(:find_by_id_usuario_y_id_contenido).with(usuario.id, pelicula.id).and_return(calificacion)
+      allow(repositorio_calificaciones).to receive(:find_by_id_usuario_y_id_contenido).with(usuario.id, pelicula.id).and_return(nil)
       allow(repositorio_calificaciones).to receive(:save).and_return(calificacion)
       allow(calificacion).to receive(:recalificar).and_return(5)
 
       puntaje = 5
       result = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
 
-      expect(result).to eq([calificacion, 5])
+      expect(result).to eq([calificacion, nil])
     end
 
     it 'debería lanzar un error si el contenido no existe' do
@@ -81,6 +81,22 @@ describe 'Plataforma' do
       expect do
         plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
       end.to raise_error(ErrorVisualizacionInexistente)
+    end
+
+    it 'debería actualizar la calificación si ya existe' do
+      calificacion = instance_double(Calificacion)
+
+      allow(Calificacion).to receive(:new).with(usuario, pelicula, 5).and_return(calificacion)
+      allow(repositorio_calificaciones).to receive(:save).with(calificacion)
+
+      allow(repositorio_calificaciones).to receive(:find_by_id_usuario_y_id_contenido).with(usuario.id, pelicula.id).and_return(calificacion)
+      allow(repositorio_calificaciones).to receive(:save).and_return(calificacion)
+      allow(calificacion).to receive(:recalificar).and_return(5)
+
+      puntaje = 4
+      result = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+
+      expect(result).to eq([calificacion, 5])
     end
   end
 
