@@ -2,8 +2,8 @@ require_relative './abstract_repository'
 require 'date'
 
 class RepositorioContenidos < AbstractRepository
-  self.table_name = :peliculas
-  self.model_class = 'Pelicula'
+  self.table_name = :contenidos
+  self.model_class = 'Contenido'
 
   def find_by_titulo_y_anio(titulo, anio)
     row = dataset.first(titulo:, anio:)
@@ -19,23 +19,24 @@ class RepositorioContenidos < AbstractRepository
   end
 
   def agregados_despues_de_fecha(fecha_limite)
-    load_collection dataset.where(Sequel.lit('peliculas.fecha_agregado >= ?', fecha_limite))
+    load_collection dataset.where(Sequel.lit('contenidos.fecha_agregado >= ?', fecha_limite))
   end
 
   protected
 
   def load_object(a_hash)
-    genero_de_pelicula = Genero.new(a_hash[:genero])
+    genero_de_contenido = Genero.new(a_hash[:genero])
     fecha_agregado = a_hash[:fecha_agregado]
-    FabricaDeContenido.crear_contenido(a_hash[:titulo], a_hash[:anio], genero_de_pelicula, fecha_agregado, a_hash[:cantidad_capitulos], a_hash[:id])
+    FabricaDeContenido.crear_contenido(a_hash[:titulo], a_hash[:anio], genero_de_contenido, fecha_agregado, a_hash[:cantidad_capitulos], a_hash[:id])
   end
 
-  def changeset(pelicula)
+  def changeset(contenido)
     {
-      titulo: pelicula.titulo,
-      anio: pelicula.anio,
-      genero: pelicula.genero,
-      fecha_agregado: pelicula.fecha_agregado
+      titulo: contenido.titulo,
+      anio: contenido.anio,
+      genero: contenido.genero,
+      fecha_agregado: contenido.fecha_agregado,
+      cantidad_capitulos: contenido.cantidad_capitulos
     }
   end
 end

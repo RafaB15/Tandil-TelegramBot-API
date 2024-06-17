@@ -132,6 +132,7 @@ describe 'Plataforma' do
       allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado, nil, nil).and_return(pelicula)
       allow(Serie).to receive(:new).with('Garfield', 2005, genero, fecha_agregado, 12, nil).and_return(serie)
       allow(repositorio_contenidos).to receive(:save).with(pelicula)
+      allow(repositorio_contenidos).to receive(:save).with(serie)
     end
 
     it 'dado que el titulo, anio y genero son válidos se crea una película exitosamente con estado 201' do
@@ -169,7 +170,8 @@ describe 'Plataforma' do
       end.to raise_error(ErrorAlPersistirContenidoYaExistente)
     end
 
-    xit 'dado que el titulo, anio, genero, tipo y cantidad de capitulos son válidos se crea una serie exitosamente con estado 201' do
+    it 'dado que el titulo, anio, genero, tipo y cantidad de capitulos son válidos se crea una serie exitosamente con estado 201' do
+      allow(serie).to receive(:contenido_existente?).with(repositorio_contenidos).and_return(false)
       result = plataforma.registrar_contenido('Garfield', 2005, 'accion', repositorio_contenidos, fecha_agregado, 12)
       expect(result).to eq(serie)
     end
