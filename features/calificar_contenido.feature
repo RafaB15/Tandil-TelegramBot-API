@@ -30,3 +30,8 @@ Antecedentes:
         Dado que existe el contenido "Titanic" 1997 "drama" y el usuario no lo vio
         Cuando califica una pelicula que no vio con un 1
         Entonces ve un mensaje de que la pelicula no fue vista
+    
+    Escenario: US15 - 07 Como cinefilo quiero no poder re-calificar contenido con una calificacion invalida
+        Dado que el usuario la habia calificado con un 5
+        Cuando califica la pelicula con un -1
+        Entonces ve un mensaje de calificacion fuera de rango

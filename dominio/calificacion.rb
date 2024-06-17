@@ -3,15 +3,17 @@ class Calificacion
   attr_accessor :id
 
   def initialize(usuario, pelicula, puntaje, id = nil)
+    raise ErrorAlInstanciarCalificacionInvalida unless es_el_puntaje_valido?(puntaje)
+
     @usuario = usuario
     @pelicula = pelicula
     @puntaje = puntaje
     @id = id
-
-    raise ErrorAlInstanciarCalificacionInvalida unless son_los_parametros_validos?
   end
 
   def recalificar(puntaje_nuevo)
+    raise ErrorAlInstanciarCalificacionInvalida unless es_el_puntaje_valido?(puntaje_nuevo)
+
     puntaje_anterior = @puntaje
     @puntaje = puntaje_nuevo
     puntaje_anterior
@@ -19,8 +21,8 @@ class Calificacion
 
   private
 
-  def son_los_parametros_validos?
-    @puntaje > 0 && @puntaje < 6
+  def es_el_puntaje_valido?(puntaje)
+    puntaje > 0 && puntaje < 6
   end
 end
 

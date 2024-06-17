@@ -38,4 +38,10 @@ describe Calificacion do
     puntaje_nuevo = 4
     expect(calificacion.recalificar(puntaje_nuevo)).to eq 5
   end
+
+  it 'debe levantar un error cuando el puntaje de recalificacion es negativo' do
+    puntaje_nuevo = -1
+
+    expect { calificacion.recalificar(puntaje_nuevo) }.to raise_error(ErrorAlInstanciarCalificacionInvalida)
+  end
 end
