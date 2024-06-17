@@ -1,4 +1,3 @@
-require 'sinatra'
 require 'sequel'
 require 'sinatra/custom_logger'
 require_relative '../config/configuration'

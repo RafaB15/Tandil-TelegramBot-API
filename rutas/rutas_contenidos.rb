@@ -1,3 +1,5 @@
+require 'sinatra'
+
 require_relative './utiles'
 Dir[File.join(__dir__, '../lib/om_db_conector_api', '*.rb')].each { |file| require file }
 

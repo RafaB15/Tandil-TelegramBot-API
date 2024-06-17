@@ -1,3 +1,5 @@
+require 'sinatra'
+
 require_relative './utiles'
 
 post '/favoritos' do
