@@ -27,4 +27,15 @@ describe RepositorioVisualizacionesDeCapitulos do
     described_class.new.save(visualizacion)
     expect(visualizacion.id).to be > 0
   end
+
+  it 'deberia poder contar cuantos capitulos de una temporada vio un usuario' do
+    repo = described_class.new
+    visualizacion = VisualizacionDeCapitulo.new(usuario, temporada_de_serie, fecha, numero_capitulo)
+    described_class.new.save(visualizacion)
+    visualizacion = VisualizacionDeCapitulo.new(usuario, temporada_de_serie, fecha, numero_capitulo + 1)
+    described_class.new.save(visualizacion)
+    visualizacion = VisualizacionDeCapitulo.new(usuario, temporada_de_serie, fecha, numero_capitulo + 2)
+    described_class.new.save(visualizacion)
+    expect(repo.count_visualizaciones_de_capitulos_por_usuario(usuario.id, temporada_de_serie.id)).to eq 3
+  end
 end

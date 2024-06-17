@@ -11,6 +11,11 @@ Dado('que existe el contenido {string} {int} {string}') do |titulo, anio, genero
   @response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 
+Dado('que existe el contenido {string} {int} {string} {int} en la base de datos') do |titulo, anio, genero, cantidad_capitulos|
+  @request_temporada = { titulo:, anio:, genero:, cantidad_capitulos: }.to_json
+  @response_contenido = Faraday.post('/contenidos', @request_temporada, { 'Content-Type' => 'application/json' })
+end
+
 # Cuando
 # =========================================================
 
@@ -64,4 +69,16 @@ Entonces('se deberia ver un mensaje de la visualizacion cargada exitosamente') d
   expect(json_response['id_contenido']).to eq body_visualizacion['id_pelicula']
   expect(json_response['fecha']).to eq body_visualizacion['fecha']
   expect(json_response['numero_capitulo']).to eq body_visualizacion['numero_capitulo']
+end
+
+Entonces('la serie {string} se contabiliza como vista') do |titulo_serie|
+  @response = Faraday.get('/visualizaciones/top', { 'Content-Type' => 'application/json' })
+  json_response = JSON.parse(@response.body)
+
+  JSON.parse(@body_visualizacion)
+
+  expect(@response.status).to eq 200
+
+  expect(json_response.length).to eq 1
+  expect(json_response[0]['pelicula']['titulo']).to eq titulo_serie
 end

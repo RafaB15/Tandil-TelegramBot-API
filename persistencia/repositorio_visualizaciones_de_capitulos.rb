@@ -9,6 +9,11 @@ class RepositorioVisualizacionesDeCapitulos < AbstractRepository
     load_object(row) unless row.nil?
   end
 
+  def count_visualizaciones_de_capitulos_por_usuario(id_usuario, id_contenido)
+    visualizaciones = load_collection dataset.where(id_usuario:, id_contenido:).all
+    visualizaciones.count
+  end
+
   protected
 
   def load_object(a_hash)

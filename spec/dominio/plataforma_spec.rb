@@ -203,9 +203,9 @@ describe 'Plataforma' do
     let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
     let(:repositorio_visualizaciones) { instance_double('RepositorioVisualizaciones') }
     let(:repositorio_visualizaciones_de_capitulos) { instance_double('RepositorioVisualizacionesDeCapitulos') }
-    let(:temporada_de_serie) { instance_double('Serie') }
+    let(:temporada_de_serie) { instance_double('Serie', id: 1) }
     let(:visualizacion_de_capitulo) { instance_double('VisualizacionDeCapitulo') }
-    let(:usuario) { instance_double('Usuario') }
+    let(:usuario) { instance_double('Usuario', id: 1) }
     let(:pelicula) { instance_double('Pelicula') }
     let(:visualizacion) { instance_double('Visualizacion') }
     let(:plataforma) { Plataforma.new(123, 456) }
@@ -213,6 +213,7 @@ describe 'Plataforma' do
     before(:each) do
       allow(repositorio_usuarios).to receive(:find_by_email).and_return(usuario)
       allow(Visualizacion).to receive(:new).and_return(visualizacion)
+      allow(repositorio_visualizaciones).to receive(:find)
       allow(repositorio_visualizaciones).to receive(:save)
       allow(repositorio_visualizaciones_de_capitulos).to receive(:save)
     end
@@ -230,8 +231,18 @@ describe 'Plataforma' do
       fecha = '2023-04-01T12:00:00Z'
       allow(repositorio_contenidos).to receive(:find).and_return(temporada_de_serie)
       allow(VisualizacionDeCapitulo).to receive(:new).and_return(visualizacion_de_capitulo)
-      result = plataforma.registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, nil, repositorio_visualizaciones_de_capitulos, 1, '', fecha)
+      allow(repositorio_visualizaciones_de_capitulos).to receive(:count_visualizaciones_de_capitulos_por_usuario).and_return(0)
+      result = plataforma.registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, repositorio_visualizaciones_de_capitulos, 1, '', fecha)
       expect(result).to eq(visualizacion_de_capitulo)
+    end
+
+    it 'deberia registrar una temporada como vista cuando una temporada llega a 4 capitulos vistos' do
+      fecha = '2023-04-01T12:00:00Z'
+      allow(repositorio_contenidos).to receive(:find).and_return(temporada_de_serie)
+      allow(repositorio_visualizaciones_de_capitulos).to receive(:count_visualizaciones_de_capitulos_por_usuario).and_return(4)
+
+      expect(repositorio_visualizaciones).to receive(:save)
+      plataforma.registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, repositorio_visualizaciones_de_capitulos, 1, '', fecha)
     end
   end
 

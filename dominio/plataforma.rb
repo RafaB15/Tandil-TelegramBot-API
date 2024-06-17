@@ -68,8 +68,10 @@ class Plataforma
     else
       visualizacion = VisualizacionDeCapitulo.new(usuario, contenido, fecha_time, numero_capitulo)
       repositorio_visualizaciones_de_capitulos.save(visualizacion)
+      if repositorio_visualizaciones_de_capitulos.count_visualizaciones_de_capitulos_por_usuario(usuario.id, contenido.id) == 4
+        repositorio_visualizaciones.save(Visualizacion.new(usuario, contenido, fecha_time))
+      end
     end
-
     visualizacion
   end
 
