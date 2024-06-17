@@ -6,3 +6,5 @@ data:
   PORT: "3000"
   LOG_LEVEL: "info"
   APP_MODE: "production"
+  OMDB_API_URL: "https://www.omdbapi.com/"
+

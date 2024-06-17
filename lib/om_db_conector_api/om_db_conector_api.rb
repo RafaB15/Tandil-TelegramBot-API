@@ -1,7 +1,7 @@
 require 'faraday'
 
 class OMDbConectorAPI
-  API_URL = 'https://www.omdbapi.com/'.freeze
+  API_URL = ENV['OMDB_API_URL']
   API_KEY = ENV['OMDB_API_KEY']
 
   def detallar_pelicula(titulo, logger = nil)
