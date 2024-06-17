@@ -1,7 +1,7 @@
 class Version
   MAYOR = 1
   MINOR = 1
-  PATCH = 6
+  PATCH = 7
 
   def self.current
     "#{MAYOR}.#{MINOR}.#{PATCH}"

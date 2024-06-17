@@ -30,7 +30,7 @@ class CreadorDePelicula
     genero_de_pelicula = Genero.new(@genero)
     contenido = FabricaDeContenido.crear_contenido(@titulo, @anio, genero_de_pelicula, @fecha_agregado)
 
-    RepositorioPeliculas.new.save(contenido)
+    RepositorioContenidos.new.save(contenido)
     contenido
   rescue NameError
     raise ErrorPeliculaInexistente

@@ -11,7 +11,7 @@ describe RepositorioVisualizaciones do
   let(:pelicula) do
     genero_de_pelicula = Genero.new('drama')
     pelicula = FabricaDeContenido.crear_contenido('Nair', 2024, genero_de_pelicula)
-    RepositorioPeliculas.new.save(pelicula)
+    RepositorioContenidos.new.save(pelicula)
   end
 
   let(:fecha) do

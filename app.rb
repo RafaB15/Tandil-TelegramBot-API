@@ -107,7 +107,7 @@ post '/contenidos' do
   settings.logger.info "[POST] /contenidos - Iniciando creación de un nuevo contenido - Cuerpo: #{parametros_contenido}"
 
   begin
-    repositorio_peliculas = RepositorioPeliculas.new
+    repositorio_peliculas = RepositorioContenidos.new
     pelicula = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_peliculas, fecha_agregado, cantidad_capitulos)
     estado = 201
     cuerpo = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }
@@ -125,7 +125,7 @@ end
 get '/contenidos' do
   titulo = params['titulo']
 
-  repositorio_peliculas = RepositorioPeliculas.new
+  repositorio_peliculas = RepositorioContenidos.new
   peliculas = Plataforma.new.obtener_contenido_por_titulo(titulo, repositorio_peliculas)
 
   status 200
@@ -146,7 +146,7 @@ post '/visualizaciones' do
   settings.logger.info "[POST] /visualizaciones - Iniciando creación de una nueva visualizacion - Body: #{parametros_visualizaciones}"
 
   repositorio_usuarios = RepositorioUsuarios.new
-  repositorio_peliculas = RepositorioPeliculas.new
+  repositorio_peliculas = RepositorioContenidos.new
   repositorio_visualizaciones = RepositorioVisualizaciones.new
 
   begin
@@ -193,7 +193,7 @@ post '/calificaciones' do
 
   settings.logger.info "[POST] /calificaciones - Iniciando creación de una nueva calificion - Body: #{parametros_calificaciones}"
 
-  repositorio_contenidos = RepositorioPeliculas.new
+  repositorio_contenidos = RepositorioContenidos.new
   repositorio_usuarios = RepositorioUsuarios.new
   repositorio_visualizaciones = RepositorioVisualizaciones.new
   repositorio_calificaciones = RepositorioCalificaciones.new
@@ -234,7 +234,7 @@ post '/favoritos' do
   settings.logger.info "[POST] /favoritos - Iniciando creación de un nuevo contenido favorito - Body: #{parametros_favoritos}"
 
   repositorio_usuarios = RepositorioUsuarios.new
-  repositorio_peliculas = RepositorioPeliculas.new
+  repositorio_peliculas = RepositorioContenidos.new
   repositorio_favoritos = RepositorioFavoritos.new
 
   plataforma = Plataforma.new(id_telegram, id_contenido)
@@ -273,7 +273,7 @@ end
 get '/contenidos/ultimos-agregados' do
   settings.logger.info '[GET] /contenidos/ultimos-agregados - Consultando los ultimos contenidos agregados de la semana'
 
-  repositorio_peliculas = RepositorioPeliculas.new
+  repositorio_peliculas = RepositorioContenidos.new
 
   plataforma = Plataforma.new
 
@@ -296,7 +296,7 @@ get '/contenidos/:id_contenido/detalles' do
   settings.logger.info "[GET] /contenidos/#{id_contenido}/detalles - Consultando los detalles acerca de la pelicula con id: #{id_contenido}"
 
   repositorio_usuarios = RepositorioUsuarios.new
-  repositorio_contenidos = RepositorioPeliculas.new
+  repositorio_contenidos = RepositorioContenidos.new
   repositorio_visualizaciones = RepositorioVisualizaciones.new
 
   omb_conector_api = OMDbConectorAPIProxy.new

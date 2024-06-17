@@ -42,7 +42,7 @@ describe Pelicula do
 
   describe 'pelicula existente' do
     it 'raises an error' do
-      repositorio = instance_double('RepositorioPeliculas')
+      repositorio = instance_double('RepositorioContenidos')
       allow(repositorio).to receive(:find_by_titulo_y_anio).and_return(true)
       expect { pelicula.contenido_existente?(repositorio) }.to raise_error(ErrorAlPersistirContenidoYaExistente)
     end

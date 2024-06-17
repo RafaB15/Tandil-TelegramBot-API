@@ -12,7 +12,7 @@ class RepositorioFavoritos < AbstractRepository
 
   def load_object(a_hash)
     usuario = RepositorioUsuarios.new.find(a_hash[:id_usuario])
-    pelicula = RepositorioPeliculas.new.find(a_hash[:id_pelicula])
+    pelicula = RepositorioContenidos.new.find(a_hash[:id_pelicula])
 
     Favorito.new(usuario, pelicula)
   end

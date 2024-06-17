@@ -1,9 +1,9 @@
 require 'integration_helper'
 require_relative '../../dominio/pelicula'
 require_relative '../../dominio/fabrica_de_contenido'
-require_relative '../../persistencia/repositorio_peliculas'
+require_relative '../../persistencia/repositorio_contenidos'
 
-describe RepositorioPeliculas do
+describe RepositorioContenidos do
   let(:repositorio) { described_class.new }
   let(:genero_de_pelicula) { instance_double('Genero', genero: 'accion') }
   let(:otro_genero_de_pelicula) { instance_double('Genero', genero: 'drama') }

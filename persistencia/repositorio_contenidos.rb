@@ -1,7 +1,7 @@
 require_relative './abstract_repository'
 require 'date'
 
-class RepositorioPeliculas < AbstractRepository
+class RepositorioContenidos < AbstractRepository
   self.table_name = :peliculas
   self.model_class = 'Pelicula'
 
