@@ -1,6 +1,5 @@
 require 'rspec'
-require_relative '../../dominio/plataforma'
-require_relative '../../dominio/serie'
+Dir[File.join(__dir__, '../../dominio', '*.rb')].each { |file| require file }
 
 describe 'Plataforma' do
   describe 'registrar_favorito' do
@@ -130,48 +129,48 @@ describe 'Plataforma' do
 
     before(:each) do
       allow(Genero).to receive(:new).with('accion').and_return(genero)
-      allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado).and_return(pelicula)
-      allow(Serie).to receive(:new).with('Garfield', 2005, genero, fecha_agregado, 12).and_return(serie)
-      allow(repositorio_contenidos).to receive(:save).with(pelicula).and_return(pelicula)
+      allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado, nil, nil).and_return(pelicula)
+      allow(Serie).to receive(:new).with('Garfield', 2005, genero, fecha_agregado, 12, nil).and_return(serie)
+      allow(repositorio_contenidos).to receive(:save).with(pelicula)
     end
 
     it 'dado que el titulo, anio y genero son válidos se crea una película exitosamente con estado 201' do
-      allow(pelicula).to receive(:pelicula_existente?).with(repositorio_contenidos).and_return(false)
+      allow(pelicula).to receive(:contenido_existente?).with(repositorio_contenidos).and_return(false)
       result = plataforma.registrar_contenido('Iron Man', 2008, 'accion', repositorio_contenidos, fecha_agregado)
       expect(result).to eq(pelicula)
     end
 
     it 'dado que el titulo es inválido no se crea una película y se levanta el error correspondiente' do
-      allow(Pelicula).to receive(:new).with(nil, 2008, genero, fecha_agregado).and_raise(ErrorAlInstanciarPeliculaTituloInvalido)
+      allow(Pelicula).to receive(:new).with(nil, 2008, genero, fecha_agregado, nil, nil).and_raise(ErrorAlInstanciarTituloInvalido)
 
       expect do
         plataforma.registrar_contenido(nil, 2008, 'accion', repositorio_contenidos, fecha_agregado)
-      end.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+      end.to raise_error(ErrorAlInstanciarTituloInvalido)
     end
 
     it 'dado que el genero es inválido no se crea una película y se levanta el error correspondiente' do
-      allow(Genero).to receive(:new).with('terror').and_raise(ErrorAlInstanciarPeliculaGeneroInvalido)
+      allow(Genero).to receive(:new).with('terror').and_raise(ErrorAlInstanciarGeneroInvalido)
 
       expect do
         plataforma.registrar_contenido('Iron Man', 2008, 'terror', repositorio_contenidos, fecha_agregado)
-      end.to raise_error(ErrorAlInstanciarPeliculaGeneroInvalido)
+      end.to raise_error(ErrorAlInstanciarGeneroInvalido)
     end
 
     xit 'dado que la película ya está registrada no se crea una película y se devuelve el error correspondiente' do
       allow(Genero).to receive(:new).with('accion').and_return(genero)
-      allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado).and_return(pelicula)
-      allow(pelicula).to receive(:pelicula_existente?).with(repositorio_contenidos).and_return(false)
+      allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado, nil, nil).and_return(pelicula)
+      allow(pelicula).to receive(:contenido_existente?).with(repositorio_contenidos).and_return(false)
       allow(repositorio_contenidos).to receive(:save).with(pelicula)
       plataforma.registrar_contenido('Iron Man', 2008, 'accion', repositorio_contenidos, fecha_agregado)
 
-      allow(pelicula).to receive(:pelicula_existente?).with(repositorio_contenidos).and_return(ErrorAlPersistirPeliculaYaExistente)
+      allow(pelicula).to receive(:contenido_existente?).with(repositorio_contenidos).and_return(ErrorAlPersistirContenidoYaExistente)
       expect do
         plataforma.registrar_contenido('Iron Man', 2008, 'accion', repositorio_contenidos, fecha_agregado)
-      end.to raise_error(ErrorAlPersistirPeliculaYaExistente)
+      end.to raise_error(ErrorAlPersistirContenidoYaExistente)
     end
 
     xit 'dado que el titulo, anio, genero, tipo y cantidad de capitulos son válidos se crea una serie exitosamente con estado 201' do
-      result = plataforma.registrar_contenido('Garfield', 2005, 'accion', repositorio_contenidos, fecha_agregado, 'serie', 12)
+      result = plataforma.registrar_contenido('Garfield', 2005, 'accion', repositorio_contenidos, fecha_agregado, 12)
       expect(result).to eq(serie)
     end
   end
@@ -228,8 +227,8 @@ describe 'Plataforma' do
     let(:plataforma) { Plataforma.new }
 
     it 'debería devolver una lista de películas agregadas en la última semana' do
-      pelicula = Pelicula.new('Iron Man', 2008, 'accion', Date.today - 4)
-      allow(Pelicula).to receive(:new).with('Iron Man', 2008, 'accion', Date.today).and_return(pelicula)
+      pelicula = FabricaDeContenido.crear_contenido('Iron Man', 2008, 'accion', Date.today - 4)
+      allow(Pelicula).to receive(:new).with('Iron Man', 2008, 'accion', Date.today, nil, nil).and_return(pelicula)
       allow(repositorio_contenidos).to receive(:agregados_despues_de_fecha).and_return([pelicula])
 
       result = plataforma.obtener_contenido_ultimos_agregados(repositorio_contenidos)

@@ -18,25 +18,25 @@ describe Pelicula do
 
   describe 'titulo invalido' do
     it 'raises an error' do
-      expect { described_class.new('', 2008, 'accion') }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+      expect { described_class.new('', 2008, 'accion') }.to raise_error(ErrorAlInstanciarTituloInvalido)
     end
   end
 
   describe 'titulo invalido nil' do
     it 'raises an error' do
-      expect { described_class.new('', nil, 'accion') }.to raise_error(ErrorAlInstanciarPeliculaTituloInvalido)
+      expect { described_class.new('', nil, 'accion') }.to raise_error(ErrorAlInstanciarTituloInvalido)
     end
   end
 
   describe 'anio invalido negativo' do
     it 'raises an error' do
-      expect { described_class.new('Jumanji', -1, 'accion') }.to raise_error(ErrorAlInstanciarPeliculaAnioInvalido)
+      expect { described_class.new('Jumanji', -1, 'accion') }.to raise_error(ErrorAlInstanciarAnioInvalido)
     end
   end
 
   describe 'anio invalido string' do
     it 'raises an error' do
-      expect { described_class.new('Jumanji', 'dos mil uno', 'accion') }.to raise_error(ErrorAlInstanciarPeliculaAnioInvalido)
+      expect { described_class.new('Jumanji', 'dos mil uno', 'accion') }.to raise_error(ErrorAlInstanciarAnioInvalido)
     end
   end
 
@@ -44,7 +44,7 @@ describe Pelicula do
     it 'raises an error' do
       repositorio = instance_double('RepositorioPeliculas')
       allow(repositorio).to receive(:find_by_titulo_y_anio).and_return(true)
-      expect { pelicula.pelicula_existente?(repositorio) }.to raise_error(ErrorAlPersistirPeliculaYaExistente)
+      expect { pelicula.contenido_existente?(repositorio) }.to raise_error(ErrorAlPersistirContenidoYaExistente)
     end
   end
 end

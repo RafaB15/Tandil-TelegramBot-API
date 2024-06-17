@@ -8,6 +8,8 @@ AllCops:
 # Avoid methods longer than 30 lines of code
 Metrics/MethodLength:
   Max: 30
+Metrics/ParameterLists:
+  Max: 6
 Metrics/BlockLength:
   AllowedMethods: ['controllers', 'describe', 'context']
 Metrics/ParameterLists:

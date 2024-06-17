@@ -1,4 +1,4 @@
-class ErrorAlInstanciarPeliculaGeneroInvalido < ArgumentError
+class ErrorAlInstanciarGeneroInvalido < ArgumentError
   MSG_DE_ERROR = 'Error: genero invalido'.freeze
 
   def initialize(msg_de_error = MSG_DE_ERROR)
@@ -12,7 +12,7 @@ class Genero
   GENEROS = %w[comedia drama accion].freeze
 
   def initialize(genero)
-    raise ErrorAlInstanciarPeliculaGeneroInvalido unless es_el_genero_valido?(genero)
+    raise ErrorAlInstanciarGeneroInvalido unless es_el_genero_valido?(genero)
 
     @genero = genero.downcase
   end

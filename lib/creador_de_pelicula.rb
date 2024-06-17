@@ -1,6 +1,6 @@
 require_relative '../dominio/pelicula'
 
-class ErrorAlInstanciarPeliculaTituloInvalido < ArgumentError
+class ErrorAlInstanciarTituloInvalido < ArgumentError
   MSG_DE_ERROR = 'Error: titulo invalido'.freeze
 
   def initialize(msg_de_error = MSG_DE_ERROR)
@@ -25,13 +25,13 @@ class CreadorDePelicula
   end
 
   def crear
-    raise ErrorAlInstanciarPeliculaTituloInvalido unless es_el_titulo_valido?
+    raise ErrorAlInstanciarTituloInvalido unless es_el_titulo_valido?
 
     genero_de_pelicula = Genero.new(@genero)
-    pelicula = Pelicula.new(@titulo, @anio, genero_de_pelicula, @fecha_agregado)
+    contenido = FabricaDeContenido.crear_contenido(@titulo, @anio, genero_de_pelicula, @fecha_agregado)
 
-    RepositorioPeliculas.new.save(pelicula)
-    pelicula
+    RepositorioPeliculas.new.save(contenido)
+    contenido
   rescue NameError
     raise ErrorPeliculaInexistente
   end
