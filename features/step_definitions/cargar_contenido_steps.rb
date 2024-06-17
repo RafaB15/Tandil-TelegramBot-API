@@ -52,14 +52,13 @@ Cuando('cargo {string} {int} {string} ya es un contenido existente') do |titulo,
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Cuando('cargo {string} {int} {string} {string} {string}') do |titulo, anio, genero, tipo, cantidad_capitulos|
+Cuando('cargo {string} {int} {string} {int}') do |titulo, anio, genero, cantidad_capitulos|
   @titulo = titulo
   @anio = anio
   @genero = genero
-  @tipo = tipo
   @cantidad_capitulos = cantidad_capitulos
 
-  request_body = { titulo:, anio:, genero:, tipo:, cantidad_capitulos: }.to_json
+  request_body = { titulo:, anio:, genero:, cantidad_capitulos: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end

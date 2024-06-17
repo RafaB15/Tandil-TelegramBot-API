@@ -10,7 +10,6 @@ Característica: Cargar contenido via API
         Cuando cargo "Atlas" 2024 "drama" ya es un contenido existente
         Entonces deberia devolver conflicto (409) y un mensaje de error "Ya existe una pelicula con el mismo titulo y año."
 
-    @current
     Escenario: US19 - 03 Como administrador cargo una pelicula sin año
         Cuando cargo "Nahir" "comedia"
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido anio debe ser un año positivo"
@@ -28,7 +27,7 @@ Característica: Cargar contenido via API
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido genero debe ser drama, accion o comedia"
         Y en los detalles se debe especificar los generos permitidos
 
-    @wip
+    @current
     Escenario: US24 - 01 Como administrador quiero poder cargar una serie via API
-        Cuando cargo "Game of thrones - Temporada 1" 2011 "accion" "serie" "10"
+        Cuando cargo "Game of thrones - Temporada 1" 2011 "accion" 10
         Entonces deberia devolver un resultado exitoso

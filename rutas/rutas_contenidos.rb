@@ -17,9 +17,9 @@ post '/contenidos' do
 
   begin
     repositorio_peliculas = RepositorioContenidos.new
-    pelicula = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_peliculas, fecha_agregado, cantidad_capitulos)
+    contenido = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_peliculas, fecha_agregado, cantidad_capitulos)
     estado = 201
-    cuerpo = { id: pelicula.id, titulo: pelicula.titulo, anio: pelicula.anio, genero: pelicula.genero }
+    cuerpo = { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero, cantidad_capitulos: contenido.cantidad_capitulos }
   rescue StandardError => e
     mapeo_error_http = ManejadorDeErrores.new(e)
     error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
