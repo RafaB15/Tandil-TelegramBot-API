@@ -202,25 +202,36 @@ describe 'Plataforma' do
     let(:repositorio_usuarios) { instance_double('RepositorioUsuarios') }
     let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
     let(:repositorio_visualizaciones) { instance_double('RepositorioVisualizaciones') }
+    let(:repositorio_visualizaciones_de_capitulos) { instance_double('RepositorioVisualizacionesDeCapitulos') }
+    let(:temporada_de_serie) { instance_double('Serie') }
+    let(:visualizacion_de_capitulo) { instance_double('VisualizacionDeCapitulo') }
     let(:usuario) { instance_double('Usuario') }
     let(:pelicula) { instance_double('Pelicula') }
     let(:visualizacion) { instance_double('Visualizacion') }
     let(:plataforma) { Plataforma.new(123, 456) }
-    let(:fecha) { '2023-04-01T12:00:00Z' }
 
     before(:each) do
       allow(repositorio_usuarios).to receive(:find_by_email).and_return(usuario)
-      allow(repositorio_contenidos).to receive(:find).and_return(pelicula)
       allow(Visualizacion).to receive(:new).and_return(visualizacion)
       allow(repositorio_visualizaciones).to receive(:save)
+      allow(repositorio_visualizaciones_de_capitulos).to receive(:save)
     end
 
     it 'debería crear y guardar una nueva visualización' do
+      fecha = '2023-04-01T12:00:00Z'
+      allow(repositorio_contenidos).to receive(:find).and_return(pelicula)
       expect(Visualizacion).to receive(:new).with(usuario, pelicula, Time.iso8601(fecha))
       expect(repositorio_visualizaciones).to receive(:save).with(visualizacion)
-
-      result = plataforma.registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, '', fecha)
+      result = plataforma.registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, nil, nil, '', fecha)
       expect(result).to eq(visualizacion)
+    end
+
+    it 'debería registrar una visualización de un capítulo de una temporada correctamente' do
+      fecha = '2023-04-01T12:00:00Z'
+      allow(repositorio_contenidos).to receive(:find).and_return(temporada_de_serie)
+      allow(VisualizacionDeCapitulo).to receive(:new).and_return(visualizacion_de_capitulo)
+      result = plataforma.registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, nil, repositorio_visualizaciones_de_capitulos, 1, '', fecha)
+      expect(result).to eq(visualizacion_de_capitulo)
     end
   end
 
@@ -263,4 +274,21 @@ describe 'Plataforma' do
       expect(result).to eq(visualizacion)
     end
   end
+
+  # describe 'registrar_visualizacion_capitulo' do
+  #   let(:repositorio_usuarios) { instance_double('RepositorioUsuarios') }
+  #   let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
+
+  #   let(:usuario) { instance_double('Usuario') }
+  #   let(:plataforma) { Plataforma.new(123, 456) }
+  #   let(:fecha) { '2023-04-01T12:00:00Z' }
+  #   let(:numero_capitulo) { 1 }
+
+  #   before(:each) do
+  #     allow(repositorio_usuarios).to receive(:find_by_email).and_return(usuario)
+  #
+  #
+  #   end
+
+  # end
 end

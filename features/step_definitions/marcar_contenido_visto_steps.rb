@@ -18,6 +18,13 @@ Cuando('el usuario lo visualiza') do
   # nada que hacer
 end
 
+Cuando('el administrador marca el capitulo {int} de la temporada como visto para el usuario') do |numero_capitulo|
+  body_contenido = JSON.parse(@response_contenido.body)
+  @body_usuario = JSON.parse(@response_usuario.body)
+  @body_visualizacion = { email: @body_usuario['email'], id_pelicula: body_contenido['id'], fecha: Time.now.floor.iso8601, numero_capitulo: }.to_json
+  @response = Faraday.post('/visualizaciones', @body_visualizacion, { 'Content-Type' => 'application/json' })
+end
+
 # Entonces
 # =========================================================
 
@@ -44,4 +51,17 @@ Entonces('deberia ver un mensaje de la visualizacion cargada exitosamente') do
   expect(json_response['email']).to eq @email
   expect(json_response['id_pelicula']).to eq @id_pelicula
   expect(json_response['fecha']).to eq @fecha
+end
+
+Entonces('se deberia ver un mensaje de la visualizacion cargada exitosamente') do
+  json_response = JSON.parse(@response.body)
+  body_visualizacion = JSON.parse(@body_visualizacion)
+
+  expect(@response.status).to eq 201
+
+  expect(json_response['id']).to be > 0
+  expect(json_response['email']).to eq body_visualizacion['email']
+  expect(json_response['id_contenido']).to eq body_visualizacion['id_pelicula']
+  expect(json_response['fecha']).to eq body_visualizacion['fecha']
+  expect(json_response['numero_capitulo']).to eq body_visualizacion['numero_capitulo']
 end

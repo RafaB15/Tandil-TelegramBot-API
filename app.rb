@@ -1,6 +1,18 @@
 require 'sinatra'
+require 'sequel'
+require 'sinatra/custom_logger'
+require_relative './config/configuration'
 
-require_relative './rutas/utiles'
+Dir[File.join(__dir__, '/controladores', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, '/dominio', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, '/persistencia', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, '/lib', '*.rb')].each { |file| require file }
+
+customer_logger = Configuration.logger
+set :logger, customer_logger
+DB = Configuration.db
+DB.loggers << customer_logger
+
 require_relative './rutas/rutas_usuarios'
 require_relative './rutas/rutas_contenidos'
 require_relative './rutas/rutas_calificaciones'

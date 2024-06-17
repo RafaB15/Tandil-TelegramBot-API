@@ -4,6 +4,7 @@ Característica: Marcar contenido como visto
 Antecedentes:
     Dado un usuario "juan@gmail.com" 123456789
     Y que existe el contenido "Iron Man" 2008 "accion"
+    Y que existe el contenido "Game of Thrones - Temporada 3" 2011 "drama" 12 en la base de datos
 
     Escenario: US06 - 01 Como administrador quiero marcar el contenido visto de un usuario
         Cuando el usuario lo visualiza
@@ -21,3 +22,8 @@ Antecedentes:
         Dado que no existe un usuario "rodrigo@gmail.com"
         Cuando marco un contenido como visto para un usuario inexistente
         Entonces debería devolver un mensaje "Error : Usuario inexistente"
+
+    @current
+    Escenario: US25 - 01 Como administrador quiero marcar un capitulo de una serie como visto por un usuario
+        Cuando el administrador marca el capitulo 2 de la temporada como visto para el usuario
+        Entonces se deberia ver un mensaje de la visualizacion cargada exitosamente

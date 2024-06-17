@@ -58,13 +58,17 @@ class Plataforma
     raise ErrorVisualizacionInexistente if visualizacion.nil?
   end
 
-  def registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, email, fecha)
+  def registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, repositorio_visualizaciones_de_capitulos, numero_capitulo, email, fecha)
     contenido = repositorio_contenidos.find(@id_contenido)
     usuario = repositorio_usuarios.find_by_email(email)
     fecha_time = Time.iso8601(fecha)
-    visualizacion = Visualizacion.new(usuario, contenido, fecha_time)
-
-    repositorio_visualizaciones.save(visualizacion)
+    if numero_capitulo.nil?
+      visualizacion = Visualizacion.new(usuario, contenido, fecha_time)
+      repositorio_visualizaciones.save(visualizacion)
+    else
+      visualizacion = VisualizacionDeCapitulo.new(usuario, contenido, fecha_time, numero_capitulo)
+      repositorio_visualizaciones_de_capitulos.save(visualizacion)
+    end
 
     visualizacion
   end

@@ -126,6 +126,11 @@ Dado('que solo hay 2 contenidos que obtuvieron visualizaciones') do
   end
 end
 
+Dado('que existe el contenido {string} {int} {string} {int} en la base de datos') do |titulo, anio, genero, cantidad_capitulos|
+  @request_temporada = { titulo:, anio:, genero:, cantidad_capitulos: }.to_json
+  @response_contenido = Faraday.post('/contenidos', @request_temporada, { 'Content-Type' => 'application/json' })
+end
+
 # Cuando
 # =========================================================
 
