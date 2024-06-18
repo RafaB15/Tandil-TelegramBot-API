@@ -37,7 +37,6 @@ Característica: Cargar contenido via API
         Cuando cargo "Atlas" 2024 "drama" "serie" ya es un contenido existente
         Entonces deberia devolver conflicto (409) y un mensaje de error "Ya existe una pelicula con el mismo titulo y año."
 
-    @wip
     Escenario: US24 - 03 Como administrador cargo una pelicula sin año
         Cuando cargo "Nahir" "comedia" "serie"
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido anio debe ser un año positivo"

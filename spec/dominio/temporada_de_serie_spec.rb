@@ -34,4 +34,10 @@ describe TemporadaDeSerie do
       expect { described_class.new('Amor - Temporada 2', 'dos mil uno', 'accion', 'serie', 3) }.to raise_error(ErrorAlInstanciarAnioInvalido)
     end
   end
+
+  describe 'anio invalido negativo' do
+    it 'raises an error' do
+      expect { described_class.new('Amor - Temporada 1', -1, 'accion', 'serie', 21) }.to raise_error(ErrorAlInstanciarAnioInvalido)
+    end
+  end
 end
