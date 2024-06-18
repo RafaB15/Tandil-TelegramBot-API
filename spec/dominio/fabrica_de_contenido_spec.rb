@@ -14,9 +14,9 @@ RSpec.describe FabricaDeContenido do
       expect(contenido).to be_a(Pelicula)
     end
 
-    it 'crea un nuevo contenido de tipo Serie' do
+    it 'crea un nuevo contenido de tipo TemporadaDeSerie' do
       contenido = described_class.crear_contenido('Las chicas superpoderosas', 2009, genero, 'serie', Date.today, 12)
-      expect(contenido).to be_a(Serie)
+      expect(contenido).to be_a(TemporadaDeSerie)
     end
   end
 end

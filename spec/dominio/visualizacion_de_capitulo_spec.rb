@@ -4,7 +4,7 @@ require_relative '../../dominio/visualizacion_de_capitulo'
 describe VisualizacionDeCapitulo do
   subject(:visualizacion) do
     usuario = instance_double('Usuario')
-    temporada_de_serie = instance_double('Serie')
+    temporada_de_serie = instance_double('TemporadaDeSerie')
     fecha = instance_double('Time')
     numero_capitulo = 1
 

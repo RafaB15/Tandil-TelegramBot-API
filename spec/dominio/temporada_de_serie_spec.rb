@@ -1,7 +1,7 @@
 require 'integration_helper'
 require_relative '../../dominio/serie'
 
-describe Serie do
+describe TemporadaDeSerie do
   subject(:serie) do
     described_class.new('Iron Man', 2008, 'accion', Date.today, 3)
   end

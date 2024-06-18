@@ -2,7 +2,7 @@ require_relative './repositorio_contenidos'
 require 'date'
 
 class RepositorioTemporadasDeSeries < RepositorioContenidos
-  self.model_class = 'Serie'
+  self.model_class = 'TemporadaDeSerie'
   self.table_name = :contenidos
 
   def find_by_titulo_y_anio(titulo, anio)
@@ -23,12 +23,6 @@ class RepositorioTemporadasDeSeries < RepositorioContenidos
   end
 
   protected
-
-  # def load_object(a_hash)
-  #   genero_de_temporada_de_serie = Genero.new(a_hash[:genero])
-  #   fecha_agregado = a_hash[:fecha_agregado]
-  #   Serie.new(a_hash[:titulo], a_hash[:anio], genero_de_temporada_de_serie, 'serie', fecha_agregado, a_hash[:cantidad_capitulos] ,a_hash[:id])
-  # end
 
   def changeset(temporada_de_serie)
     {

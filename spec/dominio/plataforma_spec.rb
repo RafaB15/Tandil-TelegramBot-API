@@ -8,7 +8,7 @@ describe 'Plataforma' do
     let(:repositorio_favoritos) { instance_double('RepositorioFavoritos') }
     let(:usuario) { instance_double('Usuario') }
     let(:pelicula) { instance_double('Pelicula') }
-    let(:serie) { instance_double('Serie') }
+    let(:serie) { instance_double('TemporadaDeSerie') }
     let(:favorito) { instance_double('Favorito') }
     let(:plataforma) { Plataforma.new(123, 456) }
 
@@ -123,14 +123,14 @@ describe 'Plataforma' do
     let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
     let(:genero) { instance_double('Genero') }
     let(:pelicula) { instance_double('Pelicula') }
-    let(:serie) { instance_double('Serie') }
+    let(:serie) { instance_double('TemporadaDeSerie') }
     let(:plataforma) { Plataforma.new(123, 456) }
     let(:fecha_agregado) { Date.new(2023, 4, 1) }
 
     before(:each) do
       allow(Genero).to receive(:new).with('accion').and_return(genero)
       allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado, nil).and_return(pelicula)
-      allow(Serie).to receive(:new).with('Garfield', 2005, genero, fecha_agregado, 12, nil).and_return(serie)
+      allow(TemporadaDeSerie).to receive(:new).with('Garfield', 2005, genero, fecha_agregado, 12, nil).and_return(serie)
       allow(repositorio_contenidos).to receive(:save).with(pelicula)
       allow(repositorio_contenidos).to receive(:save).with(serie)
     end
@@ -202,7 +202,7 @@ describe 'Plataforma' do
     let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
     let(:repositorio_visualizaciones) { instance_double('RepositorioVisualizaciones') }
     let(:repositorio_visualizaciones_de_capitulos) { instance_double('RepositorioVisualizacionesDeCapitulos') }
-    let(:temporada_de_serie) { instance_double('Serie', id: 1) }
+    let(:temporada_de_serie) { instance_double('TemporadaDeSerie', id: 1) }
     let(:visualizacion_de_capitulo) { instance_double('VisualizacionDeCapitulo') }
     let(:usuario) { instance_double('Usuario', id: 1) }
     let(:pelicula) { instance_double('Pelicula') }
