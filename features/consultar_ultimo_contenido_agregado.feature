@@ -68,3 +68,8 @@ Característica: Consultar los contenidos añadidos en la última semana
         Y que se agrego la serie "Superman" hace 2 dias
         Cuando solicito ver el ultimo contenido cargado
         Entonces me muestra "Superman" en la posicion 1
+
+    Escenario: US31 - 04 Hay contenidos pero no fueron agregados la última semana
+        Dado que se agrego la serie "Batman" hace 10 dias
+        Cuando solicito ver el ultimo contenido cargado
+        Entonces tengo un listado de vistos vacio
