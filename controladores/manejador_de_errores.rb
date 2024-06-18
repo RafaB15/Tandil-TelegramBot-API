@@ -16,7 +16,7 @@ class ManejadorDeErrores
     'ErrorAlInstanciarAnioInvalido' => { estado: 400, campo: 'anio', mensaje: 'un año positivo' },
     'ErrorAlInstanciarTituloInvalido' => { estado: 400, campo: 'titulo', mensaje: 'un nombre' },
     'ErrorAlInstanciarGeneroInvalido' => { estado: 400, campo: 'genero', mensaje: 'drama, accion o comedia' },
-    'ErrorAlPersistirContenidoYaExistente' => { estado: 409, campo: 'titulo anio', mensaje: 'Ya existe una pelicula con el mismo titulo y año.' },
+    'ErrorAlPersistirContenidoYaExistente' => { estado: 409, campo: 'titulo anio', mensaje: 'Ya existe un contenido con el mismo titulo y año.' },
     'ErrorAlInstanciarCalificacionInvalida' => { estado: 422, campo: 'calificacion', mensaje: '' },
     'ErrorPeliculaInexistente' => { estado: 404, campo: 'pelicula', mensaje: '' },
     'ErrorVisualizacionInexistente' => { estado: 422, campo: 'visualizacion', mensaje: '' },

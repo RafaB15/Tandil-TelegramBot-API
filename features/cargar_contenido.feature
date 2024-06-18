@@ -8,7 +8,7 @@ Característica: Cargar contenido via API
     Escenario: US19 - 02 Como administrador cargo una pelicula repetido via API
         Dado que ya esta cargada la pelicula "Atlas" 2024 "accion" "pelicula"
         Cuando cargo "Atlas" 2024 "drama" "pelicula" ya es un contenido existente
-        Entonces deberia devolver conflicto (409) y un mensaje de error "Ya existe una pelicula con el mismo titulo y año."
+        Entonces deberia devolver conflicto (409) y un mensaje de error "Ya existe un contenido con el mismo titulo y año."
 
     Escenario: US19 - 03 Como administrador cargo una pelicula sin año
         Cuando cargo "Nahir" "comedia" "pelicula"
@@ -34,7 +34,7 @@ Característica: Cargar contenido via API
     Escenario: US24 - 02 Como administrador cargo un contenido repetido via API
         Dado que ya esta cargada la pelicula "Atlas" 2024 "accion" "serie"
         Cuando cargo "Atlas" 2024 "drama" "serie" ya es un contenido existente
-        Entonces deberia devolver conflicto (409) y un mensaje de error "Ya existe una pelicula con el mismo titulo y año."
+        Entonces deberia devolver conflicto (409) y un mensaje de error "Ya existe un contenido con el mismo titulo y año."
 
     Escenario: US24 - 03 Como administrador cargo una pelicula sin año
         Cuando cargo "Nahir" "comedia" "serie"
