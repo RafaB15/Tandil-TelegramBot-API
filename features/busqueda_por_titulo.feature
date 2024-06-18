@@ -22,3 +22,5 @@ Antecedentes:
         Dado que el contenido "Titan" 2001 "accion" existe en la base de datos
         Cuando el usuario busca la pelicula "tita"
         Entonces debería ver las peliculas "Titanic" y "Titan" listadas entre las existentes.
+
+    

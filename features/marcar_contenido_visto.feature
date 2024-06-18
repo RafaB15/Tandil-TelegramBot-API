@@ -24,7 +24,6 @@ Antecedentes:
         Entonces debería devolver un mensaje "Error : Usuario inexistente"
 
 
-    @current
     Escenario: US25 - 01 Como administrador quiero marcar un capitulo de una serie como visto por un usuario
         Cuando el administrador marca el capitulo 2 de la temporada como visto para el usuario
         Entonces se deberia ver un mensaje de la visualizacion cargada exitosamente
