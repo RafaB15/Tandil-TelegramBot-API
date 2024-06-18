@@ -28,4 +28,10 @@ describe TemporadaDeSerie do
       expect { described_class.new('', nil, 'accion', 'serie', 32) }.to raise_error(ErrorAlInstanciarTituloInvalido)
     end
   end
+
+  describe 'anio invalido string' do
+    it 'raises an error' do
+      expect { described_class.new('Amor - Temporada 2', 'dos mil uno', 'accion', 'serie', 3) }.to raise_error(ErrorAlInstanciarAnioInvalido)
+    end
+  end
 end
