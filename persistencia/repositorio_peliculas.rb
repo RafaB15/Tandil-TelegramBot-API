@@ -24,12 +24,6 @@ class RepositorioPeliculas < RepositorioContenidos
 
   protected
 
-  # def load_object(a_hash)
-  #   genero_de_pelicula = Genero.new(a_hash[:genero])
-  #   fecha_agregado = a_hash[:fecha_agregado]
-  #   Pelicula.new(a_hash[:titulo], a_hash[:anio], genero_de_pelicula, 'pelicula', fecha_agregado, a_hash[:id])
-  # end
-
   def changeset(pelicula)
     {
       titulo: pelicula.titulo,
