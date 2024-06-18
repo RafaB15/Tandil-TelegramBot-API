@@ -10,7 +10,7 @@ Dado('que existe la temporada {string} {int} {string} {int} {string} existe en l
 
   request_body = { titulo: temporada, anio:, genero:, cantidad_capitulos:, tipo: }.to_json
 
-  @response_temporada = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
+  @response_contenido = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 
 # Cuando

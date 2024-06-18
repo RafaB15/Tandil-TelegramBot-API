@@ -29,7 +29,6 @@ Antecedentes:
         Cuando se consulta por la lista de contenidos mas vistos
         Entonces tengo un listado de vistos vacio
 
-    @current
     Escenario: US32.1 - 01 Como cinefilo quiero consultar lista de contenidos mas vistos incluyendo temporadas de series
         Dado que se vio el contenido "Titanic"
         Y que se vio el contenido "Game of Thrones - Temporada 1"

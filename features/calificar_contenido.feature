@@ -4,6 +4,9 @@ Característica: Calificar contenido
 Antecedentes:
     Dado un usuario "juan@gmail.com" 123456789
     Y que el usuario ya vio la pelicula "Nahir" 2024 "drama" "pelicula"
+    Y que existe la temporada "Friends - Temporada 1" 1999 "comedia" 24 en la base de datos
+    Y que el usuario ya vio la temporada de serie
+
 
     Escenario: US15 - 01 Como cinefilo quiero poder calificar contenido ya visto
         Cuando califica la pelicula con un 4
@@ -35,3 +38,7 @@ Antecedentes:
         Dado que el usuario la habia calificado con un 5
         Cuando califica la pelicula con un -1
         Entonces ve un mensaje de calificacion fuera de rango
+
+    Escenario: US28 - 01 Como cinefilo quiero poder calificar una serie ya vista
+        Cuando califica la temporada de serie con un 4
+        Entonces ve un mensaje de exito

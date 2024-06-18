@@ -2,7 +2,7 @@
 # =========================================================
 
 Dado('que el usuario ya vio la temporada de serie') do
-  @id_contenido = JSON.parse(@response_temporada.body)['id']
+  @id_contenido = JSON.parse(@response_contenido.body)['id']
 
   json_response_usuario = JSON.parse(@response_usuario.body)
   email = json_response_usuario['email']
