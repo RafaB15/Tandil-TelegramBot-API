@@ -57,6 +57,17 @@ Dado('que hay 3 peliculas vistos en la plataforma') do
   @response = Faraday.post("contenidos/#{id_contenido}/visualizaciones", request_body3, { 'Content-Type' => 'application/json' })
 end
 
+Dado('que se vio el contenido {string}') do |titulo|
+  @response_busqueda = Faraday.get('/contenidos', titulo:, 'Content-Type' => 'application/json')
+  json_response = JSON.parse(@response_busqueda.body)
+  expect(json_response.length).to eq 1
+  json_usuario = JSON.parse(@response_usuario.body)
+  email = json_usuario['email']
+  @id_contenido = json_response[0]['id']
+  request_body = { email:, fecha: Time.now.floor.iso8601 }.to_json
+  @response = Faraday.post("contenidos/#{@id_contenido}/visualizaciones", request_body, { 'Content-Type' => 'application/json' })
+end
+
 # Segunda prueba de aceptacion
 
 Dado('que hay 4 peliculas: {string}, {string}, {string}, {string}') do |titulo1, titulo2, titulo3, titulo4|
@@ -142,7 +153,7 @@ end
 # Cuando
 # =========================================================
 
-Cuando('se consulta por la lista de peliculas mas vistos') do
+Cuando('se consulta por la lista de contenidos mas vistos') do
   @response = Faraday.get('/visualizaciones/top', { 'Content-Type' => 'application/json' })
 end
 
@@ -194,4 +205,19 @@ Entonces('tengo un listado de vistos vacio') do
 
   expect(json_response.length).to eq 0
   expect(@response.status).to eq 200
+end
+
+Entonces('{string} está en la lista') do |titulo|
+  expect(@response.status).to eq 200
+
+  json_response = JSON.parse(@response.body)
+  expect(json_response.length).to be > 0
+
+  json_response.each do |contenido|
+    expect(contenido['contenido']['titulo']).not_to be_nil
+    if contenido['contenido']['titulo'] == titulo
+      expect(contenido['contenido']['titulo']).to eq titulo
+      break
+    end
+  end
 end

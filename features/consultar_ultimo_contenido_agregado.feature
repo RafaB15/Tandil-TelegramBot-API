@@ -88,7 +88,6 @@ Característica: Consultar los contenidos añadidos en la última semana
         Y me muestra "Bella" en la posicion 4
         Y me muestra "Cenicienta" en la posicion 5
 
-    @current
     Escenario: US31 - 06 Hay 5 contenidos aniadidos al mismo tiempo y me los muestra en orden alfabético
         Dado que se agrego la pelicula "La Sirenita" hace 3 dias
         Y que se agrego la serie "Cenicienta" hace 3 dias
