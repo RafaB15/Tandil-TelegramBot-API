@@ -1,5 +1,5 @@
 require_relative 'pelicula'
-require_relative 'serie'
+require_relative 'fabrica_de_contenido'
 
 class FabricaDeContenido
   def self.crear_contenido(titulo, anio_de_estreno, genero, tipo, fecha_agregado = Date.today, cantidad_capitulos = nil, id = nil)

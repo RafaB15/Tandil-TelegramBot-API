@@ -1,5 +1,5 @@
 require 'integration_helper'
-require_relative '../../dominio/serie'
+require_relative '../../dominio/temporada_de_serie'
 
 describe TemporadaDeSerie do
   subject(:serie) do
@@ -15,5 +15,11 @@ describe TemporadaDeSerie do
     it { is_expected.to respond_to(:cantidad_capitulos) }
     it { is_expected.to respond_to(:created_on) }
     it { is_expected.to respond_to(:updated_on) }
+  end
+
+  describe 'titulo invalido' do
+    it 'raises an error' do
+      expect { described_class.new('', 2008, 'accion', 'serie', 12) }.to raise_error(ErrorAlInstanciarTituloInvalido)
+    end
   end
 end

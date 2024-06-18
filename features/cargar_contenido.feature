@@ -30,3 +30,29 @@ Característica: Cargar contenido via API
     Escenario: US24 - 01 Como administrador quiero poder cargar una serie via API
         Cuando cargo "Game of thrones - Temporada 1" 2011 "accion" 10 "serie"
         Entonces deberia devolver un resultado exitoso
+
+    @wip
+    Escenario: US24 - 02 Como administrador cargo un contenido repetido via API
+        Dado que ya esta cargada la pelicula "Atlas" 2024 "accion" "serie"
+        Cuando cargo "Atlas" 2024 "drama" "serie" ya es un contenido existente
+        Entonces deberia devolver conflicto (409) y un mensaje de error "Ya existe una pelicula con el mismo titulo y año."
+
+    @wip
+    Escenario: US24 - 03 Como administrador cargo una pelicula sin año
+        Cuando cargo "Nahir" "comedia" "serie"
+        Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido anio debe ser un año positivo"
+
+    @wip
+    Escenario: US24 - 04 Como administrador cargo una pelicula sin titulo
+        Cuando cargo 2024 "drama" "serie"
+        Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido titulo debe ser un nombre"
+
+    Escenario: US24 - 05 Como administrador cargo una pelicula con titulo vacio
+        Cuando cargo "" 2024 "drama" "serie"
+        Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido titulo debe ser un nombre"
+
+    @wip
+    Escenario: US24 - 06 Como administrador cargo un dato invalido
+        Cuando cargo "Oppenheimer" 2024 "suspenso" "serie"
+        Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido genero debe ser drama, accion o comedia"
+        Y en los detalles se debe especificar los generos permitidos

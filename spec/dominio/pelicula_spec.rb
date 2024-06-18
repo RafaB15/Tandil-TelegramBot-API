@@ -18,25 +18,25 @@ describe Pelicula do
 
   describe 'titulo invalido' do
     it 'raises an error' do
-      expect { described_class.new('', 2008, 'accion') }.to raise_error(ErrorAlInstanciarTituloInvalido)
+      expect { described_class.new('', 2008, 'accion', 'pelicula') }.to raise_error(ErrorAlInstanciarTituloInvalido)
     end
   end
 
   describe 'titulo invalido nil' do
     it 'raises an error' do
-      expect { described_class.new('', nil, 'accion') }.to raise_error(ErrorAlInstanciarTituloInvalido)
+      expect { described_class.new('', nil, 'accion', 'pelicula') }.to raise_error(ErrorAlInstanciarTituloInvalido)
     end
   end
 
   describe 'anio invalido negativo' do
     it 'raises an error' do
-      expect { described_class.new('Jumanji', -1, 'accion') }.to raise_error(ErrorAlInstanciarAnioInvalido)
+      expect { described_class.new('Jumanji', -1, 'accion', 'pelicula') }.to raise_error(ErrorAlInstanciarAnioInvalido)
     end
   end
 
   describe 'anio invalido string' do
     it 'raises an error' do
-      expect { described_class.new('Jumanji', 'dos mil uno', 'accion') }.to raise_error(ErrorAlInstanciarAnioInvalido)
+      expect { described_class.new('Jumanji', 'dos mil uno', 'accion', 'pelicula') }.to raise_error(ErrorAlInstanciarAnioInvalido)
     end
   end
 

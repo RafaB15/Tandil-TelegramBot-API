@@ -1,5 +1,5 @@
 require 'integration_helper'
-require_relative '../../dominio/serie'
+require_relative '../../dominio/temporada_de_serie'
 require_relative '../../dominio/fabrica_de_contenido'
 require_relative '../../persistencia/repositorio_temporadas_de_series'
 
@@ -8,7 +8,7 @@ describe RepositorioTemporadasDeSeries do
   let(:genero_de_serie) { instance_double('Genero', genero: 'accion') }
   let(:otro_genero_de_serie) { instance_double('Genero', genero: 'drama') }
 
-  it 'deberia guardar y asignar id si la película es nueva' do
+  it 'deberia guardar y asignar id si la serie es nueva' do
     flash = FabricaDeContenido.crear_contenido('Flash', 2001, genero_de_serie, 'serie', Date.today, 31)
     described_class.new.save(flash)
     expect(flash.id).not_to be_nil
@@ -21,7 +21,7 @@ describe RepositorioTemporadasDeSeries do
     expect(repositorio.all.size).to be(cantidad_de_contenidos_iniciales + 1)
   end
 
-  it 'debería recuperar una película por título' do
+  it 'debería recuperar una serie por título' do
     serie1 = FabricaDeContenido.crear_contenido('You', 2008, genero_de_serie, 'serie', Date.today, 8)
     repositorio.save(serie1)
 
@@ -29,7 +29,7 @@ describe RepositorioTemporadasDeSeries do
     expect(serie[0].titulo).to eq('You')
   end
 
-  it 'debería recuperar una película por título parcial' do
+  it 'debería recuperar una serie por título parcial' do
     serie1 = FabricaDeContenido.crear_contenido('Catch me if you can', 2008, genero_de_serie, 'serie', Date.today, 6)
     repositorio.save(serie1)
 
@@ -48,7 +48,7 @@ describe RepositorioTemporadasDeSeries do
     expect(serie[1].titulo).to eq 'You'
   end
 
-  it 'debería recuperar solo las películas agregadas en la última semana, sin incluir más viejas' do
+  it 'debería recuperar solo las series agregadas en la última semana, sin incluir más viejas' do
     fecha_vieja = Date.today - 8
     hoy = Date.today
 

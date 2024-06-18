@@ -1,7 +1,7 @@
 require 'rspec'
 require_relative '../../dominio/fabrica_de_contenido'
 require_relative '../../dominio/pelicula'
-require_relative '../../dominio/serie'
+require_relative '../../dominio/temporada_de_serie'
 require_relative '../../dominio/contenido'
 require_relative '../../lib/genero'
 
