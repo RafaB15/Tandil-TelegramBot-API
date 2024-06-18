@@ -1,7 +1,6 @@
 # language: es
 Característica: Cargar contenido via API
 
-    @current
     Escenario: US19 - 01 Como administrador quiero poder cargar una pelicula via API
         Cuando cargo "Suerte" 2022 "comedia" "pelicula"
         Entonces deberia devolver un resultado exitoso
