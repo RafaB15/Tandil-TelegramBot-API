@@ -8,13 +8,11 @@ Antecedentes:
   Y que existe la temporada "Suits - Temporada 4" 2011 "drama" 24 en la base de datos
   Y que existe la pelicula "Titanic" 1997 "drama" en la base de datos
 
-  @current
   Escenario: US30 - 01 Lista de favoritos con una sola temporada
     Dado que marco el contenido "Suits - Temporada 2" como favorito
     Cuando quiero ver mis favoritos
     Entonces aparece "Suits - Temporada 2" en el listado
 
-  @current
   Escenario: US30 - 02 Lista de favoritos con series y peliculas
     Dado que marco el contenido "Suits - Temporada 2" como favorito
     Y que marco el contenido "Suits - Temporada 3" como favorito

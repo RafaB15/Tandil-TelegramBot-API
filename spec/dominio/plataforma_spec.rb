@@ -284,21 +284,4 @@ describe 'Plataforma' do
       expect(result).to eq(visualizacion)
     end
   end
-
-  # describe 'registrar_visualizacion_capitulo' do
-  #   let(:repositorio_usuarios) { instance_double('RepositorioUsuarios') }
-  #   let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
-
-  #   let(:usuario) { instance_double('Usuario') }
-  #   let(:plataforma) { Plataforma.new(123, 456) }
-  #   let(:fecha) { '2023-04-01T12:00:00Z' }
-  #   let(:numero_capitulo) { 1 }
-
-  #   before(:each) do
-  #     allow(repositorio_usuarios).to receive(:find_by_email).and_return(usuario)
-  #
-  #
-  #   end
-
-  # end
 end

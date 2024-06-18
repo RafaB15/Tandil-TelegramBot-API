@@ -21,10 +21,26 @@ Dado('que se agrego {string} hace {float} dias') do |titulo, dias_previos|
   Faraday.post('/contenidos', request_pelicula_body1, { 'Content-Type' => 'application/json' })
 end
 
+Dado('que se agrego la pelicula {string} hace {float} dias') do |titulo, dias_previos|
+  require 'date'
+  fecha = (Date.today - dias_previos).strftime('%Y-%m-%d')
+  request_pelicula_body1 = { titulo:, anio: 1989, genero: 'drama', tipo: 'pelicula', fecha_agregado: fecha }.to_json
+
+  Faraday.post('/contenidos', request_pelicula_body1, { 'Content-Type' => 'application/json' })
+end
+
+Dado('que se agrego la serie {string} hace {float} dias') do |titulo, dias_previos|
+  require 'date'
+  fecha = (Date.today - dias_previos).strftime('%Y-%m-%d')
+  request_serie_body1 = { titulo:, anio: 1989, genero: 'drama', tipo: 'serie', fecha_agregado: fecha, cantidad_capitulos: 20 }.to_json
+
+  Faraday.post('/contenidos', request_serie_body1, { 'Content-Type' => 'application/json' })
+end
+
 # Cuando
 # =========================================================
 
-Cuando('solicito ver las ultimas peliculas cargadas') do
+Cuando('solicito ver el ultimo contenido cargado') do
   @response = Faraday.get('/contenidos/ultimos-agregados', { 'Content-Type' => 'application/json' })
 end
 
