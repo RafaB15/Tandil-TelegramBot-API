@@ -4,21 +4,21 @@
 Dado('que el usuario ya vio la pelicula {string} {int} {string}') do |titulo, anio, genero|
   request_body = { titulo:, anio:, genero: }.to_json
   response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
-  @id_pelicula = JSON.parse(response_pelicula.body)['id']
+  @id_contenido = JSON.parse(response_pelicula.body)['id']
 
   json_response_usuario = JSON.parse(@response_usuario.body)
   email = json_response_usuario['email']
   @id_telegram = json_response_usuario['id_telegram']
 
   fecha = Time.now.floor.iso8601
-  request_body = { email:, id_pelicula: @id_pelicula, fecha: }.to_json
+  request_body = { email:, id_contenido: @id_contenido, fecha: }.to_json
   Faraday.post('/visualizaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que el usuario la habia calificado con un {int}') do |puntaje|
   @puntaje_viejo = puntaje
 
-  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, puntaje: }.to_json
+  request_body = { id_telegram: @id_telegram, id_contenido: @id_contenido, puntaje: }.to_json
   @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
@@ -33,29 +33,29 @@ end
 Cuando('califica la pelicula con un {int}') do |puntaje|
   @puntaje = puntaje
 
-  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, puntaje: }.to_json
+  request_body = { id_telegram: @id_telegram, id_contenido: @id_contenido, puntaje: }.to_json
   @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Cuando('el usuario quiere calificar con {int} un contenido que no existe en la base de datos') do |puntaje|
   @puntaje = puntaje
 
-  request_body = { id_telegram: @id_telegram, id_pelicula: 11_111_111, puntaje: }.to_json
+  request_body = { id_telegram: @id_telegram, id_contenido: 11_111_111, puntaje: }.to_json
   @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Cuando('califica la pelicula con un {int} se actualiza') do |nuevo_puntaje|
   @nuevo_puntaje = nuevo_puntaje
 
-  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, puntaje: nuevo_puntaje }.to_json
+  request_body = { id_telegram: @id_telegram, id_contenido: @id_contenido, puntaje: nuevo_puntaje }.to_json
   @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Cuando('califica una pelicula que no vio con un {int}') do |puntaje|
   @puntaje = puntaje
 
-  @id_pelicula = JSON.parse(@response_pelicula.body)['id']
-  request_body = { id_telegram: @id_telegram, id_pelicula: @id_pelicula, puntaje: }.to_json
+  @id_contenido = JSON.parse(@response_pelicula.body)['id']
+  request_body = { id_telegram: @id_telegram, id_contenido: @id_contenido, puntaje: }.to_json
   @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
@@ -69,7 +69,7 @@ Entonces('ve un mensaje de exito') do
 
   expect(json_response['id']).to be > 0
   expect(json_response['id_telegram']).to eq @id_telegram
-  expect(json_response['id_pelicula']).to eq @id_pelicula
+  expect(json_response['id_contenido']).to eq @id_contenido
   expect(json_response['puntaje']).to eq @puntaje
 end
 
@@ -88,7 +88,7 @@ Entonces('ve un mensaje que el la calificacion fue actualizada') do
 
   expect(json_response['id']).to be > 0
   expect(json_response['id_telegram']).to eq @id_telegram
-  expect(json_response['id_pelicula']).to eq @id_pelicula
+  expect(json_response['id_contenido']).to eq @id_contenido
   expect(json_response['puntaje']).to eq @nuevo_puntaje
   expect(json_response['puntaje_anterior']).to eq @puntaje_viejo
 end

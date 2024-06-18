@@ -33,9 +33,9 @@ describe ContadorDeVisualizaciones do
       result = contador1.obtener_mas_vistos
 
       expect(result).to eq([
-                             { id: 2, pelicula: { titulo: 'Somos tres', anio: 2020, genero: 'comedia' }, vistas: 3 },
-                             { id: 1, pelicula: { titulo: 'Rapidos y furiosos', anio: 2021, genero: 'accion' }, vistas: 2 },
-                             { id: 3, pelicula: { titulo: 'Nahir', anio: 2019, genero: 'drama' }, vistas: 1 }
+                             { id: 2, contenido: { titulo: 'Somos tres', anio: 2020, genero: 'comedia' }, vistas: 3 },
+                             { id: 1, contenido: { titulo: 'Rapidos y furiosos', anio: 2021, genero: 'accion' }, vistas: 2 },
+                             { id: 3, contenido: { titulo: 'Nahir', anio: 2019, genero: 'drama' }, vistas: 1 }
                            ])
     end
 
@@ -43,9 +43,9 @@ describe ContadorDeVisualizaciones do
       result = contador2.obtener_mas_vistos
 
       expect(result).to eq([
-                             { id: 4, pelicula: { titulo: 'Lucha', anio: 2021, genero: 'accion' }, vistas: 1 },
-                             { id: 3, pelicula: { titulo: 'Nahir', anio: 2019, genero: 'drama' }, vistas: 1 },
-                             { id: 1, pelicula: { titulo: 'Rapidos y furiosos', anio: 2021, genero: 'accion' }, vistas: 1 }
+                             { id: 4, contenido: { titulo: 'Lucha', anio: 2021, genero: 'accion' }, vistas: 1 },
+                             { id: 3, contenido: { titulo: 'Nahir', anio: 2019, genero: 'drama' }, vistas: 1 },
+                             { id: 1, contenido: { titulo: 'Rapidos y furiosos', anio: 2021, genero: 'accion' }, vistas: 1 }
                            ])
     end
   end

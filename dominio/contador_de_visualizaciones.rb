@@ -5,7 +5,7 @@ class ContadorDeVisualizaciones
 
   def obtener_mas_vistos
     mas_vistos_nombre = conseguir_mas_vistos_por_nombre
-    mas_vistos_nombre.sort_by { |contenido| [-contenido[:vistas], contenido[:pelicula][:titulo]] }.first(3)
+    mas_vistos_nombre.sort_by { |contenido| [-contenido[:vistas], contenido[:contenido][:titulo]] }.first(3)
   end
 
   private
@@ -14,13 +14,13 @@ class ContadorDeVisualizaciones
     mas_vistos = contar_vistas_por_id(@visualizaciones)
     nombres = nombres_por_id(@visualizaciones)
 
-    mas_vistos.map do |id_pelicula, count|
+    mas_vistos.map do |id_contenido, count|
       {
-        id: id_pelicula,
-        pelicula: {
-          titulo: nombres[id_pelicula].titulo,
-          anio: nombres[id_pelicula].anio,
-          genero: nombres[id_pelicula].genero
+        id: id_contenido,
+        contenido: {
+          titulo: nombres[id_contenido].titulo,
+          anio: nombres[id_contenido].anio,
+          genero: nombres[id_contenido].genero
 
         },
         vistas: count

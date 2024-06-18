@@ -10,11 +10,11 @@ Dado('que el usuario ya lo vio') do
   @id_telegram = json_response_usuario['id_telegram']
 
   json_response_pelicula = JSON.parse(@response_pelicula.body)
-  @id_pelicula = json_response_pelicula['id']
+  @id_contenido = json_response_pelicula['id']
 
   @fecha = Time.now.floor.iso8601
 
-  request_body = { email: @email, id_pelicula: @id_pelicula, fecha: @fecha }.to_json
+  request_body = { email: @email, id_contenido: @id_contenido, fecha: @fecha }.to_json
 
   @response = Faraday.post('/visualizaciones', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -29,15 +29,15 @@ end
 
 Cuando('el cinefilo pide detalles acerca de la pelicula {string} con su ID') do |titulo|
   if @response_pelicula.nil?
-    id_pelicula = 0
+    id_contenido = 0
   else
     json_response_pelicula = JSON.parse(@response_pelicula.body)
-    id_pelicula = json_response_pelicula['id']
+    id_contenido = json_response_pelicula['id']
   end
 
   @titulo = titulo
 
-  @response_detalles = Faraday.get("/contenidos/#{id_pelicula}/detalles", id_telegram: @id_telegram, 'Content-Type' => 'application/json')
+  @response_detalles = Faraday.get("/contenidos/#{id_contenido}/detalles", id_telegram: @id_telegram, 'Content-Type' => 'application/json')
 end
 
 # Entonces

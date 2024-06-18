@@ -6,7 +6,7 @@ post '/visualizaciones' do
   @body ||= request.body.read
   parametros_visualizaciones = JSON.parse(@body)
   email = parametros_visualizaciones['email']
-  id_pelicula = parametros_visualizaciones['id_pelicula']
+  id_contenido = parametros_visualizaciones['id_contenido']
   fecha = parametros_visualizaciones['fecha']
   numero_capitulo = parametros_visualizaciones['numero_capitulo']
 
@@ -18,8 +18,8 @@ post '/visualizaciones' do
   repositorio_visualizaciones_de_capitulos = RepositorioVisualizacionesDeCapitulos.new
 
   begin
-    visualizacion = Plataforma.new(nil, id_pelicula).registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, repositorio_visualizaciones_de_capitulos,
-                                                                             numero_capitulo, email, fecha)
+    visualizacion = Plataforma.new(nil, id_contenido).registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, repositorio_visualizaciones_de_capitulos,
+                                                                              numero_capitulo, email, fecha)
     estado, cuerpo = armar_respuesta_cargar_visualizacion(visualizacion, numero_capitulo)
   rescue StandardError => e
     mapeo_error_http = ManejadorDeErrores.new(e)
@@ -62,7 +62,7 @@ end
 def armar_respuesta_cargar_visualizacion(visualizacion, numero_capitulo)
   estado = 201
   respuesta = if numero_capitulo.nil?
-                { id: visualizacion.id, email: visualizacion.usuario.email, id_pelicula: visualizacion.pelicula.id, fecha: visualizacion.fecha.iso8601 }
+                { id: visualizacion.id, email: visualizacion.usuario.email, id_contenido: visualizacion.pelicula.id, fecha: visualizacion.fecha.iso8601 }
               else
                 { id: visualizacion.id, email: visualizacion.usuario.email, id_contenido: visualizacion.temporada_de_serie.id, fecha: visualizacion.fecha.iso8601,
                   numero_capitulo: visualizacion.numero_capitulo }

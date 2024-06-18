@@ -35,20 +35,20 @@ Dado('que hay 3 contenidos vistos en la plataforma') do
   # Este contenido es visto 3 veces
   3.times do |_i|
     @fecha1 = Time.now.floor.iso8601
-    request_body1 = { email: @email, id_pelicula: @id_pelicula1, fecha: @fecha1 }.to_json
+    request_body1 = { email: @email, id_contenido: @id_pelicula1, fecha: @fecha1 }.to_json
     @response = Faraday.post('/visualizaciones', request_body1, { 'Content-Type' => 'application/json' })
   end
 
   # Este contenido es visto 2 veces
   2.times do |_i|
     @fecha2 = Time.now.floor.iso8601
-    request_body2 = { email: @email, id_pelicula: @id_pelicula2, fecha: @fecha2 }.to_json
+    request_body2 = { email: @email, id_contenido: @id_pelicula2, fecha: @fecha2 }.to_json
     @response = Faraday.post('/visualizaciones', request_body2, { 'Content-Type' => 'application/json' })
   end
 
   # Este contenido es visto 1 vez
   @fecha3 = Time.now.floor.iso8601
-  request_body3 = { email: @email, id_pelicula: @id_pelicula3, fecha: @fecha3 }.to_json
+  request_body3 = { email: @email, id_contenido: @id_pelicula3, fecha: @fecha3 }.to_json
   @response = Faraday.post('/visualizaciones', request_body3, { 'Content-Type' => 'application/json' })
 end
 
@@ -87,16 +87,16 @@ Dado('que los 4 contenidos son los mas vistos en la plataforma con la misma cant
   5.times do |_i|
     fecha = Time.now.floor.iso8601
 
-    request_body1 = { email: @email, id_pelicula: @id_pelicula1, fecha: }.to_json
+    request_body1 = { email: @email, id_contenido: @id_pelicula1, fecha: }.to_json
     @response = Faraday.post('/visualizaciones', request_body1, { 'Content-Type' => 'application/json' })
 
-    request_body2 = { email: @email, id_pelicula: @id_pelicula2, fecha: }.to_json
+    request_body2 = { email: @email, id_contenido: @id_pelicula2, fecha: }.to_json
     @response = Faraday.post('/visualizaciones', request_body2, { 'Content-Type' => 'application/json' })
 
-    request_body3 = { email: @email, id_pelicula: @id_pelicula3, fecha: }.to_json
+    request_body3 = { email: @email, id_contenido: @id_pelicula3, fecha: }.to_json
     @response = Faraday.post('/visualizaciones', request_body3, { 'Content-Type' => 'application/json' })
 
-    request_body4 = { email: @email, id_pelicula: @id_pelicula4, fecha: }.to_json
+    request_body4 = { email: @email, id_contenido: @id_pelicula4, fecha: }.to_json
     @response = Faraday.post('/visualizaciones', request_body4, { 'Content-Type' => 'application/json' })
   end
 end
@@ -114,14 +114,14 @@ Dado('que solo hay 2 contenidos que obtuvieron visualizaciones') do
   # Este contenido es visto 3 veces
   3.times do |_i|
     @fecha1 = Time.now.floor.iso8601
-    request_body1 = { email: @email, id_pelicula: @id_pelicula1, fecha: @fecha1 }.to_json
+    request_body1 = { email: @email, id_contenido: @id_pelicula1, fecha: @fecha1 }.to_json
     @response = Faraday.post('/visualizaciones', request_body1, { 'Content-Type' => 'application/json' })
   end
 
   # Este contenido es visto 2 veces
   2.times do |_i|
     @fecha2 = Time.now.floor.iso8601
-    request_body2 = { email: @email, id_pelicula: @id_pelicula2, fecha: @fecha2 }.to_json
+    request_body2 = { email: @email, id_contenido: @id_pelicula2, fecha: @fecha2 }.to_json
     @response = Faraday.post('/visualizaciones', request_body2, { 'Content-Type' => 'application/json' })
   end
 end
@@ -147,9 +147,9 @@ Entonces('se ve una lista de los 3 contenidos mas vistos') do
   expect(json_response[0]['vistas']).to be > 0
   expect(json_response[1]['vistas']).to be > 0
   expect(json_response[2]['vistas']).to be > 0
-  expect(json_response[0]['pelicula']).to eq @request_pelicula_body1
-  expect(json_response[1]['pelicula']).to eq @request_pelicula_body2
-  expect(json_response[2]['pelicula']).to eq @request_pelicula_body3
+  expect(json_response[0]['contenido']).to eq @request_pelicula_body1
+  expect(json_response[1]['contenido']).to eq @request_pelicula_body2
+  expect(json_response[2]['contenido']).to eq @request_pelicula_body3
 end
 
 Entonces('se ve una lista de los 3 contenidos más vistos, seleccionados alfabéticamente: {string}, {string}, {string}') do |titulo1, titulo2, titulo4|
@@ -163,9 +163,9 @@ Entonces('se ve una lista de los 3 contenidos más vistos, seleccionados alfabé
   expect(json_response[0]['vistas']).to be > 0
   expect(json_response[1]['vistas']).to be > 0
   expect(json_response[2]['vistas']).to be > 0
-  expect(json_response[0]['pelicula']).to eq @request_pelicula_body1
-  expect(json_response[1]['pelicula']).to eq @request_pelicula_body2
-  expect(json_response[2]['pelicula']).to eq @request_pelicula_body4
+  expect(json_response[0]['contenido']).to eq @request_pelicula_body1
+  expect(json_response[1]['contenido']).to eq @request_pelicula_body2
+  expect(json_response[2]['contenido']).to eq @request_pelicula_body4
   expect(@request_pelicula_body1['titulo']).to eq titulo1
   expect(@request_pelicula_body2['titulo']).to eq titulo2
   expect(@request_pelicula_body4['titulo']).to eq titulo4
@@ -180,8 +180,8 @@ Entonces('se ve una lista de 2 contenidos') do
   expect(json_response[1]['id']).to be > 0
   expect(json_response[0]['vistas']).to be > 0
   expect(json_response[1]['vistas']).to be > 0
-  expect(json_response[0]['pelicula']).to eq @request_pelicula_body1
-  expect(json_response[1]['pelicula']).to eq @request_pelicula_body2
+  expect(json_response[0]['contenido']).to eq @request_pelicula_body1
+  expect(json_response[1]['contenido']).to eq @request_pelicula_body2
 end
 
 Entonces('tengo un listado de vistos vacio') do
