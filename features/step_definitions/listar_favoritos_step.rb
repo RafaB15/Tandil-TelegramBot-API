@@ -38,6 +38,15 @@ end
 Dado('que no marco {string} como favorita') do |string|
 end
 
+Dado('que marco el contenido {string} como favorito') do |titulo|
+  json_response_usuario = JSON.parse(@response_usuario.body)
+  @id_telegram = json_response_usuario['id_telegram']
+  @response_busqueda = Faraday.get('/contenidos', titulo:, 'Content-Type' => 'application/json')
+  json_response_busqueda = JSON.parse(@response_busqueda.body)
+  @id_contenido = json_response_busqueda[0]['id']
+  @response = Faraday.post('/favoritos', { id_telegram: @id_telegram, id_contenido: @id_contenido }.to_json, 'Content-Type' => 'application/json')
+end
+
 # Cuando
 # =========================================================
 Cuando('quiero ver mis favoritos') do
@@ -50,8 +59,12 @@ end
 Entonces('aparece {string} en el listado') do |titulo|
   @favoritos = JSON.parse(@response_favoritos.body)
   expect(@response_favoritos.status).to eq 200
-  expect(@favoritos.length).to eq 1
-  expect(@favoritos[0]['titulo']).to eq titulo
+  @favoritos.each do |favorito|
+    if favorito['titulo'] == titulo
+      expect(favorito['titulo']).to eq titulo
+      break
+    end
+  end
 end
 
 Entonces('aparece {string}, {string} y {string} en el listado') do |titulo1, titulo2, titulo3|

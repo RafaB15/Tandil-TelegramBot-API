@@ -3,8 +3,7 @@ Característica: Aniadir contenido a favoritos
     
 Antecedentes:
     Dado un usuario "pepito@gmail.com" 123456789
-    
-    @current
+ 
     Escenario: US08 - 01 Como cinefilo quiero aniadir un contenido a favoritos
         Dado que el contenido "Siempre Risas" 2010 "comedia" existe en la base de datos
         Cuando el usuario aniade un contenido "Siempre Risas" a favoritos
@@ -22,7 +21,7 @@ Antecedentes:
         Entonces ve un mensaje "Error: Contenido faltante"
     
     Escenario: US29 - 01 Como cinefilo quiero aniadir un contenido a favoritos
-        Dado que existe el contenido "Game of Thrones - Temporada 3" 2011 "drama" 12 en la base de datos
+        Dado que existe la temporada "Game of Thrones - Temporada 3" 2011 "drama" 12 en la base de datos
         Cuando el usuario aniade un contenido "Game of Thrones - Temporada 1" a favoritos
         Entonces el contenido se aniade a favoritos exitosamente
 

@@ -14,16 +14,20 @@ Escenario: US23 - 01 Lista de favoritos con una sola pelicula
   Entonces aparece "Batman" en el listado
 
 
+@current
 Escenario: US23 - 01 Lista de favoritos con 3 peliculas
-     
-  Dado que marco las películas "Batman", "Nahir" y "Amor" como favoritas
+  Dado que marco el contenido "Batman" como favorito
+  Y que marco el contenido "Nahir" como favorito
+  Y que marco el contenido "Amor" como favorito
   Cuando quiero ver mis favoritos
-  Entonces aparece "Batman", "Nahir" y "Amor" en el listado
+  Entonces aparece "Batman" en el listado
+  Y aparece "Nahir" en el listado
+  Y aparece "Amor" en el listado
 
 
 Escenario: US23 - 04 Pelicula en plataforma sin marca de favorito no aparece
-  
   Dado que marco las películas "Nahir" y "Amor" como favoritas
   Dado que no marco "Batman" como favorita
   Cuando quiero ver mis favoritos
-  Entonces aparece "Nahir" y "Amor" en el listado
+  Entonces aparece "Amor" en el listado
+  Y aparece "Nahir" en el listado

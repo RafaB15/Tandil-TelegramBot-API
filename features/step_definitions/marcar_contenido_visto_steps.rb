@@ -11,8 +11,13 @@ Dado('que existe el contenido {string} {int} {string}') do |titulo, anio, genero
   @response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que existe el contenido {string} {int} {string} {int} en la base de datos') do |titulo, anio, genero, cantidad_capitulos|
-  @request_temporada = { titulo:, anio:, genero:, cantidad_capitulos: }.to_json
+Dado('que existe la pelicula {string} {int} {string} en la base de datos') do |titulo, anio, genero|
+  @request_temporada = { titulo:, anio:, genero:, tipo: 'pelicula' }.to_json
+  @response_contenido = Faraday.post('/contenidos', @request_temporada, { 'Content-Type' => 'application/json' })
+end
+
+Dado('que existe la temporada {string} {int} {string} {int} en la base de datos') do |titulo, anio, genero, cantidad_capitulos|
+  @request_temporada = { titulo:, anio:, genero:, tipo: 'serie', cantidad_capitulos: }.to_json
   @response_contenido = Faraday.post('/contenidos', @request_temporada, { 'Content-Type' => 'application/json' })
 end
 
@@ -38,7 +43,7 @@ Entonces('el administrador debería poder marcar el contenido como visto para es
   json_response_usuario = JSON.parse(@response_usuario.body)
   @email = json_response_usuario['email']
 
-  json_response_pelicula = JSON.parse(@response_pelicula.body)
+  json_response_pelicula = JSON.parse(@response_contenido.body)
   @id_contenido = json_response_pelicula['id']
 
   @fecha = Time.now.floor.iso8601
