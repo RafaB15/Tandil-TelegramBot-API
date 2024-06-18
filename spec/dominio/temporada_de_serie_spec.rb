@@ -22,4 +22,10 @@ describe TemporadaDeSerie do
       expect { described_class.new('', 2008, 'accion', 'serie', 12) }.to raise_error(ErrorAlInstanciarTituloInvalido)
     end
   end
+
+  describe 'titulo invalido nil' do
+    it 'raises an error' do
+      expect { described_class.new('', nil, 'accion', 'serie', 32) }.to raise_error(ErrorAlInstanciarTituloInvalido)
+    end
+  end
 end

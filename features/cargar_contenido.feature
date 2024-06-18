@@ -42,7 +42,6 @@ Característica: Cargar contenido via API
         Cuando cargo "Nahir" "comedia" "serie"
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido anio debe ser un año positivo"
 
-    @wip
     Escenario: US24 - 04 Como administrador cargo una pelicula sin titulo
         Cuando cargo 2024 "drama" "serie"
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido titulo debe ser un nombre"
