@@ -19,8 +19,8 @@ Antecedentes:
         Y deberia ver la temporada "Pretty Little Liars - Temporada 2" listada entre las existentes
         Y deberia ver la temporada "Pretty Little Liars - Temporada 3" listada entre las existentes
 
-    @wip
+    @current
     Escenario: US26 - 03 Como cinefilo quiero buscar una temporada de una serie que no está disponible
 
         Cuando el usuario busca la temporada "Pretty Little Liars - Temporada 1"
-        Entonces no deberíamos ver resultados de temporada existentes
+        Entonces la cantidad de resultados es 0

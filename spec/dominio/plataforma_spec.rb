@@ -189,12 +189,11 @@ describe 'Plataforma' do
       expect(result).to eq([pelicula])
     end
 
-    it 'debería lanzar un error si no hay películas con el título dado' do
+    it 'debería devolver una lista vacia si no hay películas con el título dado' do
       allow(repositorio_contenidos).to receive(:find_by_title).and_return([])
 
-      expect do
-        plataforma.obtener_contenido_por_titulo('Amistad por siempre', repositorio_contenidos)
-      end.to raise_error(ErrorPeliculaInexistente)
+      result = plataforma.obtener_contenido_por_titulo('Amistad por siempre', repositorio_contenidos)
+      expect(result).to eq([])
     end
   end
 
