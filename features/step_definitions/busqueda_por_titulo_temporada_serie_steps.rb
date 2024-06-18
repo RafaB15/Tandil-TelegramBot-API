@@ -22,9 +22,14 @@ end
 # Entonces
 # =========================================================
 
+Entonces('la cantidad de resultados es {int}') do |cantidad|
+  @contenidos = JSON.parse(@response.body)
+  expect(@response.status).to eq 200
+  expect(@contenidos.length).to eq cantidad
+end
+
 Entonces('deberia ver la temporada {string} listada entre las existentes') do |titulo|
   @contenidos = JSON.parse(@response.body)
   expect(@response.status).to eq 200
-  expect(@contenidos.length).to eq 1
-  expect(@contenidos[0]['titulo']).to eq titulo
+  expect(@contenidos.any? { |contenido| contenido['titulo'] == titulo }).to be true
 end

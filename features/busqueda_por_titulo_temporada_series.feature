@@ -9,13 +9,14 @@ Antecedentes:
     Escenario: US26 - 01 Como cinefilo quiero buscar una temporada por su nombre
 
         Cuando el usuario busca la temporada "Pretty Little Liars - Temporada 2"
-        Entonces deberia ver la temporada "Pretty Little Liars - Temporada 2" listada entre las existentes
+        Entonces la cantidad de resultados es 1
+        Y deberia ver la temporada "Pretty Little Liars - Temporada 2" listada entre las existentes
 
-    @wip
     Escenario: US26 - 02 Como cinefilo quiero buscar una temporada sin especificar temporada
 
         Cuando el usuario busca la temporada "Pretty Little Liars"
-        Entonces deberia ver la temporada "Pretty Little Liars - Temporada 2" listada entre las existentes
+        Entonces la cantidad de resultados es 2
+        Y deberia ver la temporada "Pretty Little Liars - Temporada 2" listada entre las existentes
         Y deberia ver la temporada "Pretty Little Liars - Temporada 3" listada entre las existentes
 
     @wip
