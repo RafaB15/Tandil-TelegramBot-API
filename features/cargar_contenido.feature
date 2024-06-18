@@ -48,7 +48,6 @@ Característica: Cargar contenido via API
         Cuando cargo "" 2024 "drama" "serie"
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido titulo debe ser un nombre"
 
-    @wip
     Escenario: US24 - 06 Como administrador cargo un dato invalido
         Cuando cargo "Oppenheimer" 2024 "suspenso" "serie"
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido genero debe ser drama, accion o comedia"
