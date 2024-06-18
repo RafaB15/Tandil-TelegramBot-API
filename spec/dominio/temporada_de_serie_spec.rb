@@ -40,4 +40,12 @@ describe TemporadaDeSerie do
       expect { described_class.new('Amor - Temporada 1', -1, 'accion', 'serie', 21) }.to raise_error(ErrorAlInstanciarAnioInvalido)
     end
   end
+
+  describe 'serie existente' do
+    it 'raises an error' do
+      repositorio = instance_double('RepositorioContenidos')
+      allow(repositorio).to receive(:find_by_titulo_y_anio).and_return(true)
+      expect { serie.contenido_existente?(repositorio) }.to raise_error(ErrorAlPersistirContenidoYaExistente)
+    end
+  end
 end
