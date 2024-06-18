@@ -70,7 +70,7 @@ describe 'Plataforma' do
 
       expect do
         plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
-      end.to raise_error(ErrorPeliculaInexistente)
+      end.to raise_error(ErrorContenidoInexistente)
     end
 
     it 'debería lanzar un error si la visualizacion no existe' do

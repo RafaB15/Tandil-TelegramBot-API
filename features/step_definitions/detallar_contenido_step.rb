@@ -53,28 +53,42 @@ Entonces('debería ver la informacion esperada') do
   expect(json_response_detalles['sinopsis']).to eq 'A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.'
 end
 
-Entonces('debería ver un mensaje de error de que no está lo que busca') do
+Entonces('debería ver un mensaje de error de que no está lo que busca en nuestra BDD') do
+  estado = @response_detalles.status
   json_response_detalles = JSON.parse(@response_detalles.body)
 
-  expect(json_response_detalles['error']).to eq 'no encontrado'
+  expect(estado).to eq 404
+  expect(json_response_detalles['details']['field']).to eq 'contenido'
 end
 
 Entonces('debería ver un mensaje que no se pueden mostrar detalles adicionales') do
+  estado = @response_detalles.status
   json_response_detalles = JSON.parse(@response_detalles.body)
-  expect(json_response_detalles['error']).to eq 'no hay detalles para mostrar'
+
+  expect(estado).to eq 404
+  expect(json_response_detalles['details']['field']).to eq 'omdb'
 end
 
 Entonces('debería ver el campo {string} como no disponible') do |campo|
+  estado = @response_detalles.status
   json_response_detalles = JSON.parse(@response_detalles.body)
-  expect(json_response_detalles[campo]).to eq ''
+
+  expect(estado).to eq 200
+  expect(json_response_detalles[campo]).to be_nil
 end
 
 Entonces('debería mostrar que ya fue visto') do
+  estado = @response_detalles.status
   json_response_detalles = JSON.parse(@response_detalles.body)
+
+  expect(estado).to eq 200
   expect(json_response_detalles['fue_visto']).to eq true
 end
 
 Entonces('debería mostrar que no fue visto') do
+  estado = @response_detalles.status
   json_response_detalles = JSON.parse(@response_detalles.body)
+
+  expect(estado).to eq 200
   expect(json_response_detalles['fue_visto']).to eq false
 end

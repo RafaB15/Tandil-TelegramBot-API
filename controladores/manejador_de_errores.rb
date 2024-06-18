@@ -18,8 +18,9 @@ class ManejadorDeErrores
     'ErrorAlInstanciarGeneroInvalido' => { estado: 400, campo: 'genero', mensaje: 'drama, accion o comedia' },
     'ErrorAlPersistirContenidoYaExistente' => { estado: 409, campo: 'titulo anio', mensaje: 'Ya existe un contenido con el mismo titulo y año.' },
     'ErrorAlInstanciarCalificacionInvalida' => { estado: 422, campo: 'calificacion', mensaje: '' },
-    'ErrorPeliculaInexistente' => { estado: 404, campo: 'pelicula', mensaje: '' },
+    'ErrorContenidoInexistente' => { estado: 404, campo: 'contenido', mensaje: '' },
     'ErrorVisualizacionInexistente' => { estado: 422, campo: 'visualizacion', mensaje: '' },
+    'ErrorContenidoInexistenteEnLaAPIDeOMDb' => { estado: 404, campo: 'omdb', mensaje: '' },
     'StandardError' => { estado: 500, campo: '', mensaje: '' }
   }.freeze
 

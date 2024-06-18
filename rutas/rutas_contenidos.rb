@@ -88,45 +88,44 @@ get '/contenidos/:id_contenido/detalles' do
   repositorio_contenidos = RepositorioContenidos.new
   repositorio_visualizaciones = RepositorioVisualizaciones.new
 
-  omb_conector_api = OMDbConectorAPIProxy.new
+  api_detalles_conector = OMDbConectorAPIProxy.new
 
   plataforma = Plataforma.new(id_telegram, id_contenido)
 
-  omdb_respuesta, fue_visto = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omb_conector_api)
+  begin
+    omdb_detalles, fue_visto = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, api_detalles_conector)
 
-  estado = 200
-  cuerpo = armar_respuesta_omdb(omdb_respuesta, fue_visto)
+    estado = 200
+    cuerpo = armar_respuesta_omdb(omdb_detalles, fue_visto)
+  rescue StandardError => e
+    mapeo_error_http = ManejadorDeErrores.new(e)
+    error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
+
+    estado = error_response.estado
+    cuerpo = error_response.respuesta
+  end
 
   settings.logger.debug "Respuesta : [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
 
   status estado
-  cuerpo
-rescue ErrorPeliculaInexistente
-  armar_error('no encontrado')
-rescue StandardError => e
-  armar_error(e.message)
+  cuerpo.to_json
 end
 
-def armar_error(mensaje)
-  settings.logger.error "[Status] : 404 - [Response] : 'no encontrado' - [Mensaje] '#{mensaje}'"
-  status 404
-  {
-    error: mensaje
-  }.to_json
-end
-
-def armar_respuesta_omdb(omdb_respuesta, fue_visto)
-  detalles_pelicula = omdb_respuesta['cuerpo']
-
-  respuesta = {
-    titulo: detalles_pelicula['Title'],
-    anio: detalles_pelicula['Year'],
-    premios: detalles_pelicula['Awards'],
-    director: detalles_pelicula['Director'],
-    sinopsis: detalles_pelicula['Plot']
+def armar_respuesta_omdb(detalles_pelicula, fue_visto)
+  respuesta = Hash.new(0)
+  mapeo_de_detalles = {
+    titulo: 'Title',
+    anio: 'Year',
+    premios: 'Awards',
+    director: 'Director',
+    sinopsis: 'Plot'
   }
+
+  mapeo_de_detalles.each do |nombre_detalle, nombre_detalle_omdb|
+    respuesta[nombre_detalle] = detalles_pelicula[nombre_detalle_omdb] unless detalles_pelicula[nombre_detalle_omdb].nil?
+  end
 
   respuesta[:fue_visto] = fue_visto unless fue_visto.nil?
 
-  respuesta.to_json
+  respuesta
 end

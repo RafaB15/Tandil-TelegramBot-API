@@ -11,8 +11,8 @@ describe OMDbConectorAPIProxy do
       titulo = pelicula.titulo
       respuesta = described_class.new.detallar_pelicula(titulo)
 
-      expect(respuesta['estado']).to eq 200
-      expect(respuesta['cuerpo']).not_to be_nil
+      expect(respuesta.status).to eq 200
+      expect(respuesta.body).not_to be_nil
     end
   end
 end

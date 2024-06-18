@@ -3,7 +3,11 @@ require 'date'
 class Plataforma
   def initialize(id_telegram = nil, id_contenido = nil)
     @id_telegram = id_telegram
-    @id_contenido = id_contenido
+    @id_contenido = if id_contenido.nil?
+                      nil
+                    else
+                      id_contenido.to_i
+                    end
   end
 
   def registrar_usuario(email, id_telegram, repositorio_usuarios)
@@ -25,8 +29,8 @@ class Plataforma
 
   def registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos)
     usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
-    pelicula = repositorio_contenidos.find(@id_contenido)
-    favorito = Favorito.new(usuario, pelicula)
+    contenido = repositorio_contenidos.find(@id_contenido)
+    favorito = Favorito.new(usuario, contenido)
 
     repositorio_favoritos.save(favorito)
 
@@ -34,16 +38,12 @@ class Plataforma
   end
 
   def registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
-    begin
-      contenido = repositorio_contenidos.find(@id_contenido)
-    rescue NameError
-      raise ErrorPeliculaInexistente
-    end
+    contenido = obtener_contenido(repositorio_contenidos)
 
     usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
-    el_contenido_fue_visto?(usuario, repositorio_visualizaciones)
+    raise ErrorVisualizacionInexistente unless fue_el_contenido_visto_por_el_usuario?(usuario, repositorio_visualizaciones)
 
-    calificacion = repositorio_calificaciones.find_by_id_usuario_y_id_contenido(usuario.id, @id_contenido.to_i)
+    calificacion = repositorio_calificaciones.find_by_id_usuario_y_id_contenido(usuario.id, @id_contenido)
     puntaje_anterior = nil
     if calificacion.nil?
       calificacion = Calificacion.new(usuario, contenido, puntaje)
@@ -52,11 +52,6 @@ class Plataforma
     end
     repositorio_calificaciones.save(calificacion)
     [calificacion, puntaje_anterior]
-  end
-
-  def el_contenido_fue_visto?(usuario, repositorio_visualizaciones)
-    visualizacion = repositorio_visualizaciones.find_by_id_usuario_y_id_contenido(usuario.id, @id_contenido.to_i)
-    raise ErrorVisualizacionInexistente if visualizacion.nil?
   end
 
   def registrar_visualizacion(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, repositorio_visualizaciones_de_capitulos, numero_capitulo, email, fecha)
@@ -91,19 +86,68 @@ class Plataforma
   end
 
   def obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, api_detalles_conector)
-    begin
-      pelicula = repositorio_contenidos.find(@id_contenido)
-    rescue NameError
-      raise ErrorPeliculaInexistente
-    end
+    contenido = obtener_contenido(repositorio_contenidos)
 
-    respuesta = api_detalles_conector.detallar_pelicula(pelicula.titulo)
+    detalles_contenido = detallar_contenido_via_api(api_detalles_conector, contenido.titulo)
 
     usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
     fue_visto = nil
+    fue_visto = fue_el_contenido_visto_por_el_usuario?(usuario, repositorio_visualizaciones) if usuario
 
-    fue_visto = !repositorio_visualizaciones.find_by_id_usuario_y_id_contenido(usuario.id, pelicula.id).nil? if usuario
+    [detalles_contenido, fue_visto]
+  end
 
-    [respuesta, fue_visto]
+  private
+
+  def obtener_contenido(repositorio_contenidos)
+    repositorio_contenidos.find(@id_contenido)
+  rescue NameError
+    raise ErrorContenidoInexistente
+  end
+
+  def detallar_contenido_via_api(api_detalles_conector, titulo)
+    omdb_respuesta = api_detalles_conector.detallar_pelicula(titulo)
+
+    raise ErrorInesperadoEnLaAPIDeOMDb if omdb_respuesta.status != 200
+
+    detalles_contenido = JSON.parse(omdb_respuesta.body)
+
+    raise ErrorContenidoInexistenteEnLaAPIDeOMDb if detalles_contenido['Response'] == 'False'
+
+    detalles_contenido.each do |clave_detalle, valor_detalle|
+      detalles_contenido[clave_detalle] = nil if valor_detalle == 'N/A'
+    end
+
+    detalles_contenido
+  end
+
+  def fue_el_contenido_visto_por_el_usuario?(usuario, repositorio_visualizaciones)
+    visualizacion = repositorio_visualizaciones.find_by_id_usuario_y_id_contenido(usuario.id, @id_contenido)
+
+    !visualizacion.nil?
+  end
+end
+
+class ErrorContenidoInexistente < StandardError
+  MSG_DE_ERROR = 'Error: contenido inexistente'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end
+
+class ErrorContenidoInexistenteEnLaAPIDeOMDb < StandardError
+  MSG_DE_ERROR = 'Error: El contenido no existe en la API de OMDb o no hay detalles para mostrar'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end
+
+class ErrorInesperadoEnLaAPIDeOMDb < StandardError
+  MSG_DE_ERROR = 'Error: Algo fallo en la API de OMDb'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
   end
 end
