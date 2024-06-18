@@ -56,3 +56,8 @@ Característica: Consultar los contenidos añadidos en la última semana
         Cuando solicito ver el ultimo contenido cargado
         Entonces me muestra "Juliet" en la posicion 1
         Y me muestra "Titanic" en la posicion 2
+
+    Escenario: US31 - 02 Como cinefilo no visualizo ningún contenido cargado la ultima semana porque no hay
+        Dado que no se agrego contenido nuevo esta semana
+        Cuando solicito ver el ultimo contenido cargado
+        Entonces tengo un listado de vistos vacio
