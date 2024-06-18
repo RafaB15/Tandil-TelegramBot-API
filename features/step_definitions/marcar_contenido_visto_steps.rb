@@ -26,8 +26,9 @@ end
 Cuando('el administrador marca el capitulo {int} de la temporada como visto para el usuario') do |numero_capitulo|
   body_contenido = JSON.parse(@response_contenido.body)
   @body_usuario = JSON.parse(@response_usuario.body)
-  @body_visualizacion = { email: @body_usuario['email'], id_contenido: body_contenido['id'], fecha: Time.now.floor.iso8601, numero_capitulo: }.to_json
-  @response = Faraday.post('/visualizaciones', @body_visualizacion, { 'Content-Type' => 'application/json' })
+  @body_visualizacion = { email: @body_usuario['email'], fecha: Time.now.floor.iso8601, numero_capitulo: }.to_json
+  @id_contenido = body_contenido['id']
+  @response = Faraday.post("contenidos/#{@id_contenido}/visualizaciones", @body_visualizacion, { 'Content-Type' => 'application/json' })
 end
 
 # Entonces
@@ -43,8 +44,8 @@ Entonces('el administrador debería poder marcar el contenido como visto para es
   @fecha = Time.now.floor.iso8601
 
   request_body = { email: @email, id_contenido: @id_contenido, fecha: @fecha }.to_json
-
-  @response = Faraday.post('/visualizaciones', request_body, { 'Content-Type' => 'application/json' })
+  id_contenido = @id_contenido
+  @response = Faraday.post("contenidos/#{id_contenido}/visualizaciones", request_body, { 'Content-Type' => 'application/json' })
 end
 
 Entonces('deberia ver un mensaje de la visualizacion cargada exitosamente') do
@@ -66,7 +67,7 @@ Entonces('se deberia ver un mensaje de la visualizacion cargada exitosamente') d
 
   expect(json_response['id']).to be > 0
   expect(json_response['email']).to eq body_visualizacion['email']
-  expect(json_response['id_contenido']).to eq body_visualizacion['id_contenido']
+  expect(json_response['id_contenido']).to eq @id_contenido
   expect(json_response['fecha']).to eq body_visualizacion['fecha']
   expect(json_response['numero_capitulo']).to eq body_visualizacion['numero_capitulo']
 end

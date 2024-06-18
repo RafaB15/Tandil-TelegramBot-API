@@ -11,8 +11,9 @@ Dado('que el usuario ya vio la pelicula {string} {int} {string}') do |titulo, an
   @id_telegram = json_response_usuario['id_telegram']
 
   fecha = Time.now.floor.iso8601
-  request_body = { email:, id_contenido: @id_contenido, fecha: }.to_json
-  Faraday.post('/visualizaciones', request_body, { 'Content-Type' => 'application/json' })
+  id_contenido = @id_contenido
+  request_body = { email:, fecha: }.to_json
+  Faraday.post("/contenidos/#{id_contenido}/visualizaciones", request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que el usuario la habia calificado con un {int}') do |puntaje|

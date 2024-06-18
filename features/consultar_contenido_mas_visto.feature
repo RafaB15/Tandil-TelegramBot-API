@@ -15,7 +15,7 @@ Antecedentes:
         Y que los 4 contenidos son los mas vistos en la plataforma con la misma cantidad de vistas
         Cuando se consulta por la lista de contenidos mas vistos
         Entonces se ve una lista de los 3 contenidos más vistos, seleccionados alfabéticamente: "Alfa", "Beta", "Delta"
-    
+
     Escenario: US14 - 03 Hay menos de 3 contenidos visualizados
         Dado que solo hay 2 contenidos que obtuvieron visualizaciones
         Cuando se consulta por la lista de contenidos mas vistos

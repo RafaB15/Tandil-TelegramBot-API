@@ -14,9 +14,9 @@ Dado('que el usuario ya lo vio') do
 
   @fecha = Time.now.floor.iso8601
 
-  request_body = { email: @email, id_contenido: @id_contenido, fecha: @fecha }.to_json
-
-  @response = Faraday.post('/visualizaciones', request_body, { 'Content-Type' => 'application/json' })
+  request_body = { email: @email, fecha: @fecha }.to_json
+  id_contenido = @id_contenido
+  @response = Faraday.post("contenidos/#{id_contenido}/visualizaciones", request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que el usuario no lo vio') do

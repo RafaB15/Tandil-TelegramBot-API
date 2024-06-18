@@ -5,7 +5,6 @@ Dir[File.join(__dir__, '../lib/om_db_conector_api', '*.rb')].each { |file| requi
 
 post '/contenidos' do
   require 'date'
-
   @body ||= request.body.read
   parametros_contenidos = JSON.parse(@body)
   titulo = parametros_contenidos['titulo']

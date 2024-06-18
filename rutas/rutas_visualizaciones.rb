@@ -2,11 +2,11 @@ require 'sinatra'
 
 require_relative './utiles'
 
-post '/visualizaciones' do
+post '/contenidos/:id_contenido/visualizaciones' do
   @body ||= request.body.read
+  id_contenido = params['id_contenido']
   parametros_visualizaciones = JSON.parse(@body)
   email = parametros_visualizaciones['email']
-  id_contenido = parametros_visualizaciones['id_contenido']
   fecha = parametros_visualizaciones['fecha']
   numero_capitulo = parametros_visualizaciones['numero_capitulo']
 
