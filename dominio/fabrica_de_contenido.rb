@@ -8,8 +8,7 @@ class FabricaDeContenido
     elsif tipo == 'serie'
       Serie.new(titulo, anio_de_estreno, genero, fecha_agregado, cantidad_capitulos, id)
     else
-      Pelicula.new(titulo, anio_de_estreno, genero, fecha_agregado, id)
-      # raise ArgumentError, "Valor inválido para tipo de contenido: #{tipo}"
+      raise ArgumentError, "Valor inválido para tipo de contenido: #{tipo}"
     end
   end
 

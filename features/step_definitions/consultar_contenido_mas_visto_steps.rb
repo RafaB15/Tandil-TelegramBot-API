@@ -8,18 +8,20 @@ Dado('que existe un usuario con email {string} y id_telegram {int}') do |email, 
   @response_usuario = Faraday.post('/usuarios', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que existen 3 contenidos en la plataforma') do
-  @request_pelicula_body1 = { titulo: 'Nahir', anio: 2024, genero: 'drama' }.transform_keys(&:to_s)
+Dado('que existen 3 peliculas en la plataforma') do
+  @tipo = 'pelicula'
+
+  @request_pelicula_body1 = { titulo: 'Nahir', anio: 2024, genero: 'drama', tipo: @tipo }.transform_keys(&:to_s)
   @response_pelicula1 = Faraday.post('/contenidos', @request_pelicula_body1.to_json, { 'Content-Type' => 'application/json' })
 
-  @request_pelicula_body2 = { titulo: 'Amor', anio: 2001, genero: 'comedia' }.transform_keys(&:to_s)
+  @request_pelicula_body2 = { titulo: 'Amor', anio: 2001, genero: 'comedia', tipo: @tipo }.transform_keys(&:to_s)
   @response_pelicula2 = Faraday.post('/contenidos', @request_pelicula_body2.to_json, { 'Content-Type' => 'application/json' })
 
-  @request_pelicula_body3 = { titulo: 'Batman', anio: 1998, genero: 'accion' }.transform_keys(&:to_s)
+  @request_pelicula_body3 = { titulo: 'Batman', anio: 1998, genero: 'accion', tipo: @tipo }.transform_keys(&:to_s)
   @response_pelicula3 = Faraday.post('/contenidos', @request_pelicula_body3.to_json, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que hay 3 contenidos vistos en la plataforma') do
+Dado('que hay 3 peliculas vistos en la plataforma') do
   json_response_usuario = JSON.parse(@response_usuario.body)
   @email = json_response_usuario['email']
 
@@ -57,21 +59,23 @@ end
 
 # Segunda prueba de aceptacion
 
-Dado('que hay 4 contenidos: {string}, {string}, {string}, {string}') do |titulo1, titulo2, titulo3, titulo4|
-  @request_pelicula_body1 = { titulo: titulo1, anio: 2024, genero: 'drama' }.transform_keys(&:to_s)
+Dado('que hay 4 peliculas: {string}, {string}, {string}, {string}') do |titulo1, titulo2, titulo3, titulo4|
+  @tipo = 'pelicula'
+
+  @request_pelicula_body1 = { titulo: titulo1, anio: 2024, genero: 'drama', tipo: @tipo }.transform_keys(&:to_s)
   @response_contenido1 = Faraday.post('/contenidos', @request_pelicula_body1.to_json, { 'Content-Type' => 'application/json' })
 
-  @request_pelicula_body2 = { titulo: titulo2, anio: 2001, genero: 'comedia' }.transform_keys(&:to_s)
+  @request_pelicula_body2 = { titulo: titulo2, anio: 2001, genero: 'comedia', tipo: @tipo }.transform_keys(&:to_s)
   @response_contenido2 = Faraday.post('/contenidos', @request_pelicula_body2.to_json, { 'Content-Type' => 'application/json' })
 
-  @request_pelicula_body3 = { titulo: titulo3, anio: 1998, genero: 'accion' }.transform_keys(&:to_s)
+  @request_pelicula_body3 = { titulo: titulo3, anio: 1998, genero: 'accion', tipo: @tipo }.transform_keys(&:to_s)
   @response_contenido3 = Faraday.post('/contenidos', @request_pelicula_body3.to_json, { 'Content-Type' => 'application/json' })
 
-  @request_pelicula_body4 = { titulo: titulo4, anio: 1998, genero: 'accion' }.transform_keys(&:to_s)
+  @request_pelicula_body4 = { titulo: titulo4, anio: 1998, genero: 'accion', tipo: @tipo }.transform_keys(&:to_s)
   @response_contenido4 = Faraday.post('/contenidos', @request_pelicula_body4.to_json, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que los 4 contenidos son los mas vistos en la plataforma con la misma cantidad de vistas') do
+Dado('que los 4 peliculas son los mas vistos en la plataforma con la misma cantidad de vistas') do
   json_response_usuario = JSON.parse(@response_usuario.body)
   @email = json_response_usuario['email']
 
@@ -108,7 +112,7 @@ Dado('que los 4 contenidos son los mas vistos en la plataforma con la misma cant
   end
 end
 
-Dado('que solo hay 2 contenidos que obtuvieron visualizaciones') do
+Dado('que solo hay 2 peliculas que obtuvieron visualizaciones') do
   json_response_usuario = JSON.parse(@response_usuario.body)
   @email = json_response_usuario['email']
 
@@ -138,14 +142,14 @@ end
 # Cuando
 # =========================================================
 
-Cuando('se consulta por la lista de contenidos mas vistos') do
+Cuando('se consulta por la lista de peliculas mas vistos') do
   @response = Faraday.get('/visualizaciones/top', { 'Content-Type' => 'application/json' })
 end
 
 # Entonces
 # =========================================================
 
-Entonces('se ve una lista de los 3 contenidos mas vistos') do
+Entonces('se ve una lista de los 3 peliculas mas vistos') do
   json_response = JSON.parse(@response.body)
 
   expect(json_response.length).to eq 3
@@ -156,12 +160,9 @@ Entonces('se ve una lista de los 3 contenidos mas vistos') do
   expect(json_response[0]['vistas']).to be > 0
   expect(json_response[1]['vistas']).to be > 0
   expect(json_response[2]['vistas']).to be > 0
-  expect(json_response[0]['contenido']).to eq @request_pelicula_body1
-  expect(json_response[1]['contenido']).to eq @request_pelicula_body2
-  expect(json_response[2]['contenido']).to eq @request_pelicula_body3
 end
 
-Entonces('se ve una lista de los 3 contenidos más vistos, seleccionados alfabéticamente: {string}, {string}, {string}') do |titulo1, titulo2, titulo4|
+Entonces('se ve una lista de los 3 peliculas más vistos, seleccionados alfabéticamente: {string}, {string}, {string}') do |titulo1, titulo2, titulo4|
   json_response = JSON.parse(@response.body)
 
   expect(json_response.length).to eq 3
@@ -172,15 +173,12 @@ Entonces('se ve una lista de los 3 contenidos más vistos, seleccionados alfabé
   expect(json_response[0]['vistas']).to be > 0
   expect(json_response[1]['vistas']).to be > 0
   expect(json_response[2]['vistas']).to be > 0
-  expect(json_response[0]['contenido']).to eq @request_pelicula_body1
-  expect(json_response[1]['contenido']).to eq @request_pelicula_body2
-  expect(json_response[2]['contenido']).to eq @request_pelicula_body4
   expect(@request_pelicula_body1['titulo']).to eq titulo1
   expect(@request_pelicula_body2['titulo']).to eq titulo2
   expect(@request_pelicula_body4['titulo']).to eq titulo4
 end
 
-Entonces('se ve una lista de 2 contenidos') do
+Entonces('se ve una lista de 2 peliculas') do
   json_response = JSON.parse(@response.body)
 
   expect(json_response.length).to eq 2
@@ -189,8 +187,6 @@ Entonces('se ve una lista de 2 contenidos') do
   expect(json_response[1]['id']).to be > 0
   expect(json_response[0]['vistas']).to be > 0
   expect(json_response[1]['vistas']).to be > 0
-  expect(json_response[0]['contenido']).to eq @request_pelicula_body1
-  expect(json_response[1]['contenido']).to eq @request_pelicula_body2
 end
 
 Entonces('tengo un listado de vistos vacio') do

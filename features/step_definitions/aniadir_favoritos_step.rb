@@ -1,12 +1,13 @@
 # Dado
 # =========================================================
 
-Dado('que el contenido {string} {int} {string} existe en la base de datos') do |titulo, anio, genero|
+Dado('que el contenido {string} {int} {string} {string} existe en la base de datos') do |titulo, anio, genero, tipo|
   @titulo = titulo
   @anio = anio
   @genero = genero
+  @tipo = tipo
 
-  request_body = { titulo:, anio:, genero: }.to_json
+  request_body = { titulo:, anio:, genero:, tipo: }.to_json
 
   @response_contenido = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end

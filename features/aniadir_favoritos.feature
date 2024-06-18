@@ -5,7 +5,7 @@ Antecedentes:
     Dado un usuario "pepito@gmail.com" 123456789
  
     Escenario: US08 - 01 Como cinefilo quiero aniadir un contenido a favoritos
-        Dado que el contenido "Siempre Risas" 2010 "comedia" existe en la base de datos
+        Dado que el contenido "Siempre Risas" 2010 "comedia" "pelicula" existe en la base de datos
         Cuando el usuario aniade un contenido "Siempre Risas" a favoritos
         Entonces ve un mensaje de exito al aniadir la pelicula a favoritos
 

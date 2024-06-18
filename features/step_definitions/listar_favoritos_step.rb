@@ -1,7 +1,7 @@
 # Dado
 # =========================================================
 
-Dado('que marco la película {string} como favorita') do |_string|
+Dado('que marco la pelicula {string} como favorita') do |_string|
   json_response_usuario = JSON.parse(@response_usuario.body)
   @id_telegram = json_response_usuario['id_telegram']
 
@@ -10,7 +10,7 @@ Dado('que marco la película {string} como favorita') do |_string|
   @response = Faraday.post('/favoritos', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que marco las películas {string}, {string} y {string} como favoritas') do |_titulo1, _titulo2, _titulo3|
+Dado('que marco las peliculas {string}, {string} y {string} como favoritas') do |_titulo1, _titulo2, _titulo3|
   json_response_usuario = JSON.parse(@response_usuario.body)
   @id_telegram = json_response_usuario['id_telegram']
 
@@ -24,7 +24,7 @@ Dado('que marco las películas {string}, {string} y {string} como favoritas') do
   Faraday.post('/favoritos', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que marco las películas {string} y {string} como favoritas') do |_string, _string2|
+Dado('que marco las peliculas {string} y {string} como favoritas') do |_string, _string2|
   json_response_usuario = JSON.parse(@response_usuario.body)
   @id_telegram = json_response_usuario['id_telegram']
 

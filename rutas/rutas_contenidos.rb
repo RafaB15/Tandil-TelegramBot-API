@@ -7,36 +7,20 @@ post '/contenidos' do
   require 'date'
   @body ||= request.body.read
   parametros_contenidos = JSON.parse(@body)
-  titulo = parametros_contenidos['titulo']
-  anio = parametros_contenidos['anio']
-  genero = parametros_contenidos['genero']
-  cantidad_capitulos = parametros_contenidos['cantidad_capitulos']
-  fecha_agregado_str = parametros_contenidos['fecha_agregado']
-  fecha_agregado = fecha_agregado_str ? Date.parse(fecha_agregado_str) : Date.today
-  tipo = parametros_contenidos['tipo']
+  titulo, anio, genero, cantidad_capitulos, fecha_agregado, tipo = parametros_contenidos.values_at('titulo', 'anio', 'genero', 'cantidad_capitulos', 'fecha_agregado', 'tipo')
+  fecha_agregado = fecha_agregado ? Date.parse(fecha_agregado) : Date.today
 
   settings.logger.debug "[POST] /contenidos - Iniciando creación de un nuevo contenido - Cuerpo: #{parametros_contenidos}"
 
-  if tipo == 'serie'
-    repositorio_contenidos = RepositorioTemporadasDeSeries.new
-  elsif tipo == 'pelicula'
-    repositorio_contenidos = RepositorioPeliculas.new
-  else
-    tipo = 'pelicula'
-    repositorio_contenidos = RepositorioPeliculas.new
-    # raise ArgumentError, "Valor inválido para tipo de contenido: #{tipo}"
-  end
+  repositorio_contenidos = tipo == 'serie' ? RepositorioTemporadasDeSeries.new : RepositorioPeliculas.new
+  raise ArgumentError, "Valor inválido para tipo de contenido: #{tipo}" unless %w[serie pelicula].include?(tipo)
 
   begin
     contenido = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_contenidos, tipo, fecha_agregado, cantidad_capitulos)
 
     estado = 201
-    if tipo == 'serie'
-      cuerpo = { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero, tipo: 'serie', fecha_agregado: contenido.fecha_agregado,
-                 cantidad_capitulos: contenido.cantidad_capitulos }
-    elsif tipo == 'pelicula'
-      cuerpo = { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero, tipo: 'pelicula', fecha_agregado: contenido.fecha_agregado }
-    end
+    cuerpo = { id: contenido.id, titulo: contenido.titulo, anio: contenido.anio, genero: contenido.genero, tipo:, fecha_agregado: contenido.fecha_agregado }
+    cuerpo[:cantidad_capitulos] = contenido.cantidad_capitulos if tipo == 'serie'
   rescue StandardError => e
     mapeo_error_http = ManejadorDeErrores.new(e)
     error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)

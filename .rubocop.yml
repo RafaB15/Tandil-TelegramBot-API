@@ -12,7 +12,6 @@ Metrics/ParameterLists:
   Max: 7
 Metrics/BlockLength:
   AllowedMethods: ['controllers', 'describe', 'context']
-  Max: 40
 Layout/LineLength:
   Max: 200
   AllowedPatterns: ['(When|Given|Then)', '(get|post|put)']

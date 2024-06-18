@@ -2,9 +2,9 @@
 Característica: Calificar temporadas series
 
 Antecedentes:
-
+    
     Dado un usuario "pepito@gmail.com" 123456789
-    Y que existe la temporada "Friends - Temporada 1" 1999 "comedia" 24 existe en la base de datos
+    Y que existe la temporada "Friends - Temporada 1" 1999 "comedia" 24 "serie" existe en la base de datos
     Y que el usuario ya vio la temporada de serie
 
     Escenario: US28 - 01 Como cinefilo quiero poder calificar una temporada de serie ya vista

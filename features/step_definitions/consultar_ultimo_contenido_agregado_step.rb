@@ -1,11 +1,11 @@
 # Dado
 # =========================================================
 
-Dado('que se agrego dos nuevos contenidos esta semana {string} {string}') do |titulo1, titulo2|
-  request_pelicula_body1 = { titulo: titulo1, anio: 1989, genero: 'drama' }.to_json
+Dado('que se agrego dos nuevos peliculas esta semana {string} {string}') do |titulo1, titulo2|
+  request_pelicula_body1 = { titulo: titulo1, anio: 1989, genero: 'drama', tipo: 'pelicula' }.to_json
   Faraday.post('/contenidos', request_pelicula_body1, { 'Content-Type' => 'application/json' })
 
-  request_pelicula_body2 = { titulo: titulo2, anio: 2004, genero: 'comedia' }.to_json
+  request_pelicula_body2 = { titulo: titulo2, anio: 2004, genero: 'comedia', tipo: 'pelicula' }.to_json
   Faraday.post('/contenidos', request_pelicula_body2, { 'Content-Type' => 'application/json' })
 end
 
@@ -16,7 +16,7 @@ end
 Dado('que se agrego {string} hace {float} dias') do |titulo, dias_previos|
   require 'date'
   fecha = (Date.today - dias_previos).strftime('%Y-%m-%d')
-  request_pelicula_body1 = { titulo:, anio: 1989, genero: 'drama', fecha_agregado: fecha }.to_json
+  request_pelicula_body1 = { titulo:, anio: 1989, genero: 'drama', tipo: 'pelicula', fecha_agregado: fecha }.to_json
 
   Faraday.post('/contenidos', request_pelicula_body1, { 'Content-Type' => 'application/json' })
 end
@@ -66,7 +66,7 @@ Entonces('me muestra {string} en la posicion {int}') do |titulo, posicion|
   expect(json_response[posicion - 1]['titulo']).to eq titulo
 end
 
-Entonces('me muestra {int} contenidos') do |calificacion|
+Entonces('me muestra {int} peliculas') do |calificacion|
   json_response = JSON.parse(@response.body)
 
   expect(json_response.length).to eq calificacion

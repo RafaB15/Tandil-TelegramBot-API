@@ -1,8 +1,8 @@
 # Dado
 # =========================================================
 
-Dado('que el usuario ya vio la pelicula {string} {int} {string}') do |titulo, anio, genero|
-  request_body = { titulo:, anio:, genero: }.to_json
+Dado('que el usuario ya vio la pelicula {string} {int} {string} {string}') do |titulo, anio, genero, tipo|
+  request_body = { titulo:, anio:, genero:, tipo: }.to_json
   response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
   @id_contenido = JSON.parse(response_pelicula.body)['id']
 
@@ -23,8 +23,8 @@ Dado('que el usuario la habia calificado con un {int}') do |puntaje|
   @response_calificaciones = Faraday.post('/calificaciones', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que existe el contenido {string} {int} {string} y el usuario no lo vio') do |titulo, anio, genero|
-  request_body = { titulo:, anio:, genero: }.to_json
+Dado('que existe el contenido {string} {int} {string} {string} y el usuario no lo vio') do |titulo, anio, genero, tipo|
+  request_body = { titulo:, anio:, genero:, tipo: }.to_json
   @response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 

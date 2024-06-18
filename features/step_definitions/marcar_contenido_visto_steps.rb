@@ -6,8 +6,8 @@ Dado('un usuario {string} {int}') do |email, id_telegram|
   @response_usuario = Faraday.post('/usuarios', request_body, { 'Content-Type' => 'application/json' })
 end
 
-Dado('que existe el contenido {string} {int} {string}') do |titulo, anio, genero|
-  request_body = { titulo:, anio:, genero: }.to_json
+Dado('que existe el contenido {string} {int} {string} {string}') do |titulo, anio, genero, tipo|
+  request_body = { titulo:, anio:, genero:, tipo: }.to_json
   @response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 

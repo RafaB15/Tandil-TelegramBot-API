@@ -3,8 +3,8 @@ Característica: Buscar contenido por titulo de serie
 
 Antecedentes:
     Dado un usuario "pepito@gmail.com" 123456789
-    Y que existe la temporada "Pretty Little Liars - Temporada 2" 2010 "drama" 24 existe en la base de datos
-    Y que existe la temporada "Pretty Little Liars - Temporada 3" 2011 "drama" 24 existe en la base de datos
+    Y que existe la temporada "Pretty Little Liars - Temporada 2" 2010 "drama" 24 "serie" existe en la base de datos
+    Y que existe la temporada "Pretty Little Liars - Temporada 3" 2011 "drama" 24 "serie" existe en la base de datos
 
     Escenario: US26 - 01 Como cinefilo quiero buscar una temporada por su nombre
 

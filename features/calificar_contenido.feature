@@ -3,7 +3,7 @@ Característica: Calificar contenido
     
 Antecedentes:
     Dado un usuario "juan@gmail.com" 123456789
-    Y que el usuario ya vio la pelicula "Nahir" 2024 "drama"
+    Y que el usuario ya vio la pelicula "Nahir" 2024 "drama" "pelicula"
 
     Escenario: US15 - 01 Como cinefilo quiero poder calificar contenido ya visto
         Cuando califica la pelicula con un 4
@@ -27,7 +27,7 @@ Antecedentes:
         Entonces ve un mensaje de calificacion fuera de rango
 
     Escenario: US15 - 06 La pelicula no fue vista aun
-        Dado que existe el contenido "Titanic" 1997 "drama" y el usuario no lo vio
+        Dado que existe el contenido "Titanic" 1997 "drama" "pelicula" y el usuario no lo vio
         Cuando califica una pelicula que no vio con un 1
         Entonces ve un mensaje de que la pelicula no fue vista
     

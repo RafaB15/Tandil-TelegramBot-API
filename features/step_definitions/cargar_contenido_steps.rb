@@ -7,7 +7,7 @@ Dado('que ya esta cargada la pelicula {string} {int} {string} {string}') do |tit
   @genero = genero
   @tipo = tipo
 
-  request_body = { titulo:, anio:, genero: }.to_json
+  request_body = { titulo:, anio:, genero:, tipo: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -21,7 +21,7 @@ Cuando('cargo {string} {int} {string} {string}') do |titulo, anio, genero, tipo|
   @genero = genero
   @tipo = tipo
 
-  request_body = { titulo:, anio:, genero: }.to_json
+  request_body = { titulo:, anio:, genero:, tipo: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -31,7 +31,7 @@ Cuando('cargo {string} {string} {string}') do |titulo, genero, tipo|
   @genero = genero
   @tipo = tipo
 
-  request_body = { titulo:, genero: }.to_json
+  request_body = { titulo:, genero:, tipo: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -41,7 +41,7 @@ Cuando('cargo {int} {string} {string}') do |anio, genero, tipo|
   @genero = genero
   @tipo = tipo
 
-  request_body = { anio:, genero: }.to_json
+  request_body = { anio:, genero:, tipo: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -52,7 +52,7 @@ Cuando('cargo {string} {int} {string} {string} ya es un contenido existente') do
   @genero = genero
   @tipo = tipo
 
-  request_body = { titulo:, anio:, genero: }.to_json
+  request_body = { titulo:, anio:, genero:, tipo: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
