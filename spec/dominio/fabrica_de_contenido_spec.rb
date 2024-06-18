@@ -10,12 +10,12 @@ RSpec.describe FabricaDeContenido do
     let(:genero) { instance_double('Genero') }
 
     it 'crea un nuevo contenido de tipo Pelicula' do
-      contenido = described_class.crear_contenido('Las chicas superpoderosas', 2009, genero, Date.today)
+      contenido = described_class.crear_contenido('Las chicas superpoderosas', 2009, genero, 'pelicula', Date.today)
       expect(contenido).to be_a(Pelicula)
     end
 
     it 'crea un nuevo contenido de tipo Serie' do
-      contenido = described_class.crear_contenido('Las chicas superpoderosas', 2009, genero, Date.today, 12)
+      contenido = described_class.crear_contenido('Las chicas superpoderosas', 2009, genero, 'serie', Date.today, 12)
       expect(contenido).to be_a(Serie)
     end
   end

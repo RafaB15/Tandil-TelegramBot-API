@@ -13,10 +13,11 @@ class Plataforma
     usuario
   end
 
-  def registrar_contenido(titulo, anio, genero, repositorio_contenidos, fecha_agregado = Date.today, cantidad_capitulos = nil)
+  def registrar_contenido(titulo, anio, genero, repositorio_contenidos, tipo, fecha_agregado = Date.today, cantidad_capitulos = nil)
     genero_de_contenido = Genero.new(genero)
-    contenido = FabricaDeContenido.crear_contenido(titulo, anio, genero_de_contenido, fecha_agregado, cantidad_capitulos)
+    contenido = FabricaDeContenido.crear_contenido(titulo, anio, genero_de_contenido, tipo, fecha_agregado, cantidad_capitulos)
     contenido.contenido_existente?(repositorio_contenidos)
+
     repositorio_contenidos.save(contenido)
 
     contenido

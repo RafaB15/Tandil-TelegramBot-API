@@ -27,16 +27,6 @@ class RepositorioContenidos < AbstractRepository
   def load_object(a_hash)
     genero_de_contenido = Genero.new(a_hash[:genero])
     fecha_agregado = a_hash[:fecha_agregado]
-    FabricaDeContenido.crear_contenido(a_hash[:titulo], a_hash[:anio], genero_de_contenido, fecha_agregado, a_hash[:cantidad_capitulos], a_hash[:id])
-  end
-
-  def changeset(contenido)
-    {
-      titulo: contenido.titulo,
-      anio: contenido.anio,
-      genero: contenido.genero,
-      fecha_agregado: contenido.fecha_agregado,
-      cantidad_capitulos: contenido.cantidad_capitulos
-    }
+    FabricaDeContenido.crear_contenido(a_hash[:titulo], a_hash[:anio], genero_de_contenido, a_hash[:tipo], fecha_agregado, a_hash[:cantidad_capitulos], a_hash[:id])
   end
 end

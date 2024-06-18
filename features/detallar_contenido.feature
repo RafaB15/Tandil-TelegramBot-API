@@ -1,7 +1,6 @@
 # language: es
 Característica: Detallar contenido via informacion de API externa   
 
-
     Escenario: US22.1 - 01 Como cinefilo quiero detalles acerca de una pelicula
         Dado que existe el contenido "Titanic" 1997 "drama"
         Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
@@ -22,6 +21,7 @@ Característica: Detallar contenido via informacion de API externa
         Cuando el cinefilo pide detalles acerca de la pelicula "peliculasindirectorenOMDB" con su ID
         Entonces debería ver el campo "director" como no disponible
 
+    @current
     Escenario: US22.2 - 01 La pelicula buscada fue vista por el usuario
         Dado un usuario "juan@gmail.com" 123456789
         Y que existe el contenido "Titanic" 1997 "drama"

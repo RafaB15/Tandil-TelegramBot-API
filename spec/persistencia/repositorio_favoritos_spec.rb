@@ -10,8 +10,8 @@ describe RepositorioFavoritos do
 
   let(:pelicula) do
     genero_de_pelicula = Genero.new('drama')
-    pelicula = FabricaDeContenido.crear_contenido('Nair', 2024, genero_de_pelicula)
-    RepositorioContenidos.new.save(pelicula)
+    pelicula = FabricaDeContenido.crear_contenido('Nair', 2024, genero_de_pelicula, 'pelicula')
+    RepositorioPeliculas.new.save(pelicula)
   end
 
   let(:fecha) do

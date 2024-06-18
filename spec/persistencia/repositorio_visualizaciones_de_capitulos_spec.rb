@@ -10,8 +10,8 @@ describe RepositorioVisualizacionesDeCapitulos do
 
   let(:temporada_de_serie) do
     genero_de_temporada = Genero.new('drama')
-    temporada_de_serie = FabricaDeContenido.crear_contenido('Game of Thrones - Temporada 1', 2011, genero_de_temporada, Date.today, 10)
-    RepositorioContenidos.new.save(temporada_de_serie)
+    temporada_de_serie = FabricaDeContenido.crear_contenido('Game of Thrones - Temporada 1', 2011, genero_de_temporada, 'serie', Date.today, 10)
+    RepositorioTemporadasDeSeries.new.save(temporada_de_serie)
   end
 
   let(:fecha) do
