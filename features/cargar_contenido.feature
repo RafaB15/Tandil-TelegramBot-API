@@ -58,8 +58,7 @@ Característica: Cargar contenido via API
         Cuando cargo "Suits - Temporada 3" 2012 "drama" "serie" -1
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido cantidad de capitulos debe ser positivo."
 
-    @wip
     Escenario: US24.2 - 08 Como administrador cargo el dato tipo invalido
         Cuando cargo "Suits - Temporada 3" 2012 "drama" "documental" 24
-        Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido tipo debe ser un valor permitido."
+        Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido tipo debe ser pelicula o serie"
         Y en los detalles se debe especificar los tipos permitidos

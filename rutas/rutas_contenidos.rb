@@ -12,10 +12,8 @@ post '/contenidos' do
 
   settings.logger.debug "[POST] /contenidos - Iniciando creación de un nuevo contenido - Cuerpo: #{parametros_contenidos}"
 
-  repositorio_contenidos = tipo == 'serie' ? RepositorioTemporadasDeSeries.new : RepositorioPeliculas.new
-  raise ArgumentError, "Valor inválido para tipo de contenido: #{tipo}" unless %w[serie pelicula].include?(tipo)
-
   begin
+    repositorio_contenidos = FabricaDeRepositoriosContenido.crear_contenido(tipo)
     contenido = Plataforma.new.registrar_contenido(titulo, anio, genero, repositorio_contenidos, tipo, fecha_agregado, cantidad_capitulos)
 
     estado = 201

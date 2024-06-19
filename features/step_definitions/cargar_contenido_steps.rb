@@ -160,5 +160,5 @@ Entonces('en los detalles se debe especificar los tipos permitidos') do
   json_response = JSON.parse(@response.body)
 
   expect(json_response['details']['field']).to eq 'tipo'
-  expect(json_response['message']).to eq 'El parametro requerido genero debe ser pelicula o serie'
+  expect(json_response['message']).to eq 'El parametro requerido tipo debe ser pelicula o serie'
 end
