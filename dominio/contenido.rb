@@ -7,6 +7,7 @@ class Contenido
   def initialize(titulo, anio_de_estreno, genero, fecha_agregado = Date.today, id = nil)
     raise ErrorAlInstanciarTituloInvalido unless es_el_titulo_valido?(titulo)
     raise ErrorAlInstanciarAnioInvalido unless es_el_anio_valido?(anio_de_estreno)
+    raise ErrorAlInstanciarAnioInvalido unless es_el_anio_valido?(anio_de_estreno)
 
     @titulo = titulo
     @anio = anio_de_estreno

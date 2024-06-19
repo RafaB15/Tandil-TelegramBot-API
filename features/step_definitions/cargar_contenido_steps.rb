@@ -155,3 +155,10 @@ Entonces('deberia devolver conflicto \({int}) y un mensaje de error {string}') d
   expect(json_response['error']).to eq 'Conflicto'
   expect(json_response['message']).to eq error_message
 end
+
+Entonces('en los detalles se debe especificar los tipos permitidos') do
+  json_response = JSON.parse(@response.body)
+
+  expect(json_response['details']['field']).to eq 'tipo'
+  expect(json_response['message']).to eq 'El parametro requerido genero debe ser pelicula o serie'
+end

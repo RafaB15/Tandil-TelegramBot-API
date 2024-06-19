@@ -18,5 +18,11 @@ RSpec.describe FabricaDeContenido do
       contenido = described_class.crear_contenido('Las chicas superpoderosas', 2009, genero, 'serie', Date.today, 12)
       expect(contenido).to be_a(TemporadaDeSerie)
     end
+
+    describe 'tipo invalido' do
+      it 'raises an error' do
+        expect { described_class.crear_contenido('El oceano atlantico', 2009, genero, 'documental', Date.today) }.to raise_error(ErrorAlInstanciarTipoInvalido)
+      end
+    end
   end
 end
