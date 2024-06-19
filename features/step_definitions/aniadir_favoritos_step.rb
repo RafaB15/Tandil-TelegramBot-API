@@ -31,6 +31,13 @@ Dado('que el usuario no vio el contenido') do
   @id_telegram = json_response_usuario['id_telegram']
 end
 
+Dado('que el usuario no vio la temporada de serie') do
+  @id_contenido = JSON.parse(@response_contenido.body)['id']
+
+  json_response_usuario = JSON.parse(@response_usuario.body)
+  @id_telegram = json_response_usuario['id_telegram']
+end
+
 # Cuando
 # =========================================================
 

@@ -32,3 +32,9 @@ Antecedentes:
         Y que el usuario no vio el contenido
         Cuando el usuario aniade el contenido a favoritos
         Entonces ve un mensaje de exito al aniadir la pelicula a favoritos
+
+    Escenario: US29.3 - 02 Como cinefilo quiero aniadir una temporada de serie a favoritos a pesar de no haberla visto
+        Dado que existe la temporada "Game of Thrones - Temporada 3" 2011 "drama" 12 en la base de datos
+        Y que el usuario no vio la temporada de serie
+        Cuando el usuario aniade el contenido a favoritos
+        Entonces el contenido se aniade a favoritos exitosamente
