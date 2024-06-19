@@ -10,11 +10,11 @@ Antecedentes:
         Cuando califica la temporada de serie con un 4
         Entonces ve un mensaje de calificacion exitosa
 
-    Escenario: US28 - 02 La serie no fue vista aun
+    Escenario: US28 - 02 la temporada no fue vista aun
         Dado que existe la temporada "The Big Bang Theory" 2007 "comedia" 17 en la base de datos 
         Y que el usuario no la vio
         Cuando califica la temporada de serie con un 4
-        Entonces ve un mensaje de que la serie no fue vista
+        Entonces ve un mensaje de que la temporada no fue vista
 
     Escenario: US28 - 03 Como cinefilo quiero poder re-calificar serie ya vista
         Dado que el usuario la habia calificado con un 5
