@@ -3,7 +3,7 @@ require_relative '../../dominio/fabrica_de_contenido'
 require_relative '../../dominio/pelicula'
 require_relative '../../dominio/temporada_de_serie'
 require_relative '../../dominio/contenido'
-require_relative '../../lib/genero'
+require_relative '../../dominio/genero'
 
 RSpec.describe FabricaDeContenido do
   describe 'crear_contenido' do
