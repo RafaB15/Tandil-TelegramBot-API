@@ -21,18 +21,12 @@ Antecedentes:
         Cuando re-califica la temporada de serie con un 3
         Entonces ve un mensaje de re-calificacion exitosa
 
-    @wip
-    Escenario: US28 - 04 No ingreso el valor de la calificacion
-        Cuando califica la temporada de serie con un -
-        Entonces ve un mensaje de error calificacion faltante
-
-    @wip
-    Escenario: US28 - 05 La serie a calificar no existe
-        Dado que no existe la temporada "The Big Bang Theory" 2007 "comedia" 17 en la base de datos 
+    Escenario: US28 - 04 La serie a calificar no existe
+        Dado que no existe la temporada "The Big Bang Theory" en la base de datos 
         Cuando califica la temporada de serie con un 4
         Entonces ve un mensaje de error la temporada no existe.
 
     @wip
-    Escenario: US28 - 06 La calificacion esta fuera de rango
+    Escenario: US28 - 05 La calificacion esta fuera de rango
         Cuando califica la temporada de serie con un 6
         Entonces ve un mensaje de error calificacion fuera de rango

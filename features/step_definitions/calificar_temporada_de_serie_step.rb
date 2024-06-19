@@ -17,6 +17,10 @@ Dado('que el usuario no la vio') do
   @id_contenido = JSON.parse(@response_contenido.body)['id']
 end
 
+Dado('que no existe la temporada {string} en la base de datos') do |_string|
+  @id_contenido += 1
+end
+
 # Cuando
 # =========================================================
 
@@ -64,4 +68,8 @@ Entonces('ve un mensaje de re-calificacion exitosa') do
   expect(json_response['id_contenido']).to eq @id_contenido
   expect(json_response['puntaje']).to eq @nuevo_puntaje
   expect(json_response['puntaje_anterior']).to eq @puntaje_viejo
+end
+
+Entonces('ve un mensaje de error la temporada no existe.') do
+  expect(@response_calificaciones.status).to eq 404
 end
