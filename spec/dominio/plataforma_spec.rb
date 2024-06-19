@@ -172,19 +172,6 @@ describe 'Plataforma' do
       end.to raise_error(ErrorAlInstanciarGeneroInvalido)
     end
 
-    xit 'dado que la película ya está registrada no se crea una película y se devuelve el error correspondiente' do
-      allow(Genero).to receive(:new).with('accion').and_return(genero)
-      allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado, nil).and_return(pelicula)
-      allow(pelicula).to receive(:contenido_existente?).with(repositorio_contenidos).and_return(false)
-      allow(repositorio_contenidos).to receive(:save).with(pelicula)
-      plataforma.registrar_contenido('Iron Man', 2008, 'accion', repositorio_contenidos, 'pelicula', fecha_agregado)
-
-      allow(pelicula).to receive(:contenido_existente?).with(repositorio_contenidos).and_return(ErrorAlPersistirContenidoYaExistente)
-      expect do
-        plataforma.registrar_contenido('Iron Man', 2008, 'accion', repositorio_contenidos, 'pelicula', fecha_agregado)
-      end.to raise_error(ErrorAlPersistirContenidoYaExistente)
-    end
-
     it 'dado que el titulo, anio, genero, tipo y cantidad de capitulos son válidos se crea una serie exitosamente con estado 201' do
       allow(serie).to receive(:contenido_existente?).with(repositorio_contenidos).and_return(false)
       result = plataforma.registrar_contenido('Garfield', 2005, 'accion', repositorio_contenidos, 'serie', fecha_agregado, 12)

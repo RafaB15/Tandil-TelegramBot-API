@@ -5,7 +5,7 @@ module PlataformaCalificaciones
     usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
 
     unless fue_el_contenido_visto_por_el_usuario?(usuario, repositorio_visualizaciones)
-      raise ErrorTemporadaSinSuficientesCapitulosVistos unless tiene_suficientes_capitulos_vistos?(contenido, repositorio_visualizaciones_de_capitulos)
+      raise ErrorTemporadaSinSuficientesCapitulosVistos if contenido.is_a?(TemporadaDeSerie) && !tiene_suficientes_capitulos_vistos?(contenido, repositorio_visualizaciones_de_capitulos)
 
       raise ErrorVisualizacionInexistente
     end
@@ -29,6 +29,6 @@ module PlataformaCalificaciones
 
     conteo_visualizacion = repositorio_visualizaciones_de_capitulos.count_visualizaciones_de_capitulos_por_usuario(contenido.id, @id_telegram)
 
-    contenido.is_a?(TemporadaDeSerie) && conteo_visualizacion > CANTIDAD_DE_CAPITULOS_MINIMOS_PARA_CONSIDERAR_TEMPORADA_VISTA
+    conteo_visualizacion > CANTIDAD_DE_CAPITULOS_MINIMOS_PARA_CONSIDERAR_TEMPORADA_VISTA
   end
 end
