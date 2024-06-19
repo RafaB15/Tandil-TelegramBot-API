@@ -130,7 +130,7 @@ describe 'Plataforma' do
     before(:each) do
       allow(Genero).to receive(:new).with('accion').and_return(genero)
       allow(Pelicula).to receive(:new).with('Iron Man', 2008, genero, fecha_agregado, nil).and_return(pelicula)
-      allow(TemporadaDeSerie).to receive(:new).with('Garfield', 2005, genero, fecha_agregado, 12, nil).and_return(serie)
+      allow(TemporadaDeSerie).to receive(:new).with('Garfield', 2005, genero, 12, fecha_agregado, nil).and_return(serie)
       allow(repositorio_contenidos).to receive(:save).with(pelicula)
       allow(repositorio_contenidos).to receive(:save).with(serie)
     end

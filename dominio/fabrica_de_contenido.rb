@@ -6,7 +6,7 @@ class FabricaDeContenido
     if tipo == 'pelicula'
       Pelicula.new(titulo, anio_de_estreno, genero, fecha_agregado, id)
     elsif tipo == 'serie'
-      TemporadaDeSerie.new(titulo, anio_de_estreno, genero, fecha_agregado, cantidad_capitulos, id)
+      TemporadaDeSerie.new(titulo, anio_de_estreno, genero, cantidad_capitulos, fecha_agregado, id)
     else
       raise ArgumentError, "Valor inválido para tipo de contenido: #{tipo}"
     end

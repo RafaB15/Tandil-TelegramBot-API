@@ -1,9 +1,18 @@
 require_relative 'contenido'
 
+class ErrorAlInstanciarCantidadDeCapitulosInvalido < ArgumentError
+  MSG_DE_ERROR = 'Error: anio invalido'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end
+
 class TemporadaDeSerie < Contenido
   attr_reader :cantidad_capitulos
 
-  def initialize(titulo, anio_de_estreno, genero, fecha_agregado = Date.today, cantidad_capitulos = 1, id = nil)
+  def initialize(titulo, anio_de_estreno, genero, cantidad_capitulos, fecha_agregado = Date.today, id = nil)
+    raise ErrorAlInstanciarCantidadDeCapitulosInvalido.new if cantidad_capitulos.nil?
     @cantidad_capitulos = cantidad_capitulos
     super(titulo, anio_de_estreno, genero, fecha_agregado, id)
   end
