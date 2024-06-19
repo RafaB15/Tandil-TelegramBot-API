@@ -6,15 +6,13 @@ Antecedentes:
     Y que existe la temporada "Friends - Temporada 1" 1999 "comedia" 24 en la base de datos
     Y que el usuario ya vio la temporada de serie
 
-    @wip
     Escenario: US28 - 01 Como cinefilo quiero poder calificar una temporada de serie ya vista
         Cuando califica la temporada de serie con un 4
         Entonces ve un mensaje de calificacion exitosa
 
-    @wip
     Escenario: US28 - 02 La serie no fue vista aun
         Dado que existe la temporada "The Big Bang Theory" 2007 "comedia" 17 en la base de datos 
-        Y el usuario no lo vio
+        Y que el usuario no la vio
         Cuando califica la temporada de serie con un 4
         Entonces ve un mensaje de que la serie no fue vista
 

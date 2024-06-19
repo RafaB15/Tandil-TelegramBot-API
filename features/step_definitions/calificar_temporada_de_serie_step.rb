@@ -13,6 +13,10 @@ Dado('que el usuario ya vio la temporada de serie') do
   Faraday.post("/contenidos/#{@id_contenido}/visualizaciones", request_body, { 'Content-Type' => 'application/json' })
 end
 
+Dado('que el usuario no la vio') do
+  @id_contenido = JSON.parse(@response_contenido.body)['id']
+end
+
 # Cuando
 # =========================================================
 
@@ -35,4 +39,10 @@ Entonces('ve un mensaje de calificacion exitosa') do
   expect(json_response['id_telegram']).to eq @id_telegram
   expect(json_response['id_contenido']).to eq @id_contenido
   expect(json_response['puntaje']).to eq @puntaje
+end
+
+Entonces('ve un mensaje de que la serie no fue vista') do
+  json_response = JSON.parse(@response_calificaciones.body)
+  expect(@response_calificaciones.status).to eq 422
+  expect(json_response['details']['field']).to eq 'visualizacion'
 end
