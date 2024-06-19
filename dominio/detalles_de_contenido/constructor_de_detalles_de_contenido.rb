@@ -12,9 +12,9 @@ class ConstructorDeDetallesDeContenido
   end
 
   def definir_detalles(premios, director, sinopsis)
-    @premios = premios == 'N/A' ? nil : premios
-    @director = director == 'N/A' ? nil : director
-    @sinopsis = sinopsis == 'N/A' ? nil : sinopsis
+    @premios = premios
+    @director = director
+    @sinopsis = sinopsis
   end
 
   def definir_fue_visto(fue_visto)

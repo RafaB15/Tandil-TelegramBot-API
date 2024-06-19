@@ -3,7 +3,7 @@ require 'date'
 require_relative './detalles_de_contenido/constructor_de_detalles_de_contenido'
 require_relative './detalles_de_contenido/detalles_de_contenido'
 
-class Plataforma
+class Plataforma # rubocop:disable Metrics/ClassLength
   def initialize(id_telegram = nil, id_contenido = nil)
     @id_telegram = id_telegram
     @id_contenido = if id_contenido.nil?
@@ -123,6 +123,10 @@ class Plataforma
     detalles_contenido = JSON.parse(omdb_respuesta.body)
 
     raise ErrorContenidoInexistenteEnLaAPIDeOMDb if detalles_contenido['Response'] == 'False'
+
+    detalles_contenido.each do |campo_detalle, valor_detalle|
+      detalles_contenido[campo_detalle] = valor_detalle == 'N/A' ? nil : valor_detalle
+    end
 
     detalles_contenido
   end
