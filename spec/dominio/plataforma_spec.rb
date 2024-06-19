@@ -469,7 +469,7 @@ describe 'Plataforma' do
     end
 
     def antecedentes_para_serie
-      contenido = TemporadaDeSerie.new('Friends - Temporada 1', 2000, 'accion', 24)
+      contenido = TemporadaDeSerie.new('Friends - Temporada 1', 2000, 'accion', 24, Date.today)
 
       detalles_de_contenido_esperado = obtener_detalles_de_contenidos_con_parametros_na(contenido)
 

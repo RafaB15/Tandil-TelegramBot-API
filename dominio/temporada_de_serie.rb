@@ -4,10 +4,14 @@ class TemporadaDeSerie < Contenido
   attr_reader :cantidad_capitulos
 
   def initialize(titulo, anio_de_estreno, genero, cantidad_capitulos, fecha_agregado = Date.today, id = nil)
-    raise ErrorAlInstanciarCantidadDeCapitulosInvalido if cantidad_capitulos.nil?
+    raise ErrorAlInstanciarCantidadDeCapitulosInvalido unless es_el_cantidad_de_capitulos_valido?(cantidad_capitulos)
 
     @cantidad_capitulos = cantidad_capitulos
     super(titulo, anio_de_estreno, genero, fecha_agregado, id)
+  end
+
+  def es_el_cantidad_de_capitulos_valido?(cantidad_capitulos)
+    !cantidad_capitulos.nil? && (cantidad_capitulos.is_a?(Integer) || cantidad_capitulos.is_a?(Float)) && cantidad_capitulos >= 0
   end
 
   def titulo_de_serie
