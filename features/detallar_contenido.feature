@@ -41,16 +41,15 @@ Característica: Detallar contenido via informacion de API externa
         Cuando el cinefilo pide detalles acerca de la serie "The Good Doctor - Temporada 1" con su ID
         Entonces debería ver la informacion esperada
 
-    @wip
     Escenario: US27 - 02 La serie no está en nuestra BD
         Dado que no hay contenidos en la BD
         Cuando el cinefilo pide detalles acerca de la serie "The Good Doctor - Temporada 1" con su ID
-        Entonces debería ver un mensaje de error de que no está lo que busca
-    
+        Entonces debería ver un mensaje de error de que no está lo que busca en nuestra BDD
+
     @wip
     Escenario: US27 - 03 La serie está en nuestra BD pero OMDB no la tiene
-        Dado que existe el contenido "estaserienoexisteenOMDB" 1997 "drama" "serie" 11
-        Cuando el cinefilo pide detalles acerca de la serie "estaserienoexisteenOMDB" con su ID
+        Dado que existe la temporada "estaserienoexisteenOMDB - Temporada 1" 2017 "comedia" 11 en la base de datos
+        Cuando el cinefilo pide detalles acerca de la serie "estaserienoexisteenOMDB - Temporada 1" con su ID
         Entonces debería ver un mensaje que no se pueden mostrar detalles adicionales
     
     @wip

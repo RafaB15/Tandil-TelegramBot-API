@@ -29,24 +29,28 @@ end
 
 Cuando('el cinefilo pide detalles acerca de la pelicula {string} con su ID') do |titulo|
   if @response_pelicula.nil?
-    id_contenido = 0
+    id_pelicula = 0
   else
     json_response_pelicula = JSON.parse(@response_pelicula.body)
-    id_contenido = json_response_pelicula['id']
+    id_pelicula = json_response_pelicula['id']
   end
 
   @titulo = titulo
 
-  @response_detalles = Faraday.get("/contenidos/#{id_contenido}/detalles", id_telegram: @id_telegram, 'Content-Type' => 'application/json')
+  @response_detalles = Faraday.get("/contenidos/#{id_pelicula}/detalles", id_telegram: @id_telegram, 'Content-Type' => 'application/json')
 end
 
 Cuando('el cinefilo pide detalles acerca de la serie {string} con su ID') do |titulo|
-  json_response_pelicula = JSON.parse(@response_contenido.body)
-  id_contenido = json_response_pelicula['id']
+  if @response_contenido.nil?
+    id_serie = 0
+  else
+    json_response_serie = JSON.parse(@response_contenido.body)
+    id_serie = json_response_serie['id']
+  end
 
   @titulo = titulo
 
-  @response_detalles = Faraday.get("/contenidos/#{id_contenido}/detalles", id_telegram: @id_telegram, 'Content-Type' => 'application/json')
+  @response_detalles = Faraday.get("/contenidos/#{id_serie}/detalles", id_telegram: @id_telegram, 'Content-Type' => 'application/json')
 end
 
 # Entonces
