@@ -1,5 +1,9 @@
 class OMDbConectorAPIDouble
-  def detallar_contenido(titulo, _logger = nil)
+  def initialize(logger = nil)
+    @logger = logger
+  end
+
+  def detallar_contenido(titulo)
     estado = 200
 
     case titulo

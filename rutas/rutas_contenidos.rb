@@ -86,7 +86,7 @@ get '/contenidos/:id_contenido/detalles' do
   repositorio_contenidos = RepositorioContenidos.new
   repositorio_visualizaciones = RepositorioVisualizaciones.new
 
-  api_detalles_conector = OMDbConectorAPIProxy.new
+  api_detalles_conector = OMDbConectorAPIProxy.new(settings.logger)
 
   plataforma = Plataforma.new(id_telegram, id_contenido)
 
