@@ -12,6 +12,18 @@ Dado('que el contenido {string} {int} {string} {string} existe en la base de dat
   @response_contenido = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 
+Dado('que el usuario ya vio el contenido') do
+  @id_contenido = JSON.parse(@response_contenido.body)['id']
+
+  json_response_usuario = JSON.parse(@response_usuario.body)
+  email = json_response_usuario['email']
+  @id_telegram = json_response_usuario['id_telegram']
+
+  fecha = Time.now.floor.iso8601
+  request_body = { email:, fecha: }.to_json
+  Faraday.post("/contenidos/#{@id_contenido}/visualizaciones", request_body, { 'Content-Type' => 'application/json' })
+end
+
 # Cuando
 # =========================================================
 

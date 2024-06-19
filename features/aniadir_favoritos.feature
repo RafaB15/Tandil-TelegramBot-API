@@ -6,6 +6,7 @@ Antecedentes:
  
     Escenario: US08 - 01 Como cinefilo quiero aniadir un contenido a favoritos
         Dado que el contenido "Siempre Risas" 2010 "comedia" "pelicula" existe en la base de datos
+        Y que el usuario ya vio el contenido
         Cuando el usuario aniade el contenido a favoritos
         Entonces ve un mensaje de exito al aniadir la pelicula a favoritos
 
@@ -20,12 +21,12 @@ Antecedentes:
         Cuando el usuario aniade un contenido "" a favoritos
         Entonces ve un mensaje "Error: Contenido faltante"
     
-    Escenario: US29.1 - 01 Como cinefilo quiero aniadir un contenido a favoritos
+    Escenario: US29.1 - 01 Como cinefilo quiero aniadir una temporada a favoritos
         Dado que existe la temporada "Game of Thrones - Temporada 3" 2011 "drama" 12 en la base de datos
+        Y que el usuario ya vio la temporada de serie
         Cuando el usuario aniade el contenido a favoritos
         Entonces el contenido se aniade a favoritos exitosamente
 
-    @wip
     Escenario: US29.2 - 01 Agregar a favoritos sin haber visto el contenido no se puede
         Dado que existe la temporada "Game of Thrones - Temporada 3" 2011 "drama" 12 en la base de datos
         Y que el usuario no la vio
