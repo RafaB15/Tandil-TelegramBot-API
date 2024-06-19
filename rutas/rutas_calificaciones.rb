@@ -15,11 +15,13 @@ post '/calificaciones' do
   repositorio_usuarios = RepositorioUsuarios.new
   repositorio_visualizaciones = RepositorioVisualizaciones.new
   repositorio_calificaciones = RepositorioCalificaciones.new
+  repositorio_visualizaciones_de_capitulos = RepositorioVisualizacionesDeCapitulos.new
 
   plataforma = Plataforma.new(id_telegram, id_contenido)
 
   begin
-    calificacion, puntaje_anterior = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
+    calificacion, puntaje_anterior = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones,
+                                                                       repositorio_visualizaciones_de_capitulos)
 
     estado, cuerpo = armar_respuesta_calificaciones(calificacion, puntaje_anterior)
   rescue StandardError => e

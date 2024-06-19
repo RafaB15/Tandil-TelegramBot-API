@@ -45,6 +45,7 @@ describe 'Plataforma' do
     let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
     let(:repositorio_visualizaciones) { instance_double('RepositorioVisualizaciones') }
     let(:repositorio_calificaciones) { instance_double('RepositorioCalificaciones') }
+    let(:repositorio_visualizaciones_de_capitulos) { instance_double('RepositorioVisualizacionesDeCapitulos') }
     let(:usuario) { instance_double('Usuario', id: 1) }
     let(:pelicula) { instance_double('Pelicula', id: 2) }
     let(:visualizacion) { instance_double('Visualizacion') }
@@ -107,6 +108,20 @@ describe 'Plataforma' do
       result = plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones)
 
       expect(result).to eq([calificacion, 5])
+    end
+
+    it 'deberia dar error de capitulos insuficientes al querer calificar una serie de la que no tengo suficientes capitulos vistos' do
+      temporada_de_serie = instance_double('TemporadaDeSerie', id: 3)
+      allow(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).and_return(nil)
+      puntaje = 5
+      allow(repositorio_contenidos).to receive(:find).and_return(temporada_de_serie)
+      allow(repositorio_visualizaciones_de_capitulos).to receive(:count_visualizaciones_de_capitulos_por_usuario).and_return(1)
+      allow(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).and_return(nil)
+      allow(temporada_de_serie).to receive(:is_a?).with(TemporadaDeSerie).and_return(true)
+
+      expect do
+        plataforma.registrar_calificacion(puntaje, repositorio_contenidos, repositorio_usuarios, repositorio_visualizaciones, repositorio_calificaciones, repositorio_visualizaciones_de_capitulos)
+      end.to raise_error(ErrorTemporadaSinSuficientesCapitulosVistos)
     end
   end
 

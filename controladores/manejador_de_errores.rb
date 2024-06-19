@@ -23,6 +23,7 @@ class ManejadorDeErrores
     'ErrorContenidoInexistente' => { estado: 404, campo: 'contenido', mensaje: '' },
     'ErrorVisualizacionInexistente' => { estado: 422, campo: 'visualizacion', mensaje: '' },
     'ErrorContenidoInexistenteEnLaAPIDeOMDb' => { estado: 404, campo: 'omdb', mensaje: '' },
+    'ErrorTemporadaSinSuficientesCapitulosVistos' => { estado: 422, campo: 'visualizacion_de_capitulo', mensaje: 'Es necesario ver mas capitulos' },
     'StandardError' => { estado: 500, campo: '', mensaje: '' }
   }.freeze
 

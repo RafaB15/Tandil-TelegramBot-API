@@ -10,3 +10,11 @@ class VisualizacionDeCapitulo
     @id = id
   end
 end
+
+class ErrorTemporadaSinSuficientesCapitulosVistos < ArgumentError
+  MSG_DE_ERROR = 'Error: no se vieron suficientes capitulos distintos para contar la temporada como vista'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end

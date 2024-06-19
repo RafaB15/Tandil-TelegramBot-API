@@ -21,6 +21,14 @@ Dado('que no existe la temporada {string} en la base de datos') do |_string|
   @id_contenido += 1
 end
 
+Dado('que el administrador marca el capitulo {int} de la temporada como visto') do |numero_capitulo|
+  body_contenido = JSON.parse(@response_contenido.body)
+  @body_usuario = JSON.parse(@response_usuario.body)
+  @body_visualizacion = { email: @body_usuario['email'], fecha: Time.now.floor.iso8601, numero_capitulo: }.to_json
+  @id_contenido = body_contenido['id']
+  @response = Faraday.post("contenidos/#{@id_contenido}/visualizaciones", @body_visualizacion, { 'Content-Type' => 'application/json' })
+end
+
 # Cuando
 # =========================================================
 
@@ -55,7 +63,7 @@ end
 Entonces('ve un mensaje de que la temporada no fue vista') do
   json_response = JSON.parse(@response_calificaciones.body)
   expect(@response_calificaciones.status).to eq 422
-  expect(json_response['details']['field']).to eq 'visualizacion'
+  expect(json_response['details']['field']).to eq 'visualizacion_de_capitulo'
 end
 
 Entonces('ve un mensaje de re-calificacion exitosa') do
@@ -72,4 +80,10 @@ end
 
 Entonces('ve un mensaje de error la temporada no existe.') do
   expect(@response_calificaciones.status).to eq 404
+end
+
+Entonces('ve un mensaje de capitulos vistos insuficientes') do
+  json_response = JSON.parse(@response_calificaciones.body)
+  expect(@response_calificaciones.status).to eq 422
+  expect(json_response['details']['field']).to eq 'visualizacion_de_capitulo'
 end

@@ -29,3 +29,10 @@ Antecedentes:
     Escenario: US28 - 05 La calificacion esta fuera de rango
         Cuando califica la temporada de serie con un 6
         Entonces ve un mensaje de calificacion fuera de rango
+
+    @current
+    Escenario: US28 - 06 No se vieron los suficientes capitulos
+        Dado que existe la temporada "GOT - T1" 2011 "drama" 10 en la base de datos
+        Y que el administrador marca el capitulo 1 de la temporada como visto
+        Cuando califica la temporada de serie con un 4
+        Entonces ve un mensaje de capitulos vistos insuficientes

@@ -31,7 +31,6 @@ Característica: Cargar contenido via API
         Cuando cargo "Game of thrones - Temporada 1" 2011 "accion" "serie" 10
         Entonces deberia devolver un resultado exitoso
 
-    @current
     Escenario: US24.3 - 02 Como administrador cargo una serie repetido via API
         Dado que ya esta cargada la pelicula "Atlas" 2024 "accion" "serie" 12
         Cuando cargo "Atlas" 2024 "drama" "serie" 12 ya es un contenido existente

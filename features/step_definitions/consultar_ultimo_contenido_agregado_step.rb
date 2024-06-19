@@ -84,6 +84,5 @@ end
 
 Entonces('me muestra {int} peliculas') do |calificacion|
   json_response = JSON.parse(@response.body)
-
   expect(json_response.length).to eq calificacion
 end
