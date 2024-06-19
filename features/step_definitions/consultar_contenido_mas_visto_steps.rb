@@ -221,3 +221,18 @@ Entonces('{string} está en la lista') do |titulo|
     end
   end
 end
+
+Entonces('{string} no está en la lista') do |titulo|
+  expect(@response.status).to eq 200
+
+  json_response = JSON.parse(@response.body)
+  expect(json_response.length).to be > 0
+
+  json_response.each do |contenido|
+    expect(contenido['contenido']['titulo']).not_to be_nil
+    if contenido['contenido']['titulo'] == titulo
+      expect(contenido['contenido']['titulo']).not_to eq titulo
+      break
+    end
+  end
+end
