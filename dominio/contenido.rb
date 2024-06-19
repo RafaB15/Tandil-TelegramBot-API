@@ -1,7 +1,7 @@
 require 'date'
 
 class Contenido
-  attr_reader :created_on, :updated_on, :titulo, :fecha_agregado, :anio, :cantidad_capitulos
+  attr_reader :created_on, :updated_on, :titulo, :fecha_agregado, :anio
   attr_accessor :id
 
   def initialize(titulo, anio_de_estreno, genero, fecha_agregado = Date.today, id = nil)
