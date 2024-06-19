@@ -68,4 +68,10 @@ describe TemporadaDeSerie do
       expect { described_class.new('Amor - Temporada 1', 2001, 'comedia', -1, Date.today) }.to raise_error(ErrorAlInstanciarCantidadDeCapitulosInvalido)
     end
   end
+
+  describe 'cantidad de capitulos invalido string' do
+    it 'raises an error' do
+      expect { described_class.new('Amor - Temporada 1', 2001, 'comedia', 'doce', Date.today) }.to raise_error(ErrorAlInstanciarCantidadDeCapitulosInvalido)
+    end
+  end
 end

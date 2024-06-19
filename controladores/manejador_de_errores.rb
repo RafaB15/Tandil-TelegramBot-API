@@ -16,6 +16,7 @@ class ManejadorDeErrores
     'ErrorAlInstanciarAnioInvalido' => { estado: 400, campo: 'anio', mensaje: 'un año positivo' },
     'ErrorAlInstanciarTituloInvalido' => { estado: 400, campo: 'titulo', mensaje: 'un nombre' },
     'ErrorAlInstanciarGeneroInvalido' => { estado: 400, campo: 'genero', mensaje: 'drama, accion o comedia' },
+    'ErrorAlInstanciarCantidadDeCapitulosInvalido' => { estado: 400, campo: 'cantidad de capitulos', mensaje: 'positivo.' },
     'ErrorAlPersistirContenidoYaExistente' => { estado: 409, campo: 'titulo anio', mensaje: 'Ya existe un contenido con el mismo titulo y año.' },
     'ErrorAlInstanciarCalificacionInvalida' => { estado: 422, campo: 'calificacion', mensaje: '' },
     'ErrorContenidoInexistente' => { estado: 404, campo: 'contenido', mensaje: '' },

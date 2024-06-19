@@ -11,7 +11,7 @@ class TemporadaDeSerie < Contenido
   end
 
   def es_el_cantidad_de_capitulos_valido?(cantidad_capitulos)
-    !cantidad_capitulos.nil? && cantidad_capitulos >= 0
+    !cantidad_capitulos.nil? && (cantidad_capitulos.is_a?(Integer) || cantidad_capitulos.is_a?(Float)) && cantidad_capitulos >= 0
   end
 
   def titulo_de_serie

@@ -54,10 +54,9 @@ Característica: Cargar contenido via API
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido genero debe ser drama, accion o comedia"
         Y en los detalles se debe especificar los generos permitidos
 
-    @wip
     Escenario: US24.2 - 07 Como administrador cargo una serie sin cantidad de capitulos
         Cuando cargo "Suits - Temporada 3" 2012 "drama" "serie" -1
-        Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido cantidad_capitulos debe ser positivo."
+        Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido cantidad de capitulos debe ser positivo."
 
     @wip
     Escenario: US24.2 - 08 Como administrador cargo el dato tipo invalido
