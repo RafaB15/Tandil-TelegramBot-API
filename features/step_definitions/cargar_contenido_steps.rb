@@ -19,7 +19,7 @@ Dado('que ya esta cargada la pelicula {string} {int} {string} {string} {int}') d
   @tipo = tipo
   @cantidad_capitulos = cantidad_capitulos
 
-  request_body = { titulo:, anio:, genero:, tipo: , cantidad_capitulos:}.to_json
+  request_body = { titulo:, anio:, genero:, tipo:, cantidad_capitulos: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -45,7 +45,7 @@ Cuando('cargo {string} {int} {string} {string} {int}') do |titulo, anio, genero,
   @tipo = tipo
   @cantidad_capitulos = cantidad_capitulos
 
-  request_body = { titulo:, anio:, genero:, tipo: , cantidad_capitulos:}.to_json
+  request_body = { titulo:, anio:, genero:, tipo:, cantidad_capitulos: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -66,7 +66,7 @@ Cuando('cargo {string} {string} {string} {int}') do |titulo, genero, tipo, canti
   @tipo = tipo
   @cantidad_capitulos = cantidad_capitulos
 
-  request_body = { titulo:, genero:, tipo: , cantidad_capitulos:}.to_json
+  request_body = { titulo:, genero:, tipo:, cantidad_capitulos: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -87,7 +87,7 @@ Cuando('cargo {int} {string} {string} {int}') do |anio, genero, tipo, cantidad_c
   @tipo = tipo
   @cantidad_capitulos = cantidad_capitulos
 
-  request_body = { anio:, genero:, tipo: , cantidad_capitulos:}.to_json
+  request_body = { anio:, genero:, tipo:, cantidad_capitulos: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
@@ -110,7 +110,7 @@ Cuando('cargo {string} {int} {string} {string} {int} ya es un contenido existent
   @tipo = tipo
   @cantidad_capitulos = cantidad_capitulos
 
-  request_body = { titulo:, anio:, genero:, tipo: , cantidad_capitulos:}.to_json
+  request_body = { titulo:, anio:, genero:, tipo:, cantidad_capitulos: }.to_json
 
   @response = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
