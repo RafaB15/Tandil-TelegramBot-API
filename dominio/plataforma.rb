@@ -30,9 +30,12 @@ class Plataforma # rubocop:disable Metrics/ClassLength
     contenido
   end
 
-  def registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos)
+  def registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos, repositorio_visualizaciones)
     usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
     contenido = repositorio_contenidos.find(@id_contenido)
+
+    raise ErrorVisualizacionInexistente unless fue_el_contenido_visto_por_el_usuario?(usuario, repositorio_visualizaciones)
+
     favorito = Favorito.new(usuario, contenido)
 
     repositorio_favoritos.save(favorito)

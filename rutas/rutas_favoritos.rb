@@ -13,11 +13,12 @@ post '/favoritos' do
   repositorio_usuarios = RepositorioUsuarios.new
   repositorio_contenidos = RepositorioContenidos.new
   repositorio_favoritos = RepositorioFavoritos.new
+  repositorio_visualizaciones = RepositorioVisualizaciones.new
 
   plataforma = Plataforma.new(id_telegram, id_contenido)
 
   begin
-    favorito = plataforma.registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos)
+    favorito = plataforma.registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos, repositorio_visualizaciones)
 
     estado = 201
     cuerpo = { id: favorito.id, id_telegram:, id_contenido: }
