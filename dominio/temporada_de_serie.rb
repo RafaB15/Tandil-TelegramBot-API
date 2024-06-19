@@ -5,4 +5,8 @@ class TemporadaDeSerie < Contenido
     @cantidad_capitulos = cantidad_capitulos
     super(titulo, anio_de_estreno, genero, fecha_agregado, id)
   end
+
+  def titulo_de_serie
+    @titulo.split(' - ')[0]
+  end
 end

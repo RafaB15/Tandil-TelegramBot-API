@@ -3,7 +3,7 @@ class OMDbConectorAPIProxy
     @omdb_conector_api = ENV['APP_MODE'] == 'test' ? OMDbConectorAPIDouble.new : OMDbConectorAPI.new
   end
 
-  def detallar_pelicula(titulo, logger = nil)
-    @omdb_conector_api.detallar_pelicula(titulo, logger)
+  def detallar_contenido(titulo, logger = nil)
+    @omdb_conector_api.detallar_contenido(titulo, logger)
   end
 end

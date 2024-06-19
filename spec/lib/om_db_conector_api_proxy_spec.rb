@@ -6,10 +6,10 @@ ENV['APP_MODE'] = 'test'
 describe OMDbConectorAPIProxy do
   subject(:pelicula) { instance_double(Pelicula, titulo: 'Titanic') }
 
-  describe 'detallar_pelicula' do
-    it 'buscar detalles válidos debería devovler los datos correctos' do
+  describe 'detallar_contenido' do
+    it 'buscar detalles válidos debería devolver los datos correctos' do
       titulo = pelicula.titulo
-      respuesta = described_class.new.detallar_pelicula(titulo)
+      respuesta = described_class.new.detallar_contenido(titulo)
 
       expect(respuesta.status).to eq 200
       expect(respuesta.body).not_to be_nil

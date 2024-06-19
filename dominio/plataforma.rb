@@ -1,5 +1,8 @@
 require 'date'
 
+require_relative './detalles_de_contenido/constructor_de_detalles_de_contenido'
+require_relative './detalles_de_contenido/detalles_de_contenido'
+
 class Plataforma
   def initialize(id_telegram = nil, id_contenido = nil)
     @id_telegram = id_telegram
@@ -87,14 +90,21 @@ class Plataforma
 
   def obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, api_detalles_conector)
     contenido = obtener_contenido(repositorio_contenidos)
+    constructor_de_detalles_de_contenido = ConstructorDeDetallesDeContenido.new
+    constructor_de_detalles_de_contenido.definir_contenido(contenido)
 
-    detalles_contenido = detallar_contenido_via_api(api_detalles_conector, contenido.titulo)
+    titulo = constructor_de_detalles_de_contenido.construir.titulo
+    detalles_omdb = detallar_contenido_via_api(api_detalles_conector, titulo)
+
+    constructor_de_detalles_de_contenido.definir_detalles(detalles_omdb['Awards'], detalles_omdb['Director'], detalles_omdb['Plot'])
 
     usuario = repositorio_usuarios.find_by_id_telegram(@id_telegram)
-    fue_visto = nil
-    fue_visto = fue_el_contenido_visto_por_el_usuario?(usuario, repositorio_visualizaciones) if usuario
+    if usuario
+      fue_visto = fue_el_contenido_visto_por_el_usuario?(usuario, repositorio_visualizaciones)
+      constructor_de_detalles_de_contenido.definir_fue_visto(fue_visto)
+    end
 
-    [detalles_contenido, fue_visto]
+    constructor_de_detalles_de_contenido.construir
   end
 
   private
@@ -106,17 +116,13 @@ class Plataforma
   end
 
   def detallar_contenido_via_api(api_detalles_conector, titulo)
-    omdb_respuesta = api_detalles_conector.detallar_pelicula(titulo)
+    omdb_respuesta = api_detalles_conector.detallar_contenido(titulo)
 
     raise ErrorInesperadoEnLaAPIDeOMDb if omdb_respuesta.status != 200
 
     detalles_contenido = JSON.parse(omdb_respuesta.body)
 
     raise ErrorContenidoInexistenteEnLaAPIDeOMDb if detalles_contenido['Response'] == 'False'
-
-    detalles_contenido.each do |clave_detalle, valor_detalle|
-      detalles_contenido[clave_detalle] = nil if valor_detalle == 'N/A'
-    end
 
     detalles_contenido
   end
@@ -128,6 +134,9 @@ class Plataforma
   end
 end
 
+# Error Contenido
+# ==============================================================================
+
 class ErrorContenidoInexistente < StandardError
   MSG_DE_ERROR = 'Error: contenido inexistente'.freeze
 
@@ -135,6 +144,9 @@ class ErrorContenidoInexistente < StandardError
     super(msg_de_error)
   end
 end
+
+# Error detallar contenido
+# ==============================================================================
 
 class ErrorContenidoInexistenteEnLaAPIDeOMDb < StandardError
   MSG_DE_ERROR = 'Error: El contenido no existe en la API de OMDb o no hay detalles para mostrar'.freeze

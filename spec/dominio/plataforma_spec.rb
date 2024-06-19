@@ -284,4 +284,134 @@ describe 'Plataforma' do
       expect(result).to eq(visualizacion)
     end
   end
+
+  describe 'obtener_contenido_detalles' do
+    let(:repositorio_usuarios) { instance_double('RepositorioUsuarios') }
+    let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
+    let(:repositorio_visualizaciones) { instance_double('RepositorioVisualizaciones') }
+    let(:omdb_conector_api) { instance_double('OMDbConectorAPI') }
+    let(:visualizacion) { instance_double('Visualizacion') }
+    let(:id_telegram) { 123_456_789 }
+    let(:usuario) { instance_double('Usuario', id: 1, id_telegram:) }
+    let(:id_contenido) { 40 }
+    let(:plataforma) { Plataforma.new(id_telegram, id_contenido) }
+
+    xit 'debería poder pedir mas detalles de un contenido con exito' do
+      titulo = 'Harry Potter'
+      contenido = instance_double('Contenido', titulo:)
+
+      respuesta_faraday = instance_double('RespuestaFaraday', status: 200, body: { 'Respuesta' => 'True' }.to_json)
+      allow(repositorio_contenidos).to receive(:find).and_return(contenido)
+      allow(omdb_conector_api).to receive(:detallar_pelicula).and_return(respuesta_faraday)
+      allow(repositorio_usuarios).to receive(:find_by_id_telegram).and_return(nil)
+
+      expect(omdb_conector_api).to receive(:detallar_pelicula).with(titulo)
+      expect(repositorio_usuarios).to receive(:find_by_id_telegram).with(id_telegram)
+
+      resultado = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omdb_conector_api)
+      expect(resultado.titulo).to eq(titulo)
+    end
+
+    xit 'debería pedir mas detalles de un contenido que no esta en la BDD y levantar un error' do
+      allow(repositorio_contenidos).to receive(:find).and_raise(ErrorContenidoInexistente)
+
+      expect(repositorio_contenidos).to receive(:find).with(id_contenido)
+
+      expect do
+        plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omdb_conector_api)
+      end.to raise_error(ErrorContenidoInexistente)
+    end
+
+    xit 'deberia levantar un error de error inesperado de la API OMDb si esta devuelve un estado distinto de 200' do
+      titulo = 'Harry Potter'
+      contenido = instance_double('Contenido', titulo:)
+
+      respuesta_faraday = instance_double('RespuestaFaraday', status: 500, body: {}.to_json)
+      allow(repositorio_contenidos).to receive(:find).and_return(contenido)
+      allow(omdb_conector_api).to receive(:detallar_pelicula).and_return(respuesta_faraday)
+
+      expect(omdb_conector_api).to receive(:detallar_pelicula).with(titulo)
+
+      expect do
+        plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omdb_conector_api)
+      end.to raise_error(ErrorInesperadoEnLaAPIDeOMDb)
+    end
+
+    xit 'deberia levantar un error de error contenido no se encuentra en la BDD de OMDb si esta devuelve un response False' do
+      titulo = 'Harry Potter'
+      contenido = instance_double('Contenido', titulo:)
+
+      respuesta_faraday = instance_double('RespuestaFaraday', status: 200, body: { 'Response' => 'False' }.to_json)
+      allow(repositorio_contenidos).to receive(:find).and_return(contenido)
+      allow(omdb_conector_api).to receive(:detallar_pelicula).and_return(respuesta_faraday)
+
+      expect(omdb_conector_api).to receive(:detallar_pelicula).with(titulo)
+
+      expect do
+        plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omdb_conector_api)
+      end.to raise_error(ErrorContenidoInexistenteEnLaAPIDeOMDb)
+    end
+
+    def obtener_cuerpo_con_campos_na
+      cuerpo =
+        {
+          'Title' => 'PeliculaSinDirectorNiPremiosEnOMDB',
+          'Year' => 2000,
+          'Director' => 'N/A',
+          'Plot' => 'N/A',
+          'Awards' => 'N/A'
+        }
+      cuerpo_esperado = {
+        'Title' => 'PeliculaSinDirectorNiPremiosEnOMDB',
+        'Year' => 2000,
+        'Director' => nil,
+        'Plot' => nil,
+        'Awards' => nil
+      }
+      [cuerpo, cuerpo_esperado]
+    end
+
+    xit 'deberia devolver nil como valor de los campos que la API devuelve como N/A' do
+      contenido = instance_double('Contenido', titulo: 'Harry Potter')
+      cuerpo, cuerpo_esperado = obtener_cuerpo_con_campos_na
+
+      respuesta_faraday = instance_double('RespuestaFaraday', status: 200, body: cuerpo.to_json)
+      allow(repositorio_contenidos).to receive(:find).and_return(contenido)
+      allow(omdb_conector_api).to receive(:detallar_pelicula).and_return(respuesta_faraday)
+      allow(repositorio_usuarios).to receive(:find_by_id_telegram).and_return(nil)
+
+      resultado = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omdb_conector_api)
+      expect(resultado).to eq([cuerpo_esperado, nil])
+    end
+
+    xit 'deberia devolver el campo fue visto como false si el usuario no lo vio' do
+      contenido = instance_double('Contenido', titulo: 'Harry Potter')
+
+      respuesta_faraday = instance_double('RespuestaFaraday', status: 200, body: {}.to_json)
+      allow(repositorio_contenidos).to receive(:find).and_return(contenido)
+      allow(omdb_conector_api).to receive(:detallar_pelicula).and_return(respuesta_faraday)
+      allow(repositorio_usuarios).to receive(:find_by_id_telegram).and_return(usuario)
+      allow(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).and_return(nil)
+
+      expect(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).with(usuario.id, id_contenido)
+
+      resultado = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omdb_conector_api)
+      expect(resultado).to eq([{}, false])
+    end
+
+    xit 'deberia devolver el campo fue visto como true si el usuario ya lo vio' do
+      contenido = instance_double('Contenido', titulo: 'Harry Potter')
+
+      respuesta_faraday = instance_double('RespuestaFaraday', status: 200, body: {}.to_json)
+      allow(repositorio_contenidos).to receive(:find).and_return(contenido)
+      allow(omdb_conector_api).to receive(:detallar_pelicula).and_return(respuesta_faraday)
+      allow(repositorio_usuarios).to receive(:find_by_id_telegram).and_return(usuario)
+      allow(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).and_return(visualizacion)
+
+      expect(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).with(usuario.id, id_contenido)
+
+      resultado = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, omdb_conector_api)
+      expect(resultado).to eq([{}, true])
+    end
+  end
 end

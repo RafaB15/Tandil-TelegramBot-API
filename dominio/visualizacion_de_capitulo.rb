@@ -10,11 +10,3 @@ class VisualizacionDeCapitulo
     @id = id
   end
 end
-
-class ErrorVisualizacionInexistente < StandardError
-  MSG_DE_ERROR = 'Error: visualizacion inexistente'.freeze
-
-  def initialize(msg_de_error = MSG_DE_ERROR)
-    super(msg_de_error)
-  end
-end

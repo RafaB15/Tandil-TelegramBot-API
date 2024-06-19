@@ -36,9 +36,8 @@ Característica: Detallar contenido via informacion de API externa
         Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
         Entonces debería mostrar que no fue visto
 
-    @wip
     Escenario: US27 - 01 Como cinefilo quiero detalles acerca de una serie
-        Dado que existe el contenido "The Good Doctor - Temporada 1" 2017 "comedia" "serie" 18
+        Dado que existe la temporada "The Good Doctor - Temporada 1" 2017 "comedia" 18 en la base de datos
         Cuando el cinefilo pide detalles acerca de la serie "The Good Doctor - Temporada 1" con su ID
         Entonces debería ver la informacion esperada
 

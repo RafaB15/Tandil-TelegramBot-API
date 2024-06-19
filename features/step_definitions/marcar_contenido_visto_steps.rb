@@ -2,22 +2,29 @@
 # =========================================================
 
 Dado('un usuario {string} {int}') do |email, id_telegram|
+  @email = email
+  @id_telegram = id_telegram
+
   request_body = { email:, id_telegram: }.to_json
   @response_usuario = Faraday.post('/usuarios', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que existe el contenido {string} {int} {string} {string}') do |titulo, anio, genero, tipo|
+  @titulo = titulo
+  @anio = anio
+  @genero = genero
+  @tipo = tipo
+
   request_body = { titulo:, anio:, genero:, tipo: }.to_json
   @response_pelicula = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end
 
 Dado('que existe la pelicula {string} {int} {string} en la base de datos') do |titulo, anio, genero|
-  @request_temporada = { titulo:, anio:, genero:, tipo: 'pelicula' }.to_json
-  @response_contenido = Faraday.post('/contenidos', @request_temporada, { 'Content-Type' => 'application/json' })
-end
+  @titulo = titulo
+  @anio = anio
+  @genero = genero
 
-Dado('que existe la temporada {string} {int} {string} {int} en la base de datos') do |titulo, anio, genero, cantidad_capitulos|
-  @request_temporada = { titulo:, anio:, genero:, tipo: 'serie', cantidad_capitulos: }.to_json
+  @request_temporada = { titulo:, anio:, genero:, tipo: 'pelicula' }.to_json
   @response_contenido = Faraday.post('/contenidos', @request_temporada, { 'Content-Type' => 'application/json' })
 end
 

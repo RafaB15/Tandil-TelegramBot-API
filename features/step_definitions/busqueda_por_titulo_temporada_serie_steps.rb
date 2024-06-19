@@ -1,14 +1,14 @@
 # Dado
 # =========================================================
 
-Dado('que existe la temporada {string} {int} {string} {int} {string} existe en la base de datos') do |temporada, anio, genero, cantidad_capitulos, tipo|
-  @titulo_temporada = temporada
+Dado('que existe la temporada {string} {int} {string} {int} en la base de datos') do |titulo_temporada, anio, genero, cantidad_capitulos|
+  @titulo_temporada = titulo_temporada
   @anio = anio
   @genero = genero
   @cantidad_capitulos = cantidad_capitulos
-  @tipo = tipo
+  @tipo = 'serie'
 
-  request_body = { titulo: temporada, anio:, genero:, cantidad_capitulos:, tipo: }.to_json
+  request_body = { titulo: @titulo_temporada, anio:, genero:, cantidad_capitulos:, tipo: @tipo }.to_json
 
   @response_contenido = Faraday.post('/contenidos', request_body, { 'Content-Type' => 'application/json' })
 end

@@ -93,10 +93,10 @@ get '/contenidos/:id_contenido/detalles' do
   plataforma = Plataforma.new(id_telegram, id_contenido)
 
   begin
-    omdb_detalles, fue_visto = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, api_detalles_conector)
+    detalles_de_contenido = plataforma.obtener_contenido_detalles(repositorio_usuarios, repositorio_contenidos, repositorio_visualizaciones, api_detalles_conector)
 
     estado = 200
-    cuerpo = armar_respuesta_omdb(omdb_detalles, fue_visto)
+    cuerpo = armar_respuesta_omdb(detalles_de_contenido)
   rescue StandardError => e
     mapeo_error_http = ManejadorDeErrores.new(e)
     error_response = GeneradorDeErroresHTTP.new(mapeo_error_http)
@@ -111,21 +111,22 @@ get '/contenidos/:id_contenido/detalles' do
   cuerpo.to_json
 end
 
-def armar_respuesta_omdb(detalles_pelicula, fue_visto)
+def armar_respuesta_omdb(detalles_de_contenido)
   respuesta = Hash.new(0)
   mapeo_de_detalles = {
-    titulo: 'Title',
-    anio: 'Year',
-    premios: 'Awards',
-    director: 'Director',
-    sinopsis: 'Plot'
+    'titulo' => :titulo,
+    'anio' => :anio,
+    'premios' => :premios,
+    'director' => :director,
+    'sinopsis' => :sinopsis
   }
 
-  mapeo_de_detalles.each do |nombre_detalle, nombre_detalle_omdb|
-    respuesta[nombre_detalle] = detalles_pelicula[nombre_detalle_omdb] unless detalles_pelicula[nombre_detalle_omdb].nil?
+  mapeo_de_detalles.each do |campo_detalle, metodo|
+    valor = detalles_de_contenido.send(metodo)
+    respuesta[campo_detalle] = valor unless valor.nil?
   end
 
-  respuesta[:fue_visto] = fue_visto unless fue_visto.nil?
+  respuesta['fue_visto'] = detalles_de_contenido.fue_visto unless detalles_de_contenido.fue_visto.nil?
 
   respuesta
 end

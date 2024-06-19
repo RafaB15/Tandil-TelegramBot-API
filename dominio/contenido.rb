@@ -1,29 +1,5 @@
 require 'date'
 
-class ErrorAlInstanciarTituloInvalido < ArgumentError
-  MSG_DE_ERROR = 'Error: titulo invalido'.freeze
-
-  def initialize(msg_de_error = MSG_DE_ERROR)
-    super(msg_de_error)
-  end
-end
-
-class ErrorAlInstanciarAnioInvalido < ArgumentError
-  MSG_DE_ERROR = 'Error: anio invalido'.freeze
-
-  def initialize(msg_de_error = MSG_DE_ERROR)
-    super(msg_de_error)
-  end
-end
-
-class ErrorAlPersistirContenidoYaExistente < StandardError
-  MSG_DE_ERROR = 'Error: contenido ya existente'.freeze
-
-  def initialize(msg_de_error = MSG_DE_ERROR)
-    super(msg_de_error)
-  end
-end
-
 class Contenido
   attr_reader :created_on, :updated_on, :titulo, :fecha_agregado, :anio, :cantidad_capitulos
   attr_accessor :id
@@ -55,5 +31,29 @@ class Contenido
 
   def es_el_anio_valido?(anio)
     !anio.nil? && (anio.is_a?(Integer) || anio.is_a?(Float)) && anio >= 0
+  end
+end
+
+class ErrorAlInstanciarTituloInvalido < ArgumentError
+  MSG_DE_ERROR = 'Error: titulo invalido'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end
+
+class ErrorAlInstanciarAnioInvalido < ArgumentError
+  MSG_DE_ERROR = 'Error: anio invalido'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
+  end
+end
+
+class ErrorAlPersistirContenidoYaExistente < StandardError
+  MSG_DE_ERROR = 'Error: contenido ya existente'.freeze
+
+  def initialize(msg_de_error = MSG_DE_ERROR)
+    super(msg_de_error)
   end
 end
