@@ -6,7 +6,8 @@ services:
   - docker:dind  
 
 variables:
-  REGISTRY_URL: registry.gitlab.com/fiuba-memo2/tp2/tandil-api  
+  REGISTRY_URL: registry.gitlab.com/fiuba-memo2/tp2/tandil-api
+  SALUD_URL: https://api.9521.com.ar/tandil-test/salud
   POSTGRES_DB: db_test
   POSTGRES_USER: webapi
   POSTGRES_PASSWORD: Passw0rd!
@@ -18,6 +19,7 @@ stages:
   - build
   - package
   - deploy_test
+  - acceptance_test
   - deploy_prod
 
 code_quality:
@@ -70,15 +72,16 @@ deploy_test_job:
   only:
     - tags
 
-# acceptance_test_job:
-#   stage: acceptance_test
-#   before_script:
-#     - gem install bundler --no-document
-#     - bundle install --without staging production
-#   script:
-#     - NON_LOCAL_TEST=true bundle exec rake remote_acceptance_test
-#   only:
-#     - tags
+acceptance_test_job:
+  stage: acceptance_test
+  image: nicopaez/kubectl:1.28.0
+  before_script:
+    - apk update
+    - apk add --no-cache bash grep jq  # Instalar Bash, grep y jq sin guardar archivos de caché
+  script:
+    - bash ./scripts/acceptance_test.sh $SALUD_URL
+  only:
+    - tags
 
 deploy_prod_job:
   stage: deploy_prod

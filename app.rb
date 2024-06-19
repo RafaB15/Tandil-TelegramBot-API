@@ -45,9 +45,10 @@ get '/salud' do
   settings.logger.debug '[GET] /salud_de_la_app - Consultando el estado de la APP tras deployar'
 
   version = Version.current
+  cantidad_de_usuarios = DB[:usuarios].all.count
 
   estado = 200
-  cuerpo = { 'Respuesta' => 'La API se deployo con exito', 'version' => version }
+  cuerpo = { 'Respuesta' => 'La API se deployo con exito', 'version' => version, 'cantidad_de_usuarios' => cantidad_de_usuarios }
 
   settings.logger.debug "Respuesta - [Estado] : #{estado} - [Cuerpo] : #{cuerpo}"
 
