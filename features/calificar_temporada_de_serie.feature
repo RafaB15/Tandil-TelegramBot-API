@@ -16,10 +16,9 @@ Antecedentes:
         Cuando califica la temporada de serie con un 4
         Entonces ve un mensaje de que la serie no fue vista
 
-    @wip
     Escenario: US28 - 03 Como cinefilo quiero poder re-calificar serie ya vista
         Dado que el usuario la habia calificado con un 5
-        Cuando califica la temporada de serie con un 3
+        Cuando re-califica la temporada de serie con un 3
         Entonces ve un mensaje de re-calificacion exitosa
 
     @wip
