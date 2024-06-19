@@ -52,7 +52,7 @@ Entonces('ve un mensaje de calificacion exitosa') do
   expect(json_response['puntaje']).to eq @puntaje
 end
 
-Entonces('ve un mensaje de que la serie no fue vista') do
+Entonces('ve un mensaje de que la temporada no fue vista') do
   json_response = JSON.parse(@response_calificaciones.body)
   expect(@response_calificaciones.status).to eq 422
   expect(json_response['details']['field']).to eq 'visualizacion'

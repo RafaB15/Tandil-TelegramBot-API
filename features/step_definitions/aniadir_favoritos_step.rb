@@ -15,7 +15,7 @@ end
 # Cuando
 # =========================================================
 
-Cuando('el usuario aniade un contenido {string} a favoritos') do |_contenido|
+Cuando('el usuario aniade el contenido a favoritos') do
   json_response_usuario = JSON.parse(@response_usuario.body)
   @id_telegram = json_response_usuario['id_telegram']
 
@@ -48,4 +48,10 @@ Entonces('el contenido se aniade a favoritos exitosamente') do
   expect(json_response['id']).to be > 0
   expect(json_response['id_telegram']).to eq @id_telegram
   expect(json_response['id_contenido']).to eq @id_contenido
+end
+
+Entonces('ve un mensaje de error de que la temporada no fue vista') do
+  json_response = JSON.parse(@response.body)
+  expect(@response.status).to eq 422
+  expect(json_response['details']['field']).to eq 'visualizacion'
 end
