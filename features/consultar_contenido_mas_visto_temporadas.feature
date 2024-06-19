@@ -16,6 +16,13 @@ Antecedentes:
         Y "Game of Thrones - Temporada 1" está en la lista
         Y "Game of Thrones - Temporada 2" está en la lista
 
+    Escenario: US32.1 - 02 Se cuentan visualizacions de temporada para la lista, no visualizaciones de capitulos
+        Dado que se vio el contenido "Titanic" 2 veces
+        Y que se vieron 3 capitulos de la temporada "Game of Thrones - Temporada 1"
+        Cuando se consulta por la lista de contenidos mas vistos
+        Entonces "Titanic" está en la lista
+        Y "Game of Thrones - Temporada 1" no está en la lista
+
     Escenario: US32.2 - 02 Mas de 3 contenidos tuvieron la misma cantidad de visualizaciones maximas se resuelve alfabeticamente
         Dado que existe la temporada "Alpha" 2010 "drama" 24 en la base de datos
         Y que existe la temporada "Beta" 2010 "drama" 24 en la base de datos
