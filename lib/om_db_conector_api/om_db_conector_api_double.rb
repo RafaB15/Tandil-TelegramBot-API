@@ -11,6 +11,8 @@ class OMDbConectorAPIDouble
       cuerpo = repuesta_contenido_inexistente_en_omdb
     when 'The Good Doctor'
       cuerpo = respuesta_exito_serie
+    when 'EstaSerieNoExisteEnOMDB'
+      cuerpo = repuesta_contenido_inexistente_en_omdb
     else
       estado = 500
       cuerpo = {}
