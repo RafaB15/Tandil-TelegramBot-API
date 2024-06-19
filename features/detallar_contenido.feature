@@ -4,7 +4,7 @@ Característica: Detallar contenido via informacion de API externa
     Escenario: US22.1 - 01 Como cinefilo quiero detalles acerca de una pelicula
         Dado que existe el contenido "Titanic" 1997 "drama" "pelicula"
         Cuando el cinefilo pide detalles acerca de la pelicula "Titanic" con su ID
-        Entonces debería ver la informacion esperada
+        Entonces debería ver la informacion esperada de esta pelicula 
 
     Escenario: US22.1 - 02 La pelicula no está en nuestra BD
         Dado que no hay contenidos en la BD
@@ -39,7 +39,7 @@ Característica: Detallar contenido via informacion de API externa
     Escenario: US27 - 01 Como cinefilo quiero detalles acerca de una serie
         Dado que existe la temporada "The Good Doctor - Temporada 1" 2017 "comedia" 18 en la base de datos
         Cuando el cinefilo pide detalles acerca de la serie "The Good Doctor - Temporada 1" con su ID
-        Entonces debería ver la informacion esperada
+        Entonces debería ver la informacion esperada de esta serie
 
     Escenario: US27 - 02 La serie no está en nuestra BD
         Dado que no hay contenidos en la BD
@@ -51,8 +51,7 @@ Característica: Detallar contenido via informacion de API externa
         Cuando el cinefilo pide detalles acerca de la serie "EstaSerieNoExisteEnOMDB - Temporada 1" con su ID
         Entonces debería ver un mensaje que no se pueden mostrar detalles adicionales
     
-    @wip
     Escenario: US27 - 04 La serie está en OMDB pero no tiene todos los campos que queremos
-        Dado que existe el contenido "Friends - Temporada 1" 1994 "comedia" "serie" 24
+        Dado que existe la temporada "Friends - Temporada 1" 1994 "comedia" 24 en la base de datos
         Cuando el cinefilo pide detalles acerca de la serie "Friends" con su ID
         Entonces debería ver el campo "director" como no disponible

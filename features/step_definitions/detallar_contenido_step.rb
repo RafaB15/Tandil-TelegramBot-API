@@ -56,12 +56,10 @@ end
 # Entonces
 # =========================================================
 
-Entonces('debería ver la informacion esperada') do
+Entonces('debería ver la informacion esperada de esta pelicula') do
   json_response_detalles = JSON.parse(@response_detalles.body)
 
-  titulo_esperado = @titulo.split(' - ')[0]
-
-  expect(json_response_detalles['titulo']).to eq titulo_esperado
+  expect(json_response_detalles['titulo']).to eq @titulo
   expect(json_response_detalles['anio']).to eq @anio
   expect(json_response_detalles['premios']).to eq 'Won 11 Oscars. 126 wins & 83 nominations total'
   expect(json_response_detalles['director']).to eq 'James Cameron'
@@ -106,4 +104,16 @@ Entonces('debería mostrar que no fue visto') do
 
   expect(estado).to eq 200
   expect(json_response_detalles['fue_visto']).to eq false
+end
+
+Entonces('debería ver la informacion esperada de esta serie') do
+  json_response_detalles = JSON.parse(@response_detalles.body)
+
+  titulo_esperado = @titulo.split(' - ')[0]
+
+  expect(json_response_detalles['titulo']).to eq titulo_esperado
+  expect(json_response_detalles['anio']).to eq @anio
+  expect(json_response_detalles['premios']).to eq '6 wins & 29 nominations'
+  expect(json_response_detalles['director']).to be_nil
+  expect(json_response_detalles['sinopsis']).to eq 'Shaun Murphy, a young surgeon with autism and Savant syndrome, is recruited into the surgical unit of a prestigious hospital.'
 end
