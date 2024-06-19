@@ -31,25 +31,26 @@ Característica: Cargar contenido via API
         Cuando cargo "Game of thrones - Temporada 1" 2011 "accion" "serie" 10
         Entonces deberia devolver un resultado exitoso
 
+    @current
     Escenario: US24.3 - 02 Como administrador cargo una serie repetido via API
-        Dado que ya esta cargada la pelicula "Atlas" 2024 "accion" "serie"
-        Cuando cargo "Atlas" 2024 "drama" "serie" ya es un contenido existente
+        Dado que ya esta cargada la pelicula "Atlas" 2024 "accion" "serie" 12
+        Cuando cargo "Atlas" 2024 "drama" "serie" 12 ya es un contenido existente
         Entonces deberia devolver conflicto (409) y un mensaje de error "Ya existe un contenido con el mismo titulo y año."
 
     Escenario: US24.3 - 03 Como administrador cargo una serie sin año
-        Cuando cargo "Nahir" "comedia" "serie"
+        Cuando cargo "Nahir" "comedia" "serie" 12
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido anio debe ser un año positivo"
 
     Escenario: US24.3 - 04 Como administrador cargo una serie sin titulo
-        Cuando cargo 2024 "drama" "serie"
+        Cuando cargo 2024 "drama" "serie" 12
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido titulo debe ser un nombre"
 
     Escenario: US24.3 - 05 Como administrador cargo una serie con titulo vacio
-        Cuando cargo "" 2024 "drama" "serie"
+        Cuando cargo "" 2024 "drama" "serie" 12
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido titulo debe ser un nombre"
 
     Escenario: US24.3 - 06 Como administrador cargo un dato invalido
-        Cuando cargo "Oppenheimer" 2024 "suspenso" "serie"
+        Cuando cargo "Oppenheimer" 2024 "suspenso" "serie" 12
         Entonces deberia devolver solicitud incorrecta (400) y un mensaje de error "El parametro requerido genero debe ser drama, accion o comedia"
         Y en los detalles se debe especificar los generos permitidos
 
