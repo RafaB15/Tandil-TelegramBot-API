@@ -6,19 +6,16 @@ describe 'Plataforma' do
     let(:repositorio_usuarios) { instance_double('RepositorioUsuarios') }
     let(:repositorio_contenidos) { instance_double('RepositorioContenidos') }
     let(:repositorio_favoritos) { instance_double('RepositorioFavoritos') }
-    let(:repositorio_visualizaciones) { instance_double('RepositorioVisualizaciones') }
     let(:usuario) { Usuario.new('rberenguel@fi.uba.ar', 12_345, 1) }
     let(:pelicula) { instance_double('Pelicula') }
     let(:serie) { instance_double('TemporadaDeSerie') }
     let(:favorito) { instance_double('Favorito') }
     let(:plataforma) { Plataforma.new(123, 456) }
-    let(:visualizacion) { instance_double('Visualizacion') }
 
     before(:each) do
       allow(repositorio_usuarios).to receive(:find_by_id_telegram).and_return(usuario)
       allow(repositorio_contenidos).to receive(:find).and_return(pelicula)
       allow(repositorio_favoritos).to receive(:save)
-      allow(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).and_return(visualizacion)
       allow(Favorito).to receive(:new).and_return(favorito)
     end
 
@@ -26,17 +23,9 @@ describe 'Plataforma' do
       expect(Favorito).to receive(:new).with(usuario, pelicula)
       expect(repositorio_favoritos).to receive(:save).with(favorito)
 
-      result = plataforma.registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos, repositorio_visualizaciones)
+      result = plataforma.registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos)
 
       expect(result).to eq(favorito)
-    end
-
-    it 'debería lanzar un error si la visualización no existe' do
-      allow(repositorio_visualizaciones).to receive(:find_by_id_usuario_y_id_contenido).and_return(nil)
-
-      expect do
-        plataforma.registrar_favorito(repositorio_usuarios, repositorio_contenidos, repositorio_favoritos, repositorio_visualizaciones)
-      end.to raise_error(ErrorVisualizacionInexistente)
     end
   end
 

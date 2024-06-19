@@ -27,8 +27,8 @@ Antecedentes:
         Cuando el usuario aniade el contenido a favoritos
         Entonces el contenido se aniade a favoritos exitosamente
 
-    Escenario: US29.2 - 01 Agregar a favoritos sin haber visto el contenido no se puede
-        Dado que existe la temporada "Game of Thrones - Temporada 3" 2011 "drama" 12 en la base de datos
-        Y que el usuario no la vio
+    Escenario: US29.3 - 01 Como cinefilo quiero aniadir un contenido a favoritos a pesar de no haber visto
+        Dado que el contenido "Siempre Risas" 2010 "comedia" "pelicula" existe en la base de datos
+        Y que el usuario no vio el contenido
         Cuando el usuario aniade el contenido a favoritos
-        Entonces ve un mensaje de error de que la temporada no fue vista
+        Entonces ve un mensaje de exito al aniadir la pelicula a favoritos
