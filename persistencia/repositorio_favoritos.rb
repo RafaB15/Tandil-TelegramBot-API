@@ -12,7 +12,7 @@ class RepositorioFavoritos < AbstractRepository
 
   def load_object(a_hash)
     usuario = RepositorioUsuarios.new.find(a_hash[:id_usuario])
-    pelicula = RepositorioContenidos.new.find(a_hash[:id_pelicula])
+    pelicula = RepositorioContenidos.new.find(a_hash[:id_contenido])
 
     Favorito.new(usuario, pelicula)
   end
@@ -20,7 +20,7 @@ class RepositorioFavoritos < AbstractRepository
   def changeset(favorito)
     {
       id_usuario: favorito.usuario.id,
-      id_pelicula: favorito.contenido.id
+      id_contenido: favorito.contenido.id
     }
   end
 end

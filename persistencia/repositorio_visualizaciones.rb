@@ -4,8 +4,8 @@ class RepositorioVisualizaciones < AbstractRepository
   self.table_name = :visualizaciones
   self.model_class = 'Visualizacion'
 
-  def find_by_id_usuario_y_id_contenido(id_usuario, id_pelicula)
-    row = dataset.first(id_usuario:, id_pelicula:)
+  def find_by_id_usuario_y_id_contenido(id_usuario, id_contenido)
+    row = dataset.first(id_usuario:, id_contenido:)
     load_object(row) unless row.nil?
   end
 
@@ -13,7 +13,7 @@ class RepositorioVisualizaciones < AbstractRepository
 
   def load_object(a_hash)
     usuario = RepositorioUsuarios.new.find(a_hash[:id_usuario])
-    pelicula = RepositorioContenidos.new.find(a_hash[:id_pelicula])
+    pelicula = RepositorioContenidos.new.find(a_hash[:id_contenido])
 
     Visualizacion.new(usuario, pelicula, a_hash[:fecha], a_hash[:id])
   end
@@ -21,7 +21,7 @@ class RepositorioVisualizaciones < AbstractRepository
   def changeset(visualizacion)
     {
       id_usuario: visualizacion.usuario.id,
-      id_pelicula: visualizacion.pelicula.id,
+      id_contenido: visualizacion.pelicula.id,
       fecha: visualizacion.fecha
     }
   end
