@@ -26,7 +26,6 @@ Antecedentes:
         Cuando califica la temporada de serie con un 4
         Entonces ve un mensaje de error la temporada no existe.
 
-    @wip
     Escenario: US28 - 05 La calificacion esta fuera de rango
         Cuando califica la temporada de serie con un 6
-        Entonces ve un mensaje de error calificacion fuera de rango
+        Entonces ve un mensaje de calificacion fuera de rango
