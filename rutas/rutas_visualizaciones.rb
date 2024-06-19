@@ -67,7 +67,7 @@ def armar_respuesta_cargar_visualizacion(visualizacion, numero_capitulo)
     fecha: visualizacion.fecha.iso8601
   }
 
-  respuesta[:id_contenido] = numero_capitulo.nil? ? visualizacion.pelicula.id : visualizacion.temporada_de_serie.id
+  respuesta[:id_contenido] = numero_capitulo.nil? ? visualizacion.contenido.id : visualizacion.temporada_de_serie.id
 
   respuesta[:numero_capitulo] = visualizacion.numero_capitulo unless numero_capitulo.nil?
 

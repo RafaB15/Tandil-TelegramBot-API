@@ -13,15 +13,15 @@ class RepositorioVisualizaciones < AbstractRepository
 
   def load_object(a_hash)
     usuario = RepositorioUsuarios.new.find(a_hash[:id_usuario])
-    pelicula = RepositorioContenidos.new.find(a_hash[:id_contenido])
+    contenido = RepositorioContenidos.new.find(a_hash[:id_contenido])
 
-    Visualizacion.new(usuario, pelicula, a_hash[:fecha], a_hash[:id])
+    Visualizacion.new(usuario, contenido, a_hash[:fecha], a_hash[:id])
   end
 
   def changeset(visualizacion)
     {
       id_usuario: visualizacion.usuario.id,
-      id_contenido: visualizacion.pelicula.id,
+      id_contenido: visualizacion.contenido.id,
       fecha: visualizacion.fecha
     }
   end

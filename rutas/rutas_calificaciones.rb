@@ -41,10 +41,10 @@ end
 def armar_respuesta_calificaciones(calificacion, puntaje_anterior)
   if puntaje_anterior.nil?
     estado = 201
-    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_contenido: calificacion.pelicula.id, puntaje: calificacion.puntaje }
+    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_contenido: calificacion.contenido.id, puntaje: calificacion.puntaje }
   else
     estado = 200
-    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_contenido: calificacion.pelicula.id, puntaje: calificacion.puntaje, puntaje_anterior: }
+    respuesta = { id: calificacion.id, id_telegram: calificacion.usuario.id_telegram, id_contenido: calificacion.contenido.id, puntaje: calificacion.puntaje, puntaje_anterior: }
   end
   [estado, respuesta]
 end

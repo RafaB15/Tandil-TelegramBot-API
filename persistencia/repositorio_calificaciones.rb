@@ -13,15 +13,15 @@ class RepositorioCalificaciones < AbstractRepository
 
   def load_object(a_hash)
     usuario = RepositorioUsuarios.new.find(a_hash[:id_usuario])
-    pelicula = RepositorioContenidos.new.find(a_hash[:id_contenido])
+    contenido = RepositorioContenidos.new.find(a_hash[:id_contenido])
 
-    Calificacion.new(usuario, pelicula, a_hash[:puntaje], a_hash[:id])
+    Calificacion.new(usuario, contenido, a_hash[:puntaje], a_hash[:id])
   end
 
   def changeset(calificacion)
     {
       id_usuario: calificacion.usuario.id,
-      id_contenido: calificacion.pelicula.id,
+      id_contenido: calificacion.contenido.id,
       puntaje: calificacion.puntaje
     }
   end

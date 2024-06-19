@@ -1,10 +1,10 @@
 class Visualizacion
-  attr_reader :created_on, :updated_on, :usuario, :pelicula, :fecha
+  attr_reader :created_on, :updated_on, :usuario, :contenido, :fecha
   attr_accessor :id
 
-  def initialize(usuario, pelicula, fecha, id = nil)
+  def initialize(usuario, contenido, fecha, id = nil)
     @usuario = usuario
-    @pelicula = pelicula
+    @contenido = contenido
     @fecha = fecha
     @id = id
   end

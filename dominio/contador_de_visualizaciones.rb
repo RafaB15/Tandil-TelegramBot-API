@@ -30,13 +30,13 @@ class ContadorDeVisualizaciones
 
   def contar_vistas_por_id(visualizaciones)
     visualizaciones.each_with_object(Hash.new(0)) do |visualizacion, mas_vistos|
-      mas_vistos[visualizacion.pelicula.id] += 1
+      mas_vistos[visualizacion.contenido.id] += 1
     end
   end
 
   def nombres_por_id(visualizaciones)
     visualizaciones.each_with_object({}) do |visualizacion, nombres|
-      nombres[visualizacion.pelicula.id] = visualizacion.pelicula
+      nombres[visualizacion.contenido.id] = visualizacion.contenido
     end
   end
 end

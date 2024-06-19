@@ -10,20 +10,20 @@ describe ContadorDeVisualizaciones do
   describe 'obtener_mas_vistos' do
     let(:visualizaciones1) do
       [
-        instance_double('Visualizacion', usuario:, pelicula: pelicula1, fecha: Time.now, id: 1),
-        instance_double('Visualizacion', usuario:, pelicula: pelicula1, fecha: Time.now, id: 2),
-        instance_double('Visualizacion', usuario:, pelicula: pelicula2, fecha: Time.now, id: 3),
-        instance_double('Visualizacion', usuario:, pelicula: pelicula2, fecha: Time.now, id: 4),
-        instance_double('Visualizacion', usuario:, pelicula: pelicula2, fecha: Time.now, id: 5),
-        instance_double('Visualizacion', usuario:, pelicula: pelicula3, fecha: Time.now, id: 6)
+        instance_double('Visualizacion', usuario:, contenido: pelicula1, fecha: Time.now, id: 1),
+        instance_double('Visualizacion', usuario:, contenido: pelicula1, fecha: Time.now, id: 2),
+        instance_double('Visualizacion', usuario:, contenido: pelicula2, fecha: Time.now, id: 3),
+        instance_double('Visualizacion', usuario:, contenido: pelicula2, fecha: Time.now, id: 4),
+        instance_double('Visualizacion', usuario:, contenido: pelicula2, fecha: Time.now, id: 5),
+        instance_double('Visualizacion', usuario:, contenido: pelicula3, fecha: Time.now, id: 6)
       ]
     end
     let(:visualizaciones2) do
       [
-        instance_double('Visualizacion', usuario:, pelicula: pelicula1, fecha: Time.now, id: 1),
-        instance_double('Visualizacion', usuario:, pelicula: pelicula2, fecha: Time.now, id: 2),
-        instance_double('Visualizacion', usuario:, pelicula: pelicula3, fecha: Time.now, id: 3),
-        instance_double('Visualizacion', usuario:, pelicula: pelicula4, fecha: Time.now, id: 4)
+        instance_double('Visualizacion', usuario:, contenido: pelicula1, fecha: Time.now, id: 1),
+        instance_double('Visualizacion', usuario:, contenido: pelicula2, fecha: Time.now, id: 2),
+        instance_double('Visualizacion', usuario:, contenido: pelicula3, fecha: Time.now, id: 3),
+        instance_double('Visualizacion', usuario:, contenido: pelicula4, fecha: Time.now, id: 4)
       ]
     end
     let(:contador1) { described_class.new(visualizaciones1) }

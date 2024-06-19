@@ -1,12 +1,12 @@
 class Calificacion
-  attr_reader :created_on, :updated_on, :usuario, :pelicula, :puntaje
+  attr_reader :created_on, :updated_on, :usuario, :contenido, :puntaje
   attr_accessor :id
 
-  def initialize(usuario, pelicula, puntaje, id = nil)
+  def initialize(usuario, contenido, puntaje, id = nil)
     raise ErrorAlInstanciarCalificacionInvalida unless es_el_puntaje_valido?(puntaje)
 
     @usuario = usuario
-    @pelicula = pelicula
+    @contenido = contenido
     @puntaje = puntaje
     @id = id
   end

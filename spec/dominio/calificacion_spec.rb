@@ -12,7 +12,7 @@ describe Calificacion do
   describe 'modelo' do
     it { is_expected.to respond_to(:id) }
     it { is_expected.to respond_to(:usuario) }
-    it { is_expected.to respond_to(:pelicula) }
+    it { is_expected.to respond_to(:contenido) }
     it { is_expected.to respond_to(:puntaje) }
     it { is_expected.to respond_to(:created_on) }
     it { is_expected.to respond_to(:updated_on) }
