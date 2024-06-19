@@ -1,6 +1,5 @@
 # rubocop:disable all
 ENV['APP_MODE'] = 'test'
-ENV['NON_LOCAL_TEST'] ||= 'false'
 
 require 'rack/test'
 require 'rspec/expectations'
@@ -15,7 +14,7 @@ db.loggers << logger
 Sequel::Migrator.run(db, 'db/migrations')
 
 
-include Rack::Test::Methods if ENV['NON_LOCAL_TEST'] == 'false'
+include Rack::Test::Methods
 def app
   Sinatra::Application
 end

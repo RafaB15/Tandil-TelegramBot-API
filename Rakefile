@@ -1,7 +1,6 @@
 require 'bundler/setup'
 
 ENV['APP_MODE'] ||= 'test'
-ENV['NON_LOCAL_TEST'] ||= 'false'
 
 task :version do
   require './lib/version'
@@ -35,11 +34,6 @@ end
 
 Cucumber::Rake::Task.new(:acceptance_report) do |task|
   task.cucumber_opts = ['features', '--publish-quiet', '--tags \'not @wip and not @remote\'', '--format pretty',
-                        '--format html -o reports/cucumber.html']
-end
-
-Cucumber::Rake::Task.new(:remote_acceptance_test) do |task|
-  task.cucumber_opts = ['features', '--publish-quiet', '--tags \'not @wip and @remote\'', '--format pretty',
                         '--format html -o reports/cucumber.html']
 end
 

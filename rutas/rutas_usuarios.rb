@@ -3,6 +3,8 @@ require 'sinatra'
 require_relative './utiles'
 
 get '/usuarios' do
+  pass unless ENV['APP_MODE'] == 'test'
+
   settings.logger.debug '[GET] /usuarios - Consultando los usuarios registrados'
 
   usuarios = RepositorioUsuarios.new.all

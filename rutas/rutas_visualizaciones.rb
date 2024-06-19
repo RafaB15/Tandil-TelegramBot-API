@@ -61,11 +61,15 @@ end
 
 def armar_respuesta_cargar_visualizacion(visualizacion, numero_capitulo)
   estado = 201
-  respuesta = if numero_capitulo.nil?
-                { id: visualizacion.id, email: visualizacion.usuario.email, id_contenido: visualizacion.pelicula.id, fecha: visualizacion.fecha.iso8601 }
-              else
-                { id: visualizacion.id, email: visualizacion.usuario.email, id_contenido: visualizacion.temporada_de_serie.id, fecha: visualizacion.fecha.iso8601,
-                  numero_capitulo: visualizacion.numero_capitulo }
-              end
+  respuesta = {
+    id: visualizacion.id,
+    email: visualizacion.usuario.email,
+    fecha: visualizacion.fecha.iso8601
+  }
+
+  respuesta[:id_contenido] = numero_capitulo.nil? ? visualizacion.pelicula.id : visualizacion.temporada_de_serie.id
+
+  respuesta[:numero_capitulo] = visualizacion.numero_capitulo unless numero_capitulo.nil?
+
   [estado, respuesta]
 end
